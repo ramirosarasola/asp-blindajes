@@ -1,19 +1,15 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
+import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.BrandModel;
-import com.example.aspblindajes.repository.BrandModelRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class BrandModelService {
-    private BrandModelRepository brandModelRepository;
+import java.util.List;
 
-    public BrandModel saveBrandModel(BrandModel brandModel) throws Exception{
-        boolean brandModelFound = brandModelRepository.findById(brandModel.getId()).isPresent();
-        if(brandModelFound){
-            return brandModelRepository.save(brandModel);
-        }
-        throw new Exception("Not found");
-
-    }
+public interface BrandModelService {
+    BrandModel saveBrandModel(BrandModel brandModel) throws ResourceAlreadyExistsException;
+    void deleteBrandModelById(Long id) throws ResourceNotFoundException;
+    BrandModel updateBrandModel(BrandModel brandModel) throws ResourceNotFoundException;
+    List<BrandModel> listBrandModels() throws ResourceNotFoundException;
+    BrandModel findBrandModelByName(String name) throws ResourceNotFoundException;
 }
