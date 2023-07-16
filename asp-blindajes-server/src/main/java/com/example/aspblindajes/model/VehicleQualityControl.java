@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -18,5 +19,7 @@ public class VehicleQualityControl {
     private Vehicle vehicle;
     private LocalDate qualityControlDate;
     private Boolean isValid = false;
+    @OneToMany (mappedBy = "vehicleQualityControl")
+    private List<WorkGroups> workGroupsList;
 
 }

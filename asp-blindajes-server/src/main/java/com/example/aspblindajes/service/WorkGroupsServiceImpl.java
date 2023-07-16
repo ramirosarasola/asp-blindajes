@@ -39,7 +39,7 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
     }
 
     @Override
-    public List<WorkGroups> listWorkGroups() throws ResourceNotFoundException {
+    public List<WorkGroups> findAllWorkGroups() throws ResourceNotFoundException {
         List<WorkGroups> workGroupsList = workGroupsRepository.findAll();
         if(workGroupsList.size()>0){
             return workGroupsList;

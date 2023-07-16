@@ -10,6 +10,6 @@ public interface WorkGroupsService {
     WorkGroups saveWorkGroups(WorkGroups workGroups);
     void deleteWorkGroupsById(Long id) throws ResourceNotFoundException;
     WorkGroups updateWorkGroups(WorkGroups workGroups) throws ResourceNotFoundException;
-    List<WorkGroups> listWorkGroups() throws ResourceNotFoundException;
+    List<WorkGroups> findAllWorkGroups() throws ResourceNotFoundException;
     WorkGroups findWorkGroupsByName(String name) throws ResourceNotFoundException;
 }

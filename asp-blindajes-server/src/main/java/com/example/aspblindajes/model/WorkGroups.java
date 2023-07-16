@@ -1,8 +1,5 @@
 package com.example.aspblindajes.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +14,7 @@ public abstract class WorkGroups {
     private Long id;
     private Boolean hasProblem;
     private String problemDescription;
+    @ManyToOne
+    @JoinColumn(name = "vehicleQualityControl_id", referencedColumnName = "id")
+    private VehicleQualityControl vehicleQualityControl;
 }

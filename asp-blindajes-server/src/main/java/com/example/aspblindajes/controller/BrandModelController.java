@@ -25,12 +25,12 @@ public class BrandModelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message","Model created successfully"));
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<BrandModel> getBrandModelByName(@PathVariable String name) throws ResourceNotFoundException {
+    @GetMapping()
+    public ResponseEntity<BrandModel> getBrandModelByName(@RequestParam(value = "name") String name) throws ResourceNotFoundException {
         return ResponseEntity.ok(brandModelService.findBrandModelByName(name));
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<BrandModel>> listBrandModels() throws ResourceNotFoundException {
         return ResponseEntity.ok(brandModelService.listBrandModels());
     }
@@ -41,8 +41,8 @@ public class BrandModelController {
         return ResponseEntity.ok(Collections.singletonMap("message","Model updated successfully"));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteBrandModel(@PathVariable Long id) throws ResourceNotFoundException {
+    @DeleteMapping("/id")
+    public ResponseEntity<Map<String, String>> deleteBrandModel(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
         brandModelService.deleteBrandModelById(id);
         return ResponseEntity.ok(Collections.singletonMap("message", "Model deleted Successfully"));
     }
