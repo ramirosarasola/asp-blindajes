@@ -15,8 +15,10 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
 
     private final WorkGroupsRepository workGroupsRepository;
     @Override
-    public WorkGroups saveWorkGroups(WorkGroups workGroups) {
-        return workGroupsRepository.save(workGroups);
+    public WorkGroups saveWorkGroups(WorkGroups workGroups, String workGroupType) {
+
+
+        return null;
     }
 
     @Override

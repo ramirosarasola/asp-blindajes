@@ -2,6 +2,7 @@ package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
+import com.example.aspblindajes.model.WorkGroups;
 import com.example.aspblindajes.repository.VehicleRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;

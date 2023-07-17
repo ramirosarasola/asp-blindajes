@@ -7,7 +7,7 @@ import com.example.aspblindajes.model.WorkGroups;
 import java.util.List;
 
 public interface WorkGroupsService {
-    WorkGroups saveWorkGroups(WorkGroups workGroups);
+    WorkGroups saveWorkGroups(WorkGroups workGroups, String workGroupType);
     void deleteWorkGroupsById(Long id) throws ResourceNotFoundException;
     WorkGroups updateWorkGroups(WorkGroups workGroups) throws ResourceNotFoundException;
     List<WorkGroups> findAllWorkGroups() throws ResourceNotFoundException;

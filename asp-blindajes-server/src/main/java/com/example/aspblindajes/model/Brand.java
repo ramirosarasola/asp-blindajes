@@ -18,7 +18,7 @@ public class Brand {
     private Long id;
     private String name;
     @JsonIgnore
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BrandModel> brandModelList = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "brand")

@@ -18,3 +18,11 @@ public abstract class WorkGroups {
     @JoinColumn(name = "vehicleQualityControl_id", referencedColumnName = "id")
     private VehicleQualityControl vehicleQualityControl;
 }
+
+
+
+
+
+
+
+//MODIFICAR TABLAS PARA QUE CADA WORKGROUP TENGA UNA EN ESPESCIFICO Y NO UNA GENERAL PARA TODAS

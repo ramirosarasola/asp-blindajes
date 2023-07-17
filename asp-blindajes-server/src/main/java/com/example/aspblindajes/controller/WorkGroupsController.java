@@ -5,19 +5,18 @@ import com.example.aspblindajes.service.WorkGroupsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/WorkGroups")
+@RequestMapping("/workGroups")
 public class WorkGroupsController {
 
      private final WorkGroupsService workGroupsService;
 
      @PostMapping
-    public ResponseEntity<WorkGroups> saveWorkGroup (@RequestBody  WorkGroups workGroups) {
-         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroups));
+    public ResponseEntity<WorkGroups> saveWorkGroup (@RequestBody  WorkGroups workGroups, @RequestParam (value = "workGroupType") String workGroupType){
+         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroups, workGroupType));
      }
 
      @GetMapping("/all")

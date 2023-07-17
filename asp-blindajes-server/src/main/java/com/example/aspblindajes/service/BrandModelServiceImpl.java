@@ -4,6 +4,7 @@ import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.repository.BrandModelRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class BrandModelServiceImpl implements BrandModelService{
 
     private final BrandModelRepository brandModelRepository;
@@ -19,7 +21,9 @@ public class BrandModelServiceImpl implements BrandModelService{
     public BrandModel saveBrandModel(BrandModel brandModel) throws ResourceAlreadyExistsException {
         Optional<BrandModel> brandModelFoundByName = brandModelRepository.findBrandModelByName(brandModel.getName());
         if(brandModelFoundByName.isEmpty()){
-            return brandModelRepository.save(brandModel);
+            brandModelRepository.save(brandModel);
+            log.info("model saved: " + brandModel);
+            return brandModel;
         }
         throw new ResourceAlreadyExistsException("The provided model already exists");
     }

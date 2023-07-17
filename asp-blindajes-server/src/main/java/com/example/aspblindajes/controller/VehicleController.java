@@ -19,12 +19,12 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.saveVehicle(vehicle));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Vehicle>> findAllVehicles () throws ResourceNotFoundException {
             return ResponseEntity.ok(vehicleService.findAllVehicles());
     }
 
-    @GetMapping("/byChasis")
+    @GetMapping
     public ResponseEntity<Vehicle> findVehicleById (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
         return ResponseEntity.ok(vehicleService.findVehicleById(chasis));
     }

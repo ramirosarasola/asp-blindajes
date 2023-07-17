@@ -19,7 +19,7 @@ public class VehicleQualityControl {
     private Vehicle vehicle;
     private LocalDate qualityControlDate;
     private Boolean isValid = false;
-    @OneToMany (mappedBy = "vehicleQualityControl")
+    @OneToMany (mappedBy = "vehicleQualityControl", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkGroups> workGroupsList;
 
 }
