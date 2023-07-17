@@ -29,4 +29,9 @@ public class Vehicle {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
 
+
+//    private Cliente destino;
+//    cliente a quien va destinado el vehiculo
+//    carga de admin
+
 }
