@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @AllArgsConstructor
+@Inheritance(strategy)
 @NoArgsConstructor
 public abstract class WorkGroups {
     @Id

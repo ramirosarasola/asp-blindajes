@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resourceAlreadyExistsException.getMessage());
     }
 
+    @ExceptionHandler(InvalidArgumentException.class)
+    public ResponseEntity<String> InvalidArgumentHandler(InvalidArgumentException invalidArgumentException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(invalidArgumentException.getMessage());
+    }
+
 }
