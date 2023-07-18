@@ -15,8 +15,8 @@ public class WorkGroupsController {
      private final WorkGroupsService workGroupsService;
 
      @PostMapping
-    public ResponseEntity<WorkGroups> saveWorkGroup (@RequestBody  WorkGroups workGroups, @RequestParam (value = "workGroupType") String workGroupType){
-         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroups, workGroupType));
+    public ResponseEntity<WorkGroups> saveWorkGroup (@RequestBody  WorkGroups workGroups){
+         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroups));
      }
 
      @GetMapping("/all")
