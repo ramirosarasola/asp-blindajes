@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @AllArgsConstructor
+@Inheritance(strategy)
 @NoArgsConstructor
 public abstract class WorkGroups {
     @Id

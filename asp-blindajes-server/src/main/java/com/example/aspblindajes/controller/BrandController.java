@@ -1,5 +1,6 @@
 package com.example.aspblindajes.controller;
 
+import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
@@ -17,7 +18,7 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping
-    public ResponseEntity<Brand> saveBrand(@RequestBody Brand brand) throws ResourceAlreadyExistsException {
+    public ResponseEntity<Brand> saveBrand(@RequestBody Brand brand) throws ResourceAlreadyExistsException, InvalidArgumentException {
         return ResponseEntity.ok(brandService.saveBrand(brand));
     }
 
