@@ -1,60 +1,69 @@
 package com.example.aspblindajes.service;
+
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class BrandServiceImpl implements BrandService{
+public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
+    private final static Logger LOGGER = Logger.getLogger(BrandServiceImpl.class);
 
     @Override
     public Brand saveBrand(Brand brand) throws ResourceAlreadyExistsException {
-        Optional<Brand> brandFound = brandRepository.findBrandByName(brand.getName());
-        if(brandFound.isEmpty()){
-            return brandRepository.save(brand);
+        if (brandRepository.findBrandByName(brand.getName()).isPresent()) {
+            LOGGER.error("Failed to save brand: Brand already exists");
+            throw new ResourceAlreadyExistsException("The provided brand already exists");
         }
-        throw new ResourceAlreadyExistsException("The provided brand already exists");
+        if (brand.getName() == null || brand.getName().isEmpty()) {
+            LOGGER.error("Failed to save brand: Invalid brand name");
+            throw new IllegalArgumentException("Brand name cannot be empty");
+        }
+        LOGGER.info("Brand saved");
+        return brandRepository.save(brand);
     }
 
     @Override
     public Brand findBrandById(Long id) throws ResourceNotFoundException {
-        Optional<Brand> brandFound = brandRepository.findById(id);
-        if(brandFound.isEmpty()){
-            throw new ResourceNotFoundException("The brand doesn't exist.");
-        }
-        return brandFound.get();
+        return brandRepository.findById(id)
+                .orElseThrow(() -> {
+                    LOGGER.error("Failed to find brand: Brand not found");
+                    return new ResourceNotFoundException("The brand doesn't exist.");
+                });
     }
 
     @Override
     public void deleteBrandById(Long id) throws ResourceNotFoundException {
-        Optional<Brand> brandFound = brandRepository.findById(id);
-        if (brandFound.isPresent()){
-            brandRepository.deleteById(id);
+        if (!brandRepository.existsById(id)) {
+            LOGGER.error("Failed to delete brand: Brand not found");
+            throw new ResourceNotFoundException("There is no brand with the provided id");
         }
-        throw new ResourceNotFoundException("There is no brand with the provided id");
+        brandRepository.deleteById(id);
     }
 
     @Override
     public List<Brand> findAllBrands() throws ResourceNotFoundException {
         List<Brand> brandList = brandRepository.findAll();
-        if (brandList.size()>0){
-            return brandList;
+        if (brandList.isEmpty()) {
+            LOGGER.error("Failed to retrieve brands: No brands found");
+            throw new ResourceNotFoundException("There are no existing brands");
         }
-        throw new ResourceNotFoundException("There are no existing brands");
+        return brandList;
     }
 
     @Override
     public Brand updateBrand(Brand brand) throws ResourceNotFoundException {
-        Optional<Brand> optionalBrand = brandRepository.findById(brand.getId());
-        if (optionalBrand.isPresent()){
-            return brandRepository.save(brand);
+        if (!brandRepository.existsById(brand.getId())) {
+            LOGGER.error("Failed to update brand: Brand not found");
+            throw new ResourceNotFoundException("The brand you are trying to update doesn't exist");
         }
-        throw new ResourceNotFoundException("The brand you are trying to update doesn't exist");
+        return brandRepository.save(brand);
     }
 }
