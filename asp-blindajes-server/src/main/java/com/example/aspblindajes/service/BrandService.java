@@ -12,4 +12,5 @@ public interface BrandService {
     void deleteBrandById(Long id) throws ResourceNotFoundException;
     List<Brand> findAllBrands() throws ResourceNotFoundException;
     Brand updateBrand(Brand brand) throws ResourceNotFoundException;
+    Brand findBrandByName (String name) throws ResourceNotFoundException;
 }

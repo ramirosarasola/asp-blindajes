@@ -1,6 +1,6 @@
 package com.example.aspblindajes.dto;
 
-import com.example.aspblindajes.model.WorkGroups;
+import com.example.aspblindajes.model.WorkGroup;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 public class VehicleQualityControlDTO {
     private String chasis;
-    private List<WorkGroups> workGroupsList;
+    private List<WorkGroup> workGroupList;
 }

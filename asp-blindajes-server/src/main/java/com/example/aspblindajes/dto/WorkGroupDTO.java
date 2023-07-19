@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BrandDTO {
+public class WorkGroupDTO {
     private String name;
 }

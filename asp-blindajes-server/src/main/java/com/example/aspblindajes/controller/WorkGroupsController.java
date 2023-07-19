@@ -1,6 +1,8 @@
 package com.example.aspblindajes.controller;
+import com.example.aspblindajes.dto.WorkGroupDTO;
+import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
-import com.example.aspblindajes.model.WorkGroups;
+import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.service.WorkGroupsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +17,17 @@ public class WorkGroupsController {
      private final WorkGroupsService workGroupsService;
 
      @PostMapping
-    public ResponseEntity<WorkGroups> saveWorkGroup (@RequestBody  WorkGroups workGroups, @RequestParam (value = "workGroupType") String workGroupType){
-         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroups, workGroupType));
+    public ResponseEntity<WorkGroup> saveWorkGroup (@RequestBody WorkGroupDTO workGroupDTO) throws InvalidArgumentException {
+         return ResponseEntity.ok(workGroupsService.saveWorkGroups(workGroupDTO));
      }
 
      @GetMapping("/all")
-    public ResponseEntity<List<WorkGroups>> findAllWorkGroups () throws ResourceNotFoundException {
+    public ResponseEntity<List<WorkGroup>> findAllWorkGroups () throws ResourceNotFoundException {
          return ResponseEntity.ok(workGroupsService.findAllWorkGroups());
      }
 
      @GetMapping
-    public ResponseEntity<WorkGroups> findWorkGroupsByName (@RequestParam (value = "name") String name) throws ResourceNotFoundException {
+    public ResponseEntity<WorkGroup> findWorkGroupsByName (@RequestParam (value = "name") String name) throws ResourceNotFoundException {
          return ResponseEntity.ok(workGroupsService.findWorkGroupsByName(name));
      }
 
@@ -37,8 +39,8 @@ public class WorkGroupsController {
     }
 
     @PutMapping
-    public ResponseEntity<WorkGroups> updateWorkGroups (@RequestBody WorkGroups workGroups) throws ResourceNotFoundException {
-         return ResponseEntity.ok(workGroupsService.updateWorkGroups(workGroups));
+    public ResponseEntity<WorkGroup> updateWorkGroups (@RequestBody WorkGroup workGroup) throws ResourceNotFoundException {
+         return ResponseEntity.ok(workGroupsService.updateWorkGroups(workGroup));
     }
 
 

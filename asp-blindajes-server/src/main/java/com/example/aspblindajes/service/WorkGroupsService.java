@@ -1,15 +1,17 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.WorkGroupDTO;
+import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
-import com.example.aspblindajes.model.WorkGroups;
+import com.example.aspblindajes.model.WorkGroup;
 
 
 import java.util.List;
 
 public interface WorkGroupsService {
-    WorkGroups saveWorkGroups(WorkGroups workGroups, String workGroupType);
+    WorkGroup saveWorkGroups(WorkGroupDTO workGroupDTO) throws InvalidArgumentException;
     void deleteWorkGroupsById(Long id) throws ResourceNotFoundException;
-    WorkGroups updateWorkGroups(WorkGroups workGroups) throws ResourceNotFoundException;
-    List<WorkGroups> findAllWorkGroups() throws ResourceNotFoundException;
-    WorkGroups findWorkGroupsByName(String name) throws ResourceNotFoundException;
+    WorkGroup updateWorkGroups(WorkGroup workGroup) throws ResourceNotFoundException;
+    List<WorkGroup> findAllWorkGroups() throws ResourceNotFoundException;
+    WorkGroup findWorkGroupsByName(String name) throws ResourceNotFoundException;
 }

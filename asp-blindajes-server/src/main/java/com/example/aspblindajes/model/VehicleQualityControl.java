@@ -18,8 +18,8 @@ public class VehicleQualityControl {
     @JoinColumn(name = "vehicle_chasis", referencedColumnName = "chasis")
     private Vehicle vehicle;
     private LocalDate qualityControlDate;
-    private Boolean isValid = false;
+    private Boolean canBeCheckedOut = false;
     @OneToMany (mappedBy = "vehicleQualityControl", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkGroups> workGroupsList;
+    private List<WorkGroupProblem> workGroupProblemList;
 
 }

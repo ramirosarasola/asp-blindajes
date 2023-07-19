@@ -68,4 +68,12 @@ public class BrandServiceImpl implements BrandService {
         log.info("Brand updated successfully");
         return savedBrand;
     }
+    @Override
+    public Brand findBrandByName(String name) throws ResourceNotFoundException {
+        return brandRepository.findBrandByName(name)
+                .orElseThrow(() -> {
+                    log.error("Failed to find brand: Brand not found");
+                    return new ResourceNotFoundException("The brand doesn't exist.");
+                });
+    }
 }
