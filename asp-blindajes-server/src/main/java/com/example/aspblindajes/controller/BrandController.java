@@ -1,5 +1,6 @@
 package com.example.aspblindajes.controller;
 
+import com.example.aspblindajes.dto.BrandDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
@@ -18,8 +19,8 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping
-    public ResponseEntity<Brand> saveBrand(@RequestBody Brand brand) throws ResourceAlreadyExistsException, InvalidArgumentException {
-        return ResponseEntity.ok(brandService.saveBrand(brand));
+    public ResponseEntity<Brand> saveBrand(@RequestBody BrandDTO brandDTO) throws ResourceAlreadyExistsException, InvalidArgumentException {
+        return ResponseEntity.ok(brandService.saveBrand(brandDTO));
     }
 
     @GetMapping("/all")
@@ -28,8 +29,8 @@ public class BrandController {
     }
 
     @PutMapping
-    public ResponseEntity<Brand> updateBrand(@RequestBody Brand brand) throws ResourceNotFoundException{
-        return ResponseEntity.ok(brandService.updateBrand(brand));
+    public ResponseEntity<Brand> updateBrand(@RequestBody BrandDTO brandDTO) throws ResourceNotFoundException{
+        return ResponseEntity.ok(brandService.updateBrand(brandDTO));
     }
 
     @GetMapping

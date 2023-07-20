@@ -1,4 +1,5 @@
 package com.example.aspblindajes.service;
+import com.example.aspblindajes.dto.BrandDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
@@ -6,6 +7,7 @@ import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -14,19 +16,20 @@ import java.util.List;
 @Slf4j
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
+    private final ConversionService conversionService;
 
     @Override
-    public Brand saveBrand(Brand brand) throws ResourceAlreadyExistsException, InvalidArgumentException {
-        if (brandRepository.findBrandByName(brand.getName()).isPresent()) {
+    public Brand saveBrand(BrandDTO brandDTO) throws ResourceAlreadyExistsException, InvalidArgumentException {
+        Brand brand = conversionService.convert(brandDTO, Brand.class);
+        if (brandRepository.findBrandByName(brandDTO.getName()).isPresent()) {
             log.error("Failed to save brand: Brand already exists");
             throw new ResourceAlreadyExistsException("The provided brand already exists");
         }
-        if (brand.getName() == null || brand.getName().isEmpty()) {
-            log.error("Failed to save brand: Invalid brand name");
-            throw new InvalidArgumentException("Brand name cannot be empty");
+        if (brand != null){
+            log.info("Brand saved");
+            return brandRepository.save(brand);
         }
-        log.info("Brand saved");
-        return brandRepository.save(brand);
+       throw new InvalidArgumentException("Invalid information provided");
     }
 
     @Override
@@ -59,12 +62,12 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand updateBrand(Brand brand) throws ResourceNotFoundException {
-        if (!brandRepository.existsById(brand.getId())) {
+    public Brand updateBrand(BrandDTO brandDTO) throws ResourceNotFoundException {
+        if (!brandRepository.existsById(brandDTO.getId())) {
             log.error("Failed to update brand: Brand not found");
             throw new ResourceNotFoundException("The brand you are trying to update doesn't exist");
         }
-        Brand savedBrand = brandRepository.save(brand);
+        Brand savedBrand = brandRepository.save(conversionService.convert(brandDTO, Brand.class));
         log.info("Brand updated successfully");
         return savedBrand;
     }

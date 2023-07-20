@@ -7,8 +7,8 @@ import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.repository.WorkGroupsRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +17,10 @@ import java.util.Optional;
 public class WorkGroupsServiceImpl implements WorkGroupsService{
 
     private final WorkGroupsRepository workGroupsRepository;
-    private final WorkGroupDTOToWorkGroup workGroupDTOToWorkGroup;
+    private final ConversionService conversionService;
     @Override
     public WorkGroup saveWorkGroups(WorkGroupDTO workGroupDTO) throws InvalidArgumentException {
-        WorkGroup workGroup = workGroupDTOToWorkGroup.convert(workGroupDTO);
+        WorkGroup workGroup = conversionService.convert(workGroupDTO, WorkGroup.class);
         if(workGroup != null){
            return workGroupsRepository.save(workGroup);
         }

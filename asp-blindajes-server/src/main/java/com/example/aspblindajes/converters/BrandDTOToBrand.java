@@ -13,6 +13,7 @@ public class BrandDTOToBrand implements Converter<BrandDTO, Brand> {
     @Override
     public Brand convert(BrandDTO source) {
         Brand brand = new Brand();
+        brand.setId(source.getId());
         brand.setName(source.getName());
         return brand;
     }

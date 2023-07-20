@@ -3,7 +3,6 @@ package com.example.aspblindajes.converters;
 import com.example.aspblindajes.dto.BrandModelDTO;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.BrandModel;
-import com.example.aspblindajes.repository.BrandRepository;
 import com.example.aspblindajes.service.BrandService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -24,6 +23,7 @@ public class BrandModelDTOToBrandModel implements Converter<BrandModelDTO, Brand
             e.printStackTrace();
         }
         brandModel.setName(source.getName());
+        brandModel.setId(source.getId());
         return brandModel;
     }
 }

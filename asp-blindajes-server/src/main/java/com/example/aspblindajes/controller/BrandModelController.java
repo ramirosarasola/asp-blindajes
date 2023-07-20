@@ -1,11 +1,11 @@
 package com.example.aspblindajes.controller;
 
+import com.example.aspblindajes.dto.BrandModelDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.service.BrandModelService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +20,8 @@ public class BrandModelController {
 
     private final BrandModelService brandModelService;
     @PostMapping
-    public ResponseEntity<Map<String, String>> saveBrandModel(@RequestBody BrandModel brandModel) throws ResourceAlreadyExistsException {
-        brandModelService.saveBrandModel(brandModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message","Model created successfully"));
+    public ResponseEntity<BrandModel> saveBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceAlreadyExistsException {
+        return ResponseEntity.ok(brandModelService.saveBrandModel(brandModelDTO));
     }
 
     @GetMapping
@@ -36,8 +35,8 @@ public class BrandModelController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, String>> updateBrandModel(@RequestBody BrandModel brandModel) throws ResourceNotFoundException {
-        brandModelService.updateBrandModel(brandModel);
+    public ResponseEntity<Map<String, String>> updateBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
+        brandModelService.updateBrandModel(brandModelDTO);
         return ResponseEntity.ok(Collections.singletonMap("message","Model updated successfully"));
     }
 
@@ -46,7 +45,4 @@ public class BrandModelController {
         brandModelService.deleteBrandModelById(id);
         return ResponseEntity.ok(Collections.singletonMap("message", "Model deleted Successfully"));
     }
-
-
-
 }
