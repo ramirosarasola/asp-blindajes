@@ -21,11 +21,11 @@ public class WorkGroupProblemDTOToWorkGroupProblem implements Converter<WorkGrou
         WorkGroupProblem workGroupProblem = new WorkGroupProblem();
         workGroupProblem.setHasProblem(source.getHasProblem());
         workGroupProblem.setProblemDescription(source.getProblemDescription());
-        try {
-            workGroupProblem.setVehicleQualityControl(vehicleQualityControlService.findVehicleQualityControlById(source.getVehicleQualityControl_id()));
-        } catch (ResourceNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            workGroupProblem.setVehicleQualityControl(vehicleQualityControlService.findVehicleQualityControlById(source.getVehicleQualityControl_id()));
+//        } catch (ResourceNotFoundException e) {
+//            e.printStackTrace();
+//        }
         try {
             workGroupProblem.setWorkGroup(workGroupsService.findWorkGroupsByName(source.getWorkGroupName()));
         } catch (ResourceNotFoundException e) {

@@ -8,12 +8,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-@Component
 @AllArgsConstructor
+@Component
 public class BrandModelDTOToBrandModel implements Converter<BrandModelDTO, BrandModel> {
 
     private final BrandService brandService;
-
     @Override
     public BrandModel convert(BrandModelDTO source) {
         BrandModel brandModel = new BrandModel();

@@ -17,5 +17,5 @@ public class VehicleQualityControlDTO {
     @NotEmpty
     @Length(min = 1, max = 30)
     private String chasis;
-    private List<WorkGroup> workGroupList;
+    private List<WorkGroupProblemDTO> workGroupProblemDTOList;
 }

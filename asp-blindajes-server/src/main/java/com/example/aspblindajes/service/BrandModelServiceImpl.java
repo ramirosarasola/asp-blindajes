@@ -9,11 +9,10 @@ import com.example.aspblindajes.repository.BrandModelRepository;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -60,8 +59,7 @@ public class BrandModelServiceImpl implements BrandModelService{
     }
     @Override
     public List<BrandModel> listBrandModels() throws ResourceNotFoundException{
-        List<BrandModel> allBrandModels = new ArrayList<>();
-        allBrandModels = brandModelRepository.findAll();
+        List<BrandModel> allBrandModels = brandModelRepository.findAll();
         if(allBrandModels.isEmpty()){
             throw new ResourceNotFoundException("Not Found");
         }

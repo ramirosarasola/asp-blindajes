@@ -1,4 +1,5 @@
 package com.example.aspblindajes.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class VehicleQualityControl {
     private Vehicle vehicle;
     private LocalDate qualityControlDate;
     private Boolean canBeCheckedOut = false;
+
     @OneToMany (mappedBy = "vehicleQualityControl", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkGroupProblem> workGroupProblemList;
 

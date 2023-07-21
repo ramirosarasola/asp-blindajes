@@ -1,4 +1,5 @@
 package com.example.aspblindajes.controller;
+import com.example.aspblindajes.dto.VehicleQualityControlDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.VehicleQualityControl;
@@ -19,14 +20,14 @@ public class VehicleQualityControlController {
     private final VehicleQualityControlService vehicleQualityControlService;
 
     @PostMapping
-    public ResponseEntity<VehicleQualityControl> saveVehicleQualityControl(@RequestBody VehicleQualityControl vehicleQualityControl) throws ResourceAlreadyExistsException {
-        return ResponseEntity.ok(vehicleQualityControlService.saveVehicleQualityControl(vehicleQualityControl));
+    public ResponseEntity<VehicleQualityControl> saveVehicleQualityControl(@RequestBody VehicleQualityControlDTO vehicleQualityControlDTO) throws ResourceAlreadyExistsException {
+        return ResponseEntity.ok(vehicleQualityControlService.saveVehicleQualityControl(vehicleQualityControlDTO));
     }
 
 
     @GetMapping("/all")
     public ResponseEntity<List<VehicleQualityControl>> findAllVehicleQualityControl () throws ResourceNotFoundException {
-        return ResponseEntity.ok(vehicleQualityControlService.findAllVehicleQualiControl());
+        return ResponseEntity.ok(vehicleQualityControlService.findAllVehicleQualityControl());
     }
 
     @GetMapping
@@ -42,7 +43,7 @@ public class VehicleQualityControlController {
 
 
     @PutMapping
-    public ResponseEntity<VehicleQualityControl> updateVehicleQualityControl (@RequestBody VehicleQualityControl vehicleQualityControl) throws ResourceNotFoundException{
-        return ResponseEntity.ok(vehicleQualityControlService.updateVehicleQualityControl(vehicleQualityControl));
+    public ResponseEntity<VehicleQualityControl> updateVehicleQualityControl (@RequestBody VehicleQualityControlDTO vehicleQualityControlDTO) throws ResourceNotFoundException{
+        return ResponseEntity.ok(vehicleQualityControlService.updateVehicleQualityControl(vehicleQualityControlDTO));
     }
 }

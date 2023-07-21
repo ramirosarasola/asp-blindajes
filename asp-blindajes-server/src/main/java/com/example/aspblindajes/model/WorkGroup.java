@@ -17,7 +17,6 @@ public class WorkGroup {
     private Long id;
     private String name;
     @OneToMany (mappedBy = "workGroup" , cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<WorkGroupProblem> workGroupProblemList = new ArrayList<>();
 }
 

@@ -31,11 +31,10 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
     @Override
     public void deleteWorkGroupsById(Long id) throws ResourceNotFoundException {
         Optional<WorkGroup> optionalWorkGroups = workGroupsRepository.findById(id);
-        if (optionalWorkGroups.isPresent()){
-            workGroupsRepository.deleteById(id);
+        if (optionalWorkGroups.isEmpty()){
+            throw new ResourceNotFoundException("There are no workGroups with the provided id");
         }
-        throw new ResourceNotFoundException("There are no workGroups with the provided id");
-
+        workGroupsRepository.deleteById(id);
     }
 
     @Override

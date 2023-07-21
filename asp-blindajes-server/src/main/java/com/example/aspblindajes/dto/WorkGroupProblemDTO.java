@@ -18,7 +18,7 @@ public class WorkGroupProblemDTO {
     @NotEmpty
     @Length(min = 1, max = 30)
     private String workGroupName;
-    @NotEmpty
-    @Length(min = 1, max = 30)
-    private Long vehicleQualityControl_id;
+//    @NotEmpty
+//    @Length(min = 1, max = 30)
+//    private Long vehicleQualityControl_id;
 }

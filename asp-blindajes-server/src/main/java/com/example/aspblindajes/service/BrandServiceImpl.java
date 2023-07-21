@@ -1,4 +1,6 @@
 package com.example.aspblindajes.service;
+import com.example.aspblindajes.converters.BrandDTOToBrand;
+import com.example.aspblindajes.converters.BrandModelDTOToBrandModel;
 import com.example.aspblindajes.dto.BrandDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
@@ -7,7 +9,6 @@ import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -16,11 +17,11 @@ import java.util.List;
 @Slf4j
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
-    private final ConversionService conversionService;
+    private final BrandDTOToBrand brandDTOToBrand;
 
     @Override
     public Brand saveBrand(BrandDTO brandDTO) throws ResourceAlreadyExistsException, InvalidArgumentException {
-        Brand brand = conversionService.convert(brandDTO, Brand.class);
+        Brand brand = brandDTOToBrand.convert(brandDTO);
         if (brandRepository.findBrandByName(brandDTO.getName()).isPresent()) {
             log.error("Failed to save brand: Brand already exists");
             throw new ResourceAlreadyExistsException("The provided brand already exists");
@@ -67,7 +68,7 @@ public class BrandServiceImpl implements BrandService {
             log.error("Failed to update brand: Brand not found");
             throw new ResourceNotFoundException("The brand you are trying to update doesn't exist");
         }
-        Brand savedBrand = brandRepository.save(conversionService.convert(brandDTO, Brand.class));
+        Brand savedBrand = brandRepository.save(brandDTOToBrand.convert(brandDTO));
         log.info("Brand updated successfully");
         return savedBrand;
     }

@@ -1,4 +1,7 @@
 package com.example.aspblindajes.service;
+import com.example.aspblindajes.converters.VehicleQualityControlDTOToVehicleQualityControl;
+import com.example.aspblindajes.dto.VehicleQualityControlDTO;
+import com.example.aspblindajes.dto.WorkGroupProblemDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.VehicleQualityControl;
@@ -13,10 +16,22 @@ import java.util.Optional;
 public class VehicleQualityControlServiceImpl implements VehicleQualityControlService{
 
     private final VehicleQualityControlRepository vehicleQualityControlRepository;
-    private final WorkGroupsService workGroupsService;
+//    private final WorkGroupsService workGroupsService;
+    private final VehicleQualityControlDTOToVehicleQualityControl vehicleQualityControlDTOToVehicleQualityControl;
 
     @Override
-    public VehicleQualityControl saveVehicleQualityControl(VehicleQualityControl vehicleQualityControl) {
+    public VehicleQualityControl saveVehicleQualityControl(VehicleQualityControlDTO vehicleQualityControlDTO) {
+        boolean canBeCheckedOut = true;
+        for(WorkGroupProblemDTO workGroupProblemDTO: vehicleQualityControlDTO.getWorkGroupProblemDTOList()){
+            if (workGroupProblemDTO.getHasProblem()) {
+                canBeCheckedOut = false;
+                break;
+            }
+        }
+
+        VehicleQualityControl vehicleQualityControl = vehicleQualityControlDTOToVehicleQualityControl.convert(vehicleQualityControlDTO);
+        vehicleQualityControl.setCanBeCheckedOut(canBeCheckedOut);
+
         return vehicleQualityControlRepository.save(vehicleQualityControl);
     }
 
@@ -39,7 +54,7 @@ public class VehicleQualityControlServiceImpl implements VehicleQualityControlSe
     }
 
     @Override
-    public List<VehicleQualityControl> findAllVehicleQualiControl() throws ResourceNotFoundException {
+    public List<VehicleQualityControl> findAllVehicleQualityControl() throws ResourceNotFoundException {
         List<VehicleQualityControl> vehicleQualityControlList = vehicleQualityControlRepository.findAll();
         if (vehicleQualityControlList.size() > 0){
             return vehicleQualityControlList;
@@ -48,11 +63,14 @@ public class VehicleQualityControlServiceImpl implements VehicleQualityControlSe
     }
 
     @Override
-    public VehicleQualityControl updateVehicleQualityControl(VehicleQualityControl vehicleQualityControl) throws ResourceNotFoundException{
-        Optional<VehicleQualityControl> vehicleQualityControlOptional = vehicleQualityControlRepository.findById(vehicleQualityControl.getId());
+    public VehicleQualityControl updateVehicleQualityControl(VehicleQualityControlDTO vehicleQualityControlDTO) throws ResourceNotFoundException{
+        Optional<VehicleQualityControl> vehicleQualityControlOptional = vehicleQualityControlRepository.findById(vehicleQualityControlDTO.getId());
         if(vehicleQualityControlOptional.isEmpty()){
             throw new ResourceNotFoundException("The quality control you are trying to update does not exits");
         }
+
+        VehicleQualityControl vehicleQualityControl = vehicleQualityControlDTOToVehicleQualityControl.convert(vehicleQualityControlDTO);
         return vehicleQualityControlRepository.save(vehicleQualityControl);
+
     }
 }
