@@ -1,4 +1,5 @@
 package com.example.aspblindajes.controller;
+import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
@@ -15,8 +16,8 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<Vehicle> saveVehicle (@RequestBody Vehicle vehicle) {
-        return ResponseEntity.ok(vehicleService.saveVehicle(vehicle));
+    public ResponseEntity<Vehicle> saveVehicle (@RequestBody VehicleDTO vehicleDTO) {
+        return ResponseEntity.ok(vehicleService.saveVehicle(vehicleDTO));
     }
 
     @GetMapping("/all")
@@ -36,8 +37,8 @@ public class VehicleController {
     }
 
     @PutMapping
-    public ResponseEntity<Vehicle> updateVehicle (@RequestBody Vehicle vehicle) throws ResourceNotFoundException {
-        return ResponseEntity.ok(vehicleService.updateVehicle(vehicle));
+    public ResponseEntity<Vehicle> updateVehicle (@RequestBody VehicleDTO vehicleDTO) throws ResourceNotFoundException {
+        return ResponseEntity.ok(vehicleService.updateVehicle(vehicleDTO));
     }
 
 

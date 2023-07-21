@@ -43,12 +43,12 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void deleteBrandById(Long id) throws ResourceNotFoundException {
-        if (brandRepository.existsById(id)) {
-            log.info("Brand deleted successfully");
-            brandRepository.deleteById(id);
+        if (!brandRepository.existsById(id)) {
+            log.error("Failed to delete brand: Brand not found");
+            throw new ResourceNotFoundException("There is no brand with the provided id");
         }
-        log.error("Failed to delete brand: Brand not found");
-        throw new ResourceNotFoundException("There is no brand with the provided id");
+        log.info("Brand deleted successfully");
+        brandRepository.deleteById(id);
     }
 
     @Override

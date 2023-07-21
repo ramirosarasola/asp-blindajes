@@ -1,5 +1,7 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
+import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.repository.VehicleRepository;
@@ -13,12 +15,16 @@ import java.util.List;
 public class VehicleServiceImpl implements VehicleService{
 
     private final VehicleRepository vehicleRepository;
+    private final VehicleDTOToVehicleConverter vehicleDTOToVehicleConverter;
     @Override
-    public Vehicle saveVehicle(Vehicle vehicle) {
-       if(vehicleRepository.findById(vehicle.getChasis()).isPresent()){
-           throw new EntityExistsException("Ya existe un vehiculo con ese numero de chasis");
+    public Vehicle saveVehicle(VehicleDTO vehicleDTO) {
+       Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
+
+       if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty() && vehicle != null){
+            return vehicleRepository.save(vehicle);
        }
-       return vehicleRepository.save(vehicle);
+
+        throw new EntityExistsException("Ya existe un vehiculo con ese numero de chasis");
     }
 
     @Override
@@ -31,10 +37,10 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public void deleteVehicleById(String id) throws ResourceNotFoundException {
-        if(vehicleRepository.findById(id).isPresent()){
-            vehicleRepository.deleteById(id);
+        if(vehicleRepository.findById(id).isEmpty()){
+            throw new ResourceNotFoundException("There is no vehicle with the provided ID (chasis)");
         }
-        throw new ResourceNotFoundException("No se encontro el vehiculo con ese numero de chasis");
+        vehicleRepository.deleteById(id);
     }
 
     @Override
@@ -46,10 +52,12 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public Vehicle updateVehicle(Vehicle vehicle) throws ResourceNotFoundException {
-        if(vehicleRepository.findById(vehicle.getChasis()).isPresent()){
-            vehicleRepository.save(vehicle);
+    public Vehicle updateVehicle(VehicleDTO vehicleDTO) throws ResourceNotFoundException {
+        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
+
+        if(vehicleRepository.findById(vehicleDTO.getChasis()).isPresent() && vehicle != null){
+            return vehicleRepository.save(vehicle);
         }
-        throw new ResourceNotFoundException("No se puede actualizar ya que no se encontro un vehiculo");
+        throw new ResourceNotFoundException("The vehicle trying to update doesn't exists.");
     }
 }

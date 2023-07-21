@@ -1,9 +1,12 @@
 package com.example.aspblindajes.service;
+import com.example.aspblindajes.converters.BrandModelDTOToBrandModel;
 import com.example.aspblindajes.dto.BrandModelDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.repository.BrandModelRepository;
+import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
@@ -20,13 +23,17 @@ import java.util.Optional;
 public class BrandModelServiceImpl implements BrandModelService{
 
     private final BrandModelRepository brandModelRepository;
-    private final ConversionService conversionService;
+    private final BrandModelDTOToBrandModel brandModelDTOToBrandModel;
+    private final BrandRepository brandRepository;
+
 
     @Override
     public BrandModel saveBrandModel(BrandModelDTO brandModelDTO) throws ResourceAlreadyExistsException {
         Optional<BrandModel> brandModelFoundByName = brandModelRepository.findBrandModelByName(brandModelDTO.getName());
-        BrandModel brandModel  = conversionService.convert(brandModelDTO, BrandModel.class);
-        if(brandModelFoundByName.isEmpty() && brandModel != null){
+        BrandModel brandModel  = brandModelDTOToBrandModel.convert(brandModelDTO);
+        Optional<Brand> brandOptional = brandRepository.findBrandByName(brandModelDTO.getBrandName());
+        log.info(brandModelDTO.getName());
+        if(brandModelFoundByName.isEmpty() && brandModel != null && brandOptional.isPresent()){
             brandModelRepository.save(brandModel);
             log.info("model saved: " + brandModel);
             return brandModel;
@@ -35,17 +42,18 @@ public class BrandModelServiceImpl implements BrandModelService{
     }
     @Override
     public void deleteBrandModelById(Long id) throws ResourceNotFoundException{
-        boolean brandModelFound = brandModelRepository.findById(id).isPresent();
+        boolean brandModelFound = brandModelRepository.findById(id).isEmpty();
         if(brandModelFound){
-            brandModelRepository.deleteById(id);
+            throw new ResourceNotFoundException("The model doesn't exits.");
         }
-        throw new ResourceNotFoundException("Not Found");
+        brandModelRepository.deleteById(id);
     }
     @Override
     public BrandModel updateBrandModel(BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
         Optional<BrandModel> brandModelFound = brandModelRepository.findById(brandModelDTO.getId());
-        BrandModel brandModel = conversionService.convert(brandModelDTO, BrandModel.class);
-        if (brandModelFound.isPresent() && brandModel != null) {
+        BrandModel brandModel = brandModelDTOToBrandModel.convert(brandModelDTO);
+        Optional<Brand> brandOptional = brandRepository.findBrandByName(brandModelDTO.getBrandName());
+        if (brandModelFound.isPresent() && brandModel != null && brandOptional.isPresent()) {
             return brandModelRepository.save(brandModel);
         }
         throw new ResourceNotFoundException("Not Found");

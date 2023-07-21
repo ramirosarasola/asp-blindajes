@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +19,12 @@ public class BrandModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
     private Brand brand;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "brandModel")
+    @OneToMany(mappedBy = "brandModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicleList = new ArrayList<>();
 }

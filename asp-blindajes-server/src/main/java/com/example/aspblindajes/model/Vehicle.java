@@ -24,7 +24,7 @@ public class Vehicle {
 
 //    chequear con respecto al mapeo anotaciones com fetch type, cascade types, etc.
 
-    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<VehicleQualityControl> qualityControlList;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
