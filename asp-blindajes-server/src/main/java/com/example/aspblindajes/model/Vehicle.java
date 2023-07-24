@@ -1,5 +1,6 @@
 package com.example.aspblindajes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,10 @@ public class Vehicle {
     private BrandModel brandModel;
 
 //    chequear con respecto al mapeo anotaciones com fetch type, cascade types, etc.
-
+    @JsonIgnore
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<VehicleQualityControl> qualityControlList;
-    private LocalDate checkInDate;
+    private LocalDate checkInDate = LocalDate.now();
     private LocalDate checkOutDate;
 
 

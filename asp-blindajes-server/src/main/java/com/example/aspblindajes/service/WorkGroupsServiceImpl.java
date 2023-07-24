@@ -57,6 +57,6 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
 
     @Override
     public WorkGroup findWorkGroupsByName(String name) throws ResourceNotFoundException {
-        return null;
+        return workGroupsRepository.findWorkGroupsByName(name);
     }
 }

@@ -14,18 +14,14 @@ import org.springframework.stereotype.Component;
 public class WorkGroupProblemDTOToWorkGroupProblem implements Converter<WorkGroupProblemDTO, WorkGroupProblem> {
 
     private final WorkGroupsService workGroupsService;
-    private final VehicleQualityControlService vehicleQualityControlService;
 
     @Override
     public WorkGroupProblem convert(WorkGroupProblemDTO source) {
         WorkGroupProblem workGroupProblem = new WorkGroupProblem();
         workGroupProblem.setHasProblem(source.getHasProblem());
         workGroupProblem.setProblemDescription(source.getProblemDescription());
-//        try {
-//            workGroupProblem.setVehicleQualityControl(vehicleQualityControlService.findVehicleQualityControlById(source.getVehicleQualityControl_id()));
-//        } catch (ResourceNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        workGroupProblem.setId(source.getId());
+
         try {
             workGroupProblem.setWorkGroup(workGroupsService.findWorkGroupsByName(source.getWorkGroupName()));
         } catch (ResourceNotFoundException e) {

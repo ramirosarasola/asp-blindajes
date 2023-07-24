@@ -18,7 +18,7 @@ public class VehicleQualityControl {
     @ManyToOne
     @JoinColumn(name = "vehicle_chasis", referencedColumnName = "chasis")
     private Vehicle vehicle;
-    private LocalDate qualityControlDate;
+    private LocalDate qualityControlDate = LocalDate.now();
     private Boolean canBeCheckedOut = false;
 
     @OneToMany (mappedBy = "vehicleQualityControl", cascade = CascadeType.ALL, orphanRemoval = true)

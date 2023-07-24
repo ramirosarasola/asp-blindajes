@@ -6,9 +6,12 @@ import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.model.VehicleQualityControl;
 import com.example.aspblindajes.model.WorkGroupProblem;
+import com.example.aspblindajes.repository.VehicleQualityControlRepository;
+import com.example.aspblindajes.service.VehicleQualityControlService;
 import com.example.aspblindajes.service.VehicleService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -20,6 +23,7 @@ import java.util.List;
 public class VehicleQualityControlDTOToVehicleQualityControl implements Converter <VehicleQualityControlDTO, VehicleQualityControl> {
 
     private final VehicleService vehicleService;
+    private final WorkGroupProblemDTOToWorkGroupProblem workGroupProblemDTOToWorkGroupProblem;
     @Override
     public VehicleQualityControl convert(VehicleQualityControlDTO source) {
         VehicleQualityControl vehicleQualityControl = new VehicleQualityControl();
@@ -27,17 +31,14 @@ public class VehicleQualityControlDTOToVehicleQualityControl implements Converte
         try {
             vehicleQualityControl.setVehicle(vehicleService.findVehicleById(source.getChasis()));
         } catch (ResourceNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         vehicleQualityControl.setId(source.getId());
-        vehicleQualityControl.setQualityControlDate(LocalDate.now());
 
         List<WorkGroupProblem> workGroupProblemList = new ArrayList<>();
         for (WorkGroupProblemDTO workGroupProblemDTO : source.getWorkGroupProblemDTOList()) {
-            WorkGroupProblem workGroupProblem = new WorkGroupProblem();
-            workGroupProblem.setHasProblem(workGroupProblemDTO.getHasProblem());
-            workGroupProblem.setProblemDescription(workGroupProblemDTO.getProblemDescription());
-
+            WorkGroupProblem workGroupProblem = workGroupProblemDTOToWorkGroupProblem.convert(workGroupProblemDTO);
+            workGroupProblem.setVehicleQualityControl(vehicleQualityControl);
             workGroupProblemList.add(workGroupProblem);
         }
 

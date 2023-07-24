@@ -1,13 +1,17 @@
 package com.example.aspblindajes.service;
 import com.example.aspblindajes.converters.VehicleQualityControlDTOToVehicleQualityControl;
+import com.example.aspblindajes.converters.WorkGroupProblemDTOToWorkGroupProblem;
 import com.example.aspblindajes.dto.VehicleQualityControlDTO;
 import com.example.aspblindajes.dto.WorkGroupProblemDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.VehicleQualityControl;
+import com.example.aspblindajes.model.WorkGroupProblem;
 import com.example.aspblindajes.repository.VehicleQualityControlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +20,7 @@ import java.util.Optional;
 public class VehicleQualityControlServiceImpl implements VehicleQualityControlService{
 
     private final VehicleQualityControlRepository vehicleQualityControlRepository;
-//    private final WorkGroupsService workGroupsService;
     private final VehicleQualityControlDTOToVehicleQualityControl vehicleQualityControlDTOToVehicleQualityControl;
-
     @Override
     public VehicleQualityControl saveVehicleQualityControl(VehicleQualityControlDTO vehicleQualityControlDTO) {
         boolean canBeCheckedOut = true;
