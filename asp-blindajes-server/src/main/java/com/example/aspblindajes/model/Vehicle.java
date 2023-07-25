@@ -22,17 +22,13 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "brandModel_id", referencedColumnName = "id")
     private BrandModel brandModel;
-
-//    chequear con respecto al mapeo anotaciones com fetch type, cascade types, etc.
     @JsonIgnore
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<VehicleQualityControl> qualityControlList;
     private LocalDate checkInDate = LocalDate.now();
     private LocalDate checkOutDate;
-
-
-//    private Cliente destino;
-//    cliente a quien va destinado el vehiculo
-//    carga de admin
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
 }
