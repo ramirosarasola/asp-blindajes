@@ -23,6 +23,9 @@ public class VehicleDTO {
     @Length(min = 1, max = 50)
     private String observations;
     @NotEmpty
+    @Length(min = 1, max = 30)
+    private String purchaseOrder;
+    @NotEmpty
     @Length(min = 1, max = 40)
     private String client;
 }

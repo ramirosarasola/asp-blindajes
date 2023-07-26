@@ -33,6 +33,7 @@ public class VehicleDTOToVehicleConverter implements Converter<VehicleDTO, Vehic
             vehicle.setBrandModel(brandModel.get());
             vehicle.setObservations(source.getObservations());
             vehicle.setClient(client.get());
+            vehicle.setPurchaseOrder(source.getPurchaseOrder());
         }
         return vehicle;
     }

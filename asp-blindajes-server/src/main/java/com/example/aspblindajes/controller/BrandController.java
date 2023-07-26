@@ -8,6 +8,7 @@ import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.service.BrandService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,10 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/brand")
 @CrossOrigin(origins = "http://localhost:5173")
+//@PreAuthorize("hasRole('ADMIN')") // -> lo dejo a modo de ejemplo
 public class BrandController {
 
     private final BrandService brandService;
-
+//    @PreAuthorize("hasAuthority('admin:create')") // -> lo dejo a modo de ejemplo
     @PostMapping
     public ResponseEntity<Brand> saveBrand(@RequestBody BrandDTO brandDTO) throws ResourceAlreadyExistsException, InvalidArgumentException {
         return ResponseEntity.ok(brandService.saveBrand(brandDTO));

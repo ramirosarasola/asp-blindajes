@@ -16,6 +16,7 @@ public class Vehicle {
     @Id
     private String chasis;
     private String observations;
+    private String purchaseOrder;
     @ManyToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
     private Brand brand;
