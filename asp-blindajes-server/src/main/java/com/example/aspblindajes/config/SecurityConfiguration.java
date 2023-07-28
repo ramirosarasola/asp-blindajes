@@ -37,8 +37,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
                 .requestMatchers("/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
 
-                .requestMatchers("/vehicleQualityControl/**").hasRole(QUALITY_CONTROL.name())
-                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAuthority(QUALITY_CONTROL_CREATE.name())
+//                .requestMatchers("/vehicleQualityControl/**").hasRole(QUALITY_CONTROL.name())
+//                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAuthority(QUALITY_CONTROL_CREATE.name())
 
                 .anyRequest()
                 .permitAll()

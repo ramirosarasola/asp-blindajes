@@ -12,6 +12,4 @@ public class ClientDTO {
     private Long id;
     @NotEmpty
     private String name;
-    @NotEmpty
-    private String sector;
 }

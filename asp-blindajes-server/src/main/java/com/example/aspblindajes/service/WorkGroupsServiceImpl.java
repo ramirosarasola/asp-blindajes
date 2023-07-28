@@ -20,11 +20,15 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
     private final ConversionService conversionService;
     @Override
     public WorkGroup saveWorkGroups(WorkGroupDTO workGroupDTO) throws InvalidArgumentException {
+        WorkGroup workGroupFounded =  workGroupsRepository.findWorkGroupsByName(workGroupDTO.getName());
+        if(workGroupFounded != null){
+            throw new InvalidArgumentException("The work group already exists");
+        }
         WorkGroup workGroup = conversionService.convert(workGroupDTO, WorkGroup.class);
         if(workGroup != null){
            return workGroupsRepository.save(workGroup);
         }
-        throw new InvalidArgumentException("a");
+        throw new InvalidArgumentException("Invalid format for work groups");
 
     }
 

@@ -34,6 +34,9 @@ public class VehicleDTOToVehicleConverter implements Converter<VehicleDTO, Vehic
             vehicle.setObservations(source.getObservations());
             vehicle.setClient(client.get());
             vehicle.setPurchaseOrder(source.getPurchaseOrder());
+            if(!source.getFordKey().isEmpty()){
+                vehicle.setFordKey(source.getFordKey());
+            }
         }
         return vehicle;
     }

@@ -2,6 +2,7 @@ package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
 import com.example.aspblindajes.dto.VehicleDTO;
+import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.repository.VehicleRepository;
@@ -10,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+
 @Service
 @AllArgsConstructor
 public class VehicleServiceImpl implements VehicleService{
@@ -21,9 +24,12 @@ public class VehicleServiceImpl implements VehicleService{
        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
 
        if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty() && vehicle != null){
+
+           if(Objects.equals(vehicleDTO.getBrandName(), "Ford") && vehicleDTO.getFordKey().isEmpty()){
+               throw new EntityExistsException("Ford's vehicles must have their unique key");
+           }
             return vehicleRepository.save(vehicle);
        }
-
         throw new EntityExistsException("Ya existe un vehiculo con ese numero de chasis");
     }
 

@@ -31,5 +31,6 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
+    private String fordKey;
 
 }
