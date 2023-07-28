@@ -26,11 +26,13 @@ public class Vehicle {
     @JsonIgnore
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<VehicleQualityControl> qualityControlList;
-    private LocalDate checkInDate = LocalDate.now();
-    private LocalDate checkOutDate;
+//    private LocalDate checkInDate = LocalDate.now(); -> todo quit checkInDates from vehicles
+//    private LocalDate checkOutDate;
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
     private String fordKey;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VehicleMovement> vehicleMovementList;
 
 }

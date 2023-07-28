@@ -26,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService{
        if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty() && vehicle != null){
 
            if(Objects.equals(vehicleDTO.getBrandName(), "Ford") && vehicleDTO.getFordKey().isEmpty()){
-               throw new EntityExistsException("Ford's vehicles must have their unique key");
+               throw new EntityExistsException("Ford's vehicles must have their unique key"); //todo -> change exception
            }
             return vehicleRepository.save(vehicle);
        }
