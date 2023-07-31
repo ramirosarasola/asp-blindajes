@@ -27,12 +27,15 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     public VehicleMovement saveVehicleMovement(String chasis) throws Exception {
         Vehicle vehicle = vehicleService.findVehicleById(chasis);
         Area area =  vehicle.getArea();
+        if(area.name().equals("DELIVERED")){
+            throw new Exception("Vehicle has already been delivered"); // todo -> create personalized exceptions
+        }
         boolean bool = false;
         if ( vehicle.getQualityControlList().size() > 0){
             bool =  vehicle.getQualityControlList().get(vehicle.getQualityControlList().size()-1).getCanBeCheckedOut();
         }
         if (area.name().equals("PRODUCTION") && !bool){
-            throw new Exception("The vehicle cannot be checked out from production until QC is done");
+            throw new Exception("The vehicle cannot be checked out from production until QC is done"); // todo -> create personalized exceptions
         }
         VehicleMovement vehicleMovement = new VehicleMovement();
         vehicleMovement.setVehicle(vehicle);
