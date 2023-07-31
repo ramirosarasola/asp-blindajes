@@ -4,7 +4,11 @@ import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Area;
+import com.example.aspblindajes.model.MovementType;
 import com.example.aspblindajes.model.Vehicle;
+import com.example.aspblindajes.model.VehicleMovement;
+import com.example.aspblindajes.repository.VehicleMovementRepository;
 import com.example.aspblindajes.repository.VehicleRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +24,7 @@ public class VehicleServiceImpl implements VehicleService{
 
     private final VehicleRepository vehicleRepository;
     private final VehicleDTOToVehicleConverter vehicleDTOToVehicleConverter;
+    private final VehicleMovementRepository vehicleMovementRepository;
     @Override
     public Vehicle saveVehicle(VehicleDTO vehicleDTO) {
        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
@@ -28,7 +34,12 @@ public class VehicleServiceImpl implements VehicleService{
            if(Objects.equals(vehicleDTO.getBrandName(), "Ford") && vehicleDTO.getFordKey().isEmpty()){
                throw new EntityExistsException("Ford's vehicles must have their unique key"); //todo -> change exception
            }
-            return vehicleRepository.save(vehicle);
+           VehicleMovement vehicleMovement = new VehicleMovement();
+           vehicleMovement.setVehicle(vehicle);
+           vehicleMovement.setMovementType(MovementType.LOGISTIC_CHECKIN);
+           vehicleRepository.save(vehicle);
+           vehicleMovementRepository.save(vehicleMovement);
+            return vehicle;
        }
         throw new EntityExistsException("Ya existe un vehiculo con ese numero de chasis");
     }
@@ -62,6 +73,17 @@ public class VehicleServiceImpl implements VehicleService{
         Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
 
         if(vehicleRepository.findById(vehicleDTO.getChasis()).isPresent() && vehicle != null){
+            return vehicleRepository.save(vehicle);
+        }
+        throw new ResourceNotFoundException("The vehicle trying to update doesn't exists.");
+    }
+
+    @Override
+    public Vehicle updateVehicleAreaByMovementType(Area area, String chasis) throws ResourceNotFoundException {
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(chasis);
+        if(optionalVehicle.isPresent()){
+            Vehicle vehicle = optionalVehicle.get();
+            vehicle.setArea(area);
             return vehicleRepository.save(vehicle);
         }
         throw new ResourceNotFoundException("The vehicle trying to update doesn't exists.");

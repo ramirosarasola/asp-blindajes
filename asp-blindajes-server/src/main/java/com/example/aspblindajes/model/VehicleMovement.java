@@ -1,5 +1,6 @@
 package com.example.aspblindajes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +17,12 @@ public class VehicleMovement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated (EnumType.STRING)
+    private MovementType movementType;
     @ManyToOne
     @JoinColumn(name = "vehicle_chasis", referencedColumnName = "chasis")
+    @JsonIgnore
     private Vehicle vehicle;
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
 }

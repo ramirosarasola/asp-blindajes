@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,13 +25,17 @@ public class Vehicle {
     @JsonIgnore
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<VehicleQualityControl> qualityControlList;
-//    private LocalDate checkInDate = LocalDate.now(); -> todo quit checkInDates from vehicles
-//    private LocalDate checkOutDate;
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
     private String fordKey;
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleMovement> vehicleMovementList;
+    @Enumerated (EnumType.STRING)
+    private Area area = Area.LOGISTIC;
+
+
+    //    private LocalDate checkInDate = LocalDate.now(); -> todo quit checkInDates from vehicles
+//    private LocalDate checkOutDate;
 
 }
