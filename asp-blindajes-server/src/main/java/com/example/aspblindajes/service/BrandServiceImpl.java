@@ -30,6 +30,7 @@ public class BrandServiceImpl implements BrandService {
             log.info("Brand saved");
             return brandRepository.save(brand);
         }
+        log.error("The information provided for saving the brand is invalid");
        throw new InvalidArgumentException("Invalid information provided");
     }
 

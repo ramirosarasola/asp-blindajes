@@ -31,6 +31,7 @@ public class ClientServiceImpl implements ClientService {
         if(client != null){
             return clientRepository.save(client);
         }
+        log.error("Failed to save client: Invalid information provided");
         throw new InvalidArgumentException("Invalid information provided");
     }
 
@@ -38,9 +39,10 @@ public class ClientServiceImpl implements ClientService {
     public Client updateClient(ClientDTO clientDTO) throws InvalidArgumentException, ResourceNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(clientDTO.getId());
         if(clientOptional.isEmpty()){
+            log.error("Failed to update client: The client does not exists");
             throw new ResourceNotFoundException("The client does not exist");
         }
-        log.info("Saving client...");
+        log.info("Updated client successfully");
         return clientRepository.save(clientOptional.get());
     }
 
@@ -48,9 +50,10 @@ public class ClientServiceImpl implements ClientService {
     public void deleteClientById(Long id) throws ResourceNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(id);
         if(clientOptional.isEmpty()){
-            throw new ResourceNotFoundException("Client does not exist");
+            log.error("Failed to delete client: Client doesn't exists");
+            throw new ResourceNotFoundException("Client does not exists");
         }
-        log.info("Deleting client...");
+        log.info("Deleted client successfully");
         clientRepository.deleteById(id);
     }
 
@@ -58,8 +61,10 @@ public class ClientServiceImpl implements ClientService {
     public Client findClientById(Long id) throws ResourceNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(id);
         if(clientOptional.isEmpty()){
+            log.error("Failed to find client by ID: The client doesn't exists");
             throw new ResourceNotFoundException("Client does not exist");
         }
+        log.info("Client founded by name");
         return clientOptional.get();
     }
 
@@ -67,8 +72,10 @@ public class ClientServiceImpl implements ClientService {
     public Client findClientByName(String name) throws ResourceNotFoundException {
         Optional<Client> clientOptional = clientRepository.findClientByName(name);
         if(clientOptional.isEmpty()){
+            log.error("Failed to find client by name: The client doesn't exists");
             throw new ResourceNotFoundException("The client does not exist");
         }
+        log.info("Client founded by name successfully");
         return clientOptional.get();
     }
 
@@ -76,9 +83,10 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> findAllClients() throws ResourceNotFoundException {
         List<Client> clientList = clientRepository.findAll();
         if (clientList.isEmpty()){
-            log.info("Client database empty");
+            log.error("Failed to list clients: Client database empty");
             throw new ResourceNotFoundException("There are no clients");
         }
+        log.info("All clients founded successfully");
         return clientList;
     }
 }
