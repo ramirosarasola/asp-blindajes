@@ -29,7 +29,7 @@ public class Vehicle {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
     private String fordKey;
-    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "vehicle")
     private List<VehicleMovement> vehicleMovementList;
     @Enumerated (EnumType.STRING)
     private Area area = Area.LOGISTIC;

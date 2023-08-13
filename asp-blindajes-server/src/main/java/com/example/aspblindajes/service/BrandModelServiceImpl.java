@@ -80,6 +80,6 @@ public class BrandModelServiceImpl implements BrandModelService{
         }
         log.error("Model could not be found by name");
         throw new ResourceNotFoundException("Model not found");
-
     }
+
 }

@@ -1,6 +1,5 @@
 package com.example.aspblindajes.auth;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/brand")
-@CrossOrigin(origins = "http://localhost:5173")
 //@PreAuthorize("hasRole('ADMIN')") // -> lo dejo a modo de ejemplo
 public class BrandController {
 

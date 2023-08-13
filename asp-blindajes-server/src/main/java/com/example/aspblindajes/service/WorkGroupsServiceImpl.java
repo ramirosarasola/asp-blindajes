@@ -8,7 +8,6 @@ import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.repository.WorkGroupsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class WorkGroupsServiceImpl implements WorkGroupsService{
 
     private final WorkGroupsRepository workGroupsRepository;
-    private final ConversionService conversionService;
+    private final WorkGroupDTOToWorkGroup workGroupDTOToWorkGroup;
     @Override
     public WorkGroup saveWorkGroups(WorkGroupDTO workGroupDTO) throws InvalidArgumentException {
         WorkGroup workGroupFounded =  workGroupsRepository.findWorkGroupsByName(workGroupDTO.getName());
@@ -27,7 +26,7 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
             log.error("Fail to save work group: The work group already exists");
             throw new InvalidArgumentException("The work group already exists");
         }
-        WorkGroup workGroup = conversionService.convert(workGroupDTO, WorkGroup.class);
+        WorkGroup workGroup = workGroupDTOToWorkGroup.convert(workGroupDTO);
         if(workGroup != null){
             log.info("Work group saved successfully");
            return workGroupsRepository.save(workGroup);

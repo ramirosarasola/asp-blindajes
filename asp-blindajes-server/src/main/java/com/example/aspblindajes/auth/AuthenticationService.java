@@ -8,8 +8,11 @@ import com.example.aspblindajes.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +44,13 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public User getUserInfo(String username) throws ResourceNotFoundException {
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+        if(userOptional.isEmpty()){
+            throw new ResourceNotFoundException("The user doesn't exist");
+        }
+        return userOptional.get();
     }
 }

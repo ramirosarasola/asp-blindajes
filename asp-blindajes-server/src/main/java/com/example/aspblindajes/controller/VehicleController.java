@@ -5,6 +5,7 @@ import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.service.VehicleService;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.ConverterRegistration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
