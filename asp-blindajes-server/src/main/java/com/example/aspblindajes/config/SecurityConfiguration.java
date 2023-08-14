@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,22 +35,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorizeHttpRequestCustomizer -> authorizeHttpRequestCustomizer
-//                .requestMatchers(HttpMethod.POST, "/auth/register/").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers(HttpMethod.POST, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
-//                .requestMatchers(HttpMethod.GET, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
-//                .requestMatchers(HttpMethod.PUT, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers(HttpMethod.DELETE, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers("/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers("/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers("/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers("/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-//                .requestMatchers("/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.POST, "/auth/register/").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.POST, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.GET, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.PUT, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
 
-//                .requestMatchers("/vehicleQualityControl/**").hasRole(QUALITY_CONTROL.name())
-//                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAuthority(QUALITY_CONTROL_CREATE.name())
+                .requestMatchers("/vehicleQualityControl/**").hasRole(QUALITY_CONTROL.name())
+                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAuthority(QUALITY_CONTROL_CREATE.name())
 
                 .anyRequest()
                 .permitAll()
@@ -60,24 +62,15 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Collections.singletonList("*")); // Set allowed origins
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Set allowed methods
-//        configuration.setAllowedHeaders(Collections.singletonList("*")); // Set allowed headers
-//        configuration.setAllowCredentials(true); // Allow credentials
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-//    }
-//
-//    @Bean
-//    public CorsFilter corsFilter() {
-//        CorsFilter filter = new CorsFilter(corsConfigurationSource());
-//        return filter;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 }
