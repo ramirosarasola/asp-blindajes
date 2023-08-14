@@ -40,18 +40,36 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         authorizeHttpRequestCustomizer -> authorizeHttpRequestCustomizer
                 .requestMatchers(HttpMethod.POST, "/auth/register/").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+
                 .requestMatchers(HttpMethod.POST, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
-                .requestMatchers(HttpMethod.GET, "/vehicle/**").hasAnyAuthority(CICO_LOGISTIC.name(), ADMIN.name(), ENGINEER.name())
                 .requestMatchers(HttpMethod.PUT, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
                 .requestMatchers(HttpMethod.DELETE, "/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-                .requestMatchers("/vehicle/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-                .requestMatchers("/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-                .requestMatchers("/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-                .requestMatchers("/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
-                .requestMatchers("/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/vehicle/**").authenticated()
 
-                .requestMatchers("/vehicleQualityControl/**").hasRole(QUALITY_CONTROL.name())
-                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAuthority(QUALITY_CONTROL_CREATE.name())
+                .requestMatchers(HttpMethod.POST, "/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.PUT, "/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/client/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/client/**").authenticated()
+
+                .requestMatchers(HttpMethod.POST, "/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.PUT, "/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/brand/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/brand/**").authenticated()
+
+                .requestMatchers(HttpMethod.POST, "/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.PUT, "/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/model/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/model/**").authenticated()
+
+                .requestMatchers(HttpMethod.POST, "/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.PUT, "/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/workGroups/**").authenticated()
+
+                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name(), CICO_PRODUCTION.name())
+                .requestMatchers(HttpMethod.PUT, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers(HttpMethod.DELETE, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
+                .requestMatchers("/vehicleQualityControl/**").authenticated()
 
                 .anyRequest()
                 .permitAll()
