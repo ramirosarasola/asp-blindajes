@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Vehicle {
     @Id
+    private String id;
     private String chasis;
     private String observations;
     private String purchaseOrder;

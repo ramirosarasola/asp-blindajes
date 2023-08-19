@@ -19,8 +19,8 @@ public class VehicleMovementController {
     private final VehicleMovementService vehicleMovementService;
 
     @PostMapping
-    public ResponseEntity<VehicleMovement> saveVehicleMovement (@RequestParam (value = "chasis") String chasis) throws Exception {
-        return ResponseEntity.ok(vehicleMovementService.saveVehicleMovement(chasis));
+    public ResponseEntity<VehicleMovement> saveVehicleMovement (@RequestParam (value = "chasis") String chasis, @RequestParam (value = "userName") String userName) throws Exception {
+        return ResponseEntity.ok(vehicleMovementService.saveVehicleMovement(chasis, userName));
     }
 
     @GetMapping

@@ -3,11 +3,13 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
+import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Area;
 import com.example.aspblindajes.model.MovementType;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.model.VehicleMovement;
+import com.example.aspblindajes.repository.UserRepository;
 import com.example.aspblindajes.repository.VehicleMovementRepository;
 import com.example.aspblindajes.repository.VehicleRepository;
 import jakarta.persistence.EntityExistsException;
@@ -27,26 +29,30 @@ public class VehicleServiceImpl implements VehicleService{
     private final VehicleRepository vehicleRepository;
     private final VehicleDTOToVehicleConverter vehicleDTOToVehicleConverter;
     private final VehicleMovementRepository vehicleMovementRepository;
+    private final UserRepository userRepository;
     @Override
-    public Vehicle saveVehicle(VehicleDTO vehicleDTO) {
+    public Vehicle saveVehicle(VehicleDTO vehicleDTO, String userName) throws ResourceAlreadyExistsException {
        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
+       vehicle.setId(generateId(vehicleDTO.getChasis()));
 
        if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty() && vehicle != null){
 
            if(Objects.equals(vehicleDTO.getBrandName(), "Ford") && vehicleDTO.getFordKey().isEmpty()){
                log.error("Fail to save vehicle: Ford's vehicles must have their unique key");
-               throw new EntityExistsException("Ford's vehicles must have their unique key"); //todo -> change exception
+               throw new ResourceAlreadyExistsException("Ford's vehicles must have their unique key"); //todo -> change exception
            }
            VehicleMovement vehicleMovement = new VehicleMovement();
+           vehicleMovement.setUser(userRepository.findUserByUsername(userName).get());
            vehicleMovement.setVehicle(vehicle);
            vehicleMovement.setMovementType(MovementType.LOGISTIC_CHECKIN);
+
            vehicleRepository.save(vehicle);
            vehicleMovementRepository.save(vehicleMovement);
            log.info("Vehicle saved successfully");
            return vehicle;
        }
        log.error("Fail to save vehicle: There is a vehicle with the chasis provided");
-        throw new EntityExistsException("There is a vehicle with the chasis provided");
+        throw new ResourceAlreadyExistsException("There is a vehicle with the chasis provided");
     }
 
     @Override
@@ -60,13 +66,13 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public void deleteVehicleById(String id) throws ResourceNotFoundException {
-        if(vehicleRepository.findById(id).isEmpty()){
+    public void deleteVehicleByChasis(String chasis) throws ResourceNotFoundException {
+        if(vehicleRepository.findVehicleByChasis(chasis) == null){
             log.error("Fail to delete vehicle: There is no vehicle with the provided ID (chasis) ");
             throw new ResourceNotFoundException("There is no vehicle with the provided ID (chasis)");
         }
-        log.info("Vehicle deleted successfully ID: " + id);
-        vehicleRepository.deleteById(id);
+        log.info("Vehicle deleted successfully CHASIS: " + chasis);
+        vehicleRepository.deleteVehicleByChasis(chasis);
     }
 
     @Override
@@ -93,7 +99,7 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public Vehicle updateVehicleAreaByMovementType(Area area, String chasis) throws ResourceNotFoundException {
-        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(chasis);
+        Optional<Vehicle> optionalVehicle = Optional.of(vehicleRepository.findVehicleByChasis(chasis));
         if(optionalVehicle.isPresent()){
             Vehicle vehicle = optionalVehicle.get();
             vehicle.setArea(area);
@@ -103,4 +109,20 @@ public class VehicleServiceImpl implements VehicleService{
         log.error("Fail to update the vehicle area: The vehicle trying to update doesn't exists. ");
         throw new ResourceNotFoundException("The vehicle trying to update doesn't exists.");
     }
+
+    @Override
+    public Vehicle findVehicleByChasis(String chasis) throws ResourceNotFoundException {
+        Vehicle vehicle = vehicleRepository.findVehicleByChasis(chasis);
+       if (vehicle != null){
+           return vehicle;
+       }
+       throw new ResourceNotFoundException("There is no vehicle with the provided chasis");
+    }
+
+
+    private String generateId(String chasis) {
+        String digits = chasis.substring(chasis.length() - 8);
+        return digits;
+    }
+
 }

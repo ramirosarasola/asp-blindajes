@@ -15,7 +15,7 @@ public class VehicleMovementeToVehicleMovementDTO implements Converter<VehicleMo
         vehicleMovementDTO.setMovementType(source.getMovementType().name());
         vehicleMovementDTO.setVehicleChasis(source.getVehicle().getChasis());
         vehicleMovementDTO.setId(source.getId());
-        vehicleMovementDTO.setDate(source.getDate());
+        vehicleMovementDTO.setDateTime(source.getDateTime());
 
         return vehicleMovementDTO;
     }

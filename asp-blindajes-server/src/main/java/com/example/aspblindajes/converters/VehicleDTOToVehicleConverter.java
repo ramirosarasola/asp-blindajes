@@ -28,6 +28,7 @@ public class VehicleDTOToVehicleConverter implements Converter<VehicleDTO, Vehic
         Optional<Client> client = clientRepository.findClientByName(source.getClient());
         Vehicle vehicle = new Vehicle();
         if (brand.isPresent() && brandModel.isPresent() && client.isPresent()) {
+            vehicle.setId(source.getId());
             vehicle.setChasis(source.getChasis());
             vehicle.setBrand(brand.get());
             vehicle.setBrandModel(brandModel.get());

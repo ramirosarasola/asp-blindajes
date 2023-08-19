@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.DELETE, "/workGroups/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
                 .requestMatchers("/workGroups/**").authenticated()
 
-                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name(), CICO_PRODUCTION.name())
+                .requestMatchers(HttpMethod.POST, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name(), QUALITY_CONTROL.name())
                 .requestMatchers(HttpMethod.PUT, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
                 .requestMatchers(HttpMethod.DELETE, "/vehicleQualityControl/**").hasAnyAuthority(ADMIN.name(), ENGINEER.name())
                 .requestMatchers("/vehicleQualityControl/**").authenticated()

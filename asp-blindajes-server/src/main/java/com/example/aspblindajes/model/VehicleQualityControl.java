@@ -16,7 +16,7 @@ public class VehicleQualityControl {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "vehicle_chasis", referencedColumnName = "chasis")
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;
     private LocalDate qualityControlDate = LocalDate.now();
     private Boolean canBeCheckedOut = false;

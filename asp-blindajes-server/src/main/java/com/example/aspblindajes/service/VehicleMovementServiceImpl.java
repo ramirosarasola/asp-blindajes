@@ -3,10 +3,8 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.converters.VehicleMovementeToVehicleMovementDTO;
 import com.example.aspblindajes.dto.VehicleMovementDTO;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
-import com.example.aspblindajes.model.Area;
-import com.example.aspblindajes.model.MovementType;
-import com.example.aspblindajes.model.Vehicle;
-import com.example.aspblindajes.model.VehicleMovement;
+import com.example.aspblindajes.model.*;
+import com.example.aspblindajes.repository.UserRepository;
 import com.example.aspblindajes.repository.VehicleMovementRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +21,12 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     private final VehicleMovementRepository vehicleMovementRepository;
     private final VehicleService vehicleService;
     private final VehicleMovementeToVehicleMovementDTO vehicleMovementeToVehicleMovementDTO;
+    private final UserRepository userRepository;
 
 
     @Override
-    public VehicleMovement saveVehicleMovement(String chasis) throws Exception {
-        Vehicle vehicle = vehicleService.findVehicleById(chasis);
+    public VehicleMovement saveVehicleMovement(String chasis, String userName) throws Exception {
+        Vehicle vehicle = vehicleService.findVehicleByChasis(chasis);
         Area area =  vehicle.getArea();
         if(area.name().equals("DELIVERED")){
             log.error("Failed to save a new vehicle movement: The vehicle has already been delivered");
@@ -44,6 +43,7 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
         VehicleMovement vehicleMovement = new VehicleMovement();
         vehicleMovement.setVehicle(vehicle);
         vehicleMovement.setMovementType(movementTypeHandler(area, bool, vehicle.getChasis()));
+        vehicleMovement.setUser(userRepository.findUserByUsername(userName).get());
         log.info("Vehicle movement saved successfully");
         return vehicleMovementRepository.save(vehicleMovement);
     }
@@ -88,7 +88,8 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
 
     @Override
     public VehicleMovement updateVehicleMovement(VehicleMovement vehicleMovement) {
-        return null;
+    return null;
+
     }
 
     @Override
@@ -116,23 +117,14 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
                    areaToSet = Area.DELIVERED;
                    movementType = MovementType.LOGISTIC_CHECKOUT_TO_CLIENT;
                } else {
-                   areaToSet = Area.TRANSITION;
-                   movementType = MovementType.LOGISITIC_CHECKOUT;
+                   areaToSet = Area.PRODUCTION;
+                   movementType = MovementType.LOGISITIC_CHECKOUT_TO_PRODUCTION;
                }
            }
            case PRODUCTION -> {
-               areaToSet = Area.TRANSITION;
-               movementType = MovementType.PRODUCTION_CHECKOUT;
+               areaToSet = Area.LOGISTIC;
+               movementType = MovementType.PRODUCTION_CHECKOUT_TO_LOGISTIC;
                }
-           case TRANSITION -> {
-               if (bool){
-                   areaToSet = Area.LOGISTIC;
-                   movementType = MovementType.LOGISTIC_RECHECKIN;
-               } else {
-                   areaToSet = Area.PRODUCTION;
-                   movementType = MovementType.PRODUCTION_CHECKIN;
-               }
-           }
 
        }
        vehicleService.updateVehicleAreaByMovementType(areaToSet, chasis);

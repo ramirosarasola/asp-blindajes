@@ -11,6 +11,9 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 public class VehicleDTO {
     @NotEmpty
+    @Length(min = 1, max = 30)
+    private String id;
+    @NotEmpty
     @Length(min = 1, max = 20)
     private String chasis;
     @NotEmpty

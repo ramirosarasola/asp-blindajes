@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -20,9 +21,12 @@ public class VehicleMovement {
     @Enumerated (EnumType.STRING)
     private MovementType movementType;
     @ManyToOne
-    @JoinColumn(name = "vehicle_chasis", referencedColumnName = "chasis")
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     @JsonIgnore
     private Vehicle vehicle;
-    private LocalDate date = LocalDate.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn (name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }

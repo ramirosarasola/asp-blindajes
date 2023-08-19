@@ -6,7 +6,7 @@ import com.example.aspblindajes.model.VehicleMovement;
 import java.util.List;
 
 public interface VehicleMovementService {
-    VehicleMovement saveVehicleMovement (String chasis) throws Exception;
+    VehicleMovement saveVehicleMovement (String chasis, String userName) throws Exception;
 
     VehicleMovementDTO findVehicleMovementById (Long id) throws ResourceNotFoundException;
 
@@ -14,7 +14,7 @@ public interface VehicleMovementService {
 
     void deleteVehicleMovementById (Long id) throws ResourceNotFoundException;
 
-    VehicleMovement updateVehicleMovement (VehicleMovement vehicleMovement);
+    VehicleMovement updateVehicleMovement (VehicleMovement vehicleMovement) throws ResourceNotFoundException;
 
     List<VehicleMovementDTO> findVehicleMovementsByChasis (String chasis) throws ResourceNotFoundException;
 

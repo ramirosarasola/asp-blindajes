@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +14,5 @@ public class VehicleMovementDTO {
     private Long id;
     private String movementType;
     private String vehicleChasis;
-    private LocalDate date;
+    private LocalDateTime dateTime;
 }

@@ -17,8 +17,8 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<Vehicle> saveVehicle (@RequestBody VehicleDTO vehicleDTO) {
-        return ResponseEntity.ok(vehicleService.saveVehicle(vehicleDTO));
+    public ResponseEntity<Vehicle> saveVehicle (@RequestBody VehicleDTO vehicleDTO, @RequestParam (value = "userName") String userName) throws ResourceAlreadyExistsException {
+        return ResponseEntity.ok(vehicleService.saveVehicle(vehicleDTO, userName));
     }
 
     @GetMapping("/all")
@@ -27,13 +27,13 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<Vehicle> findVehicleById (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
+    public ResponseEntity<Vehicle> findVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
         return ResponseEntity.ok(vehicleService.findVehicleById(chasis));
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteVehicleById (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
-        vehicleService.deleteVehicleById(chasis);
+    public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
+        vehicleService.deleteVehicleByChasis(chasis);
         return ResponseEntity.ok("The vehicle with chasis number " + chasis + " has been deleted");
     }
 
