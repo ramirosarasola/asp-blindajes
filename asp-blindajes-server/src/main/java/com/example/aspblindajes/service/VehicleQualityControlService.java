@@ -16,5 +16,5 @@ public interface VehicleQualityControlService {
 
     VehicleQualityControl updateVehicleQualityControl (VehicleQualityControlDTO vehicleQualityControlDTO) throws ResourceNotFoundException;
 
-    List<VehicleQualityControl> findVehicleQualityControlByVehicleChasis (String chasis) throws ResourceNotFoundException;
+    List<VehicleQualityControl> findVehicleQualityControlByVehicleId (String id) throws ResourceNotFoundException;
 }

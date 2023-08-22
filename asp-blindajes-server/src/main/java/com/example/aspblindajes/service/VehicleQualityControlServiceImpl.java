@@ -87,8 +87,8 @@ public class VehicleQualityControlServiceImpl implements VehicleQualityControlSe
 
     }
 
-    public List<VehicleQualityControl> findVehicleQualityControlByVehicleChasis (String chasis) throws ResourceNotFoundException {
-        List<VehicleQualityControl> vehicleQualityControlList = vehicleQualityControlRepository.findVehicleQualityControlByVehicleChasis(chasis);
+    public List<VehicleQualityControl> findVehicleQualityControlByVehicleId (String id) throws ResourceNotFoundException {
+        List<VehicleQualityControl> vehicleQualityControlList = vehicleQualityControlRepository.findVehicleQualityControlByVehicleId(id);
         if (vehicleQualityControlList.size() > 0){
             return vehicleQualityControlList;
         }

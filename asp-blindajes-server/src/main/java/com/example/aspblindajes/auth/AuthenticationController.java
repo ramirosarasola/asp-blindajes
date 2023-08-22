@@ -6,7 +6,6 @@ import com.example.aspblindajes.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,17 +25,17 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-//    @GetMapping("/me/{username}")
-//    public ResponseEntity<User> getUserInfo(@PathVariable String username) throws ResourceNotFoundException {
-//        log.info(username);
-//        return ResponseEntity.ok(authenticationService.getUserInfo(username));
-//    }
     @GetMapping("/me")
     public ResponseEntity<User> getUserInfo(@RequestHeader("Authorization") String token) throws ResourceNotFoundException {
         String jwtToken = token.substring(7); // Elimina el prefijo "Bearer "
         String username = jwtService.extractUsername(jwtToken); // Implementa el método para extraer el username del token
         log.info(username);
         return ResponseEntity.ok(authenticationService.getUserInfo(username));
-}
+    }
+
+    @GetMapping("/token")
+    public ResponseEntity<Boolean> isTokenExpired(@RequestBody String token){
+        return ResponseEntity.ok(jwtService.isTokenExpired(token));
+    }
 
 }

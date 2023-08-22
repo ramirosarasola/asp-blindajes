@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface VehicleQualityControlRepository extends JpaRepository<VehicleQualityControl, Long> {
-    List<VehicleQualityControl> findVehicleQualityControlByVehicleChasis (String chasis);
+    List<VehicleQualityControl> findVehicleQualityControlByVehicleId (String id);
 }
