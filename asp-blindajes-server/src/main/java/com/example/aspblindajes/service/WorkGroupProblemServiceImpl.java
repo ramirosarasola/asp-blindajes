@@ -76,13 +76,17 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public WorkGroupProblemQueryResponse calculatePercentageOfProblemsInsideWorkGroup(String name) throws ResourceNotFoundException {
-        if (workGroupProblemRepository.findAll().size() > 0) {
-            WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
-            workGroupProblemQueryResponse.setName(name);
-            workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(name));
-            return workGroupProblemQueryResponse;
-
+    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup() throws ResourceNotFoundException {
+        List<WorkGroup> workGroupList = workGroupsRepository.findAll();
+        List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
+        if (workGroupList.size() > 0) {
+            for (WorkGroup workGroup : workGroupList) {
+                WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
+                workGroupProblemQueryResponse.setName(workGroup.getName());
+                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName()));
+                workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
+            }
+            return workGroupProblemQueryResponseList;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }
