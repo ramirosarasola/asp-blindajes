@@ -3,6 +3,7 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.model.WorkGroupProblem;
 import com.example.aspblindajes.repository.WorkGroupProblemRepository;
 import com.example.aspblindajes.repository.WorkGroupsRepository;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 
     private final WorkGroupProblemRepository workGroupProblemRepository;
+    private final WorkGroupsRepository workGroupsRepository;
 
     @Override
     public WorkGroupProblem getWorkGroupProblemById(Long id) throws ResourceNotFoundException {
@@ -58,13 +60,13 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 
     @Override
     public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup() throws ResourceNotFoundException {
-        List<WorkGroupProblem> workGroupProblemList = workGroupProblemRepository.findAll();
+        List<WorkGroup> workGroupList = workGroupsRepository.findAll();
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
-        if(workGroupProblemList.size() > 0){
-            for (WorkGroupProblem workGroupProblem : workGroupProblemList) {
+        if(workGroupList.size() > 0){
+            for (WorkGroup workGroup : workGroupList) {
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
-                workGroupProblemQueryResponse.setName(workGroupProblem.getWorkGroup().getName());
-                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroupProblem.getWorkGroup().getName()));
+                workGroupProblemQueryResponse.setName(workGroup.getName());
+                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName()));
                 workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
             }
 
