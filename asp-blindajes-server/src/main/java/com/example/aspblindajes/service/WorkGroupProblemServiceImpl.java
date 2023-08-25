@@ -1,5 +1,6 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.TotalPercentageQueryResponse;
 import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
@@ -51,9 +52,11 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public double getPercentageOfProblems() throws ResourceNotFoundException {
+    public TotalPercentageQueryResponse getPercentageOfProblems() throws ResourceNotFoundException {
+        TotalPercentageQueryResponse totalPercentageQueryResponse = new TotalPercentageQueryResponse();
         if(workGroupProblemRepository.findAll().size() > 0){
-            return workGroupProblemRepository.totalQtyOfProblems();
+            totalPercentageQueryResponse.setPorcentajeTotalDeProblemasDeGruposDeTrabajoControlados(workGroupProblemRepository.totalQtyOfProblems());
+            totalPercentageQueryResponse.setCantidadTotalDeGruposDeTrabajoControlados(workGroupProblemRepository.countTotalWorkGroupProblems());
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }

@@ -1,5 +1,6 @@
 package com.example.aspblindajes.controller;
 
+import com.example.aspblindajes.dto.TotalPercentageQueryResponse;
 import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
@@ -35,7 +36,7 @@ public class WorkGroupProblemController {
     }
 
     @GetMapping("/totalPercentage")
-    ResponseEntity<Double> getPercentage () throws ResourceNotFoundException {
+    ResponseEntity<TotalPercentageQueryResponse> getPercentage () throws ResourceNotFoundException {
         return ResponseEntity.ok(workGroupsService.getPercentageOfProblems());
     }
 
