@@ -1,5 +1,6 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.WorkGroupProblem;
@@ -55,17 +56,24 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public double calculatePercentageOfProblemsForWorkGroup(String name) throws ResourceNotFoundException {
+    public WorkGroupProblemQueryResponse calculatePercentageOfProblemsForWorkGroup(String name) throws ResourceNotFoundException {
         if(workGroupProblemRepository.findAll().size() > 0){
-            return workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(name);
+            WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
+            workGroupProblemQueryResponse.setName(name);
+            workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(name));
+            return workGroupProblemQueryResponse;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }
 
     @Override
-    public double calculatePercentageOfProblemsInsideWorkGroup(String name) throws ResourceNotFoundException {
+    public WorkGroupProblemQueryResponse calculatePercentageOfProblemsInsideWorkGroup(String name) throws ResourceNotFoundException {
         if (workGroupProblemRepository.findAll().size() > 0) {
-            return workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(name);
+            WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
+            workGroupProblemQueryResponse.setName(name);
+            workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(name));
+            return workGroupProblemQueryResponse;
+
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }

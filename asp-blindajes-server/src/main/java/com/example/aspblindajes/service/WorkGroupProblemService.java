@@ -1,5 +1,6 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.WorkGroup;
@@ -17,7 +18,7 @@ public interface WorkGroupProblemService {
 
     double getPercentageOfProblems () throws ResourceNotFoundException;
 
-    double calculatePercentageOfProblemsForWorkGroup (String name) throws ResourceNotFoundException;
+    WorkGroupProblemQueryResponse calculatePercentageOfProblemsForWorkGroup (String name) throws ResourceNotFoundException;
 
-    double calculatePercentageOfProblemsInsideWorkGroup (String name) throws ResourceNotFoundException;
+    WorkGroupProblemQueryResponse calculatePercentageOfProblemsInsideWorkGroup (String name) throws ResourceNotFoundException;
 }
