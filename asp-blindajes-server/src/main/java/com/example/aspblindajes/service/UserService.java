@@ -6,11 +6,7 @@ import com.example.aspblindajes.model.User;
 import java.util.List;
 
 public interface UserService {
-    User findUserByUserName (String username) throws ResourceNotFoundException;
-
-    List<User> findAllUsers () throws ResourceNotFoundException;
-
-    void deleteUserById (Long id) throws ResourceNotFoundException;
-
-    User updateUser (User user) throws ResourceNotFoundException;
+    List<User> findAllUsers() throws ResourceNotFoundException;
+    User findUserById(Long id) throws ResourceNotFoundException;
+    User updateUser(User user) throws ResourceNotFoundException;
 }
