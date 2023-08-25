@@ -129,10 +129,10 @@ public class VehicleServiceImpl implements VehicleService{
         VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse2 = new VehiclesPerAreaQueryResponse();
        vehiclesPerAreaQueryResponse.setName("Logistica sin control de calidad");
        vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutFalse());
-        vehiclesPerAreaQueryResponse.setName("Produccion");
-        vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionArea());
-        vehiclesPerAreaQueryResponse.setName("Logistica con control de calidad");
-        vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutTrue());
+        vehiclesPerAreaQueryResponse1.setName("Produccion");
+        vehiclesPerAreaQueryResponse1.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionArea());
+        vehiclesPerAreaQueryResponse2.setName("Logistica con control de calidad");
+        vehiclesPerAreaQueryResponse2.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutTrue());
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse);
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse1);
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse2);
