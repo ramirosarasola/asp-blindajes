@@ -47,4 +47,9 @@ public class WorkGroupProblemController {
     ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageInsideWorkGroup () throws ResourceNotFoundException {
         return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsInsideWorkGroup());
     }
+
+    @GetMapping("/countWorkGroupWithProblem")
+    ResponseEntity<Long> countWorkGroupWithProblem () throws ResourceNotFoundException{
+        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem());
+    }
 }

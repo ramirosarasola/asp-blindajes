@@ -21,4 +21,6 @@ public interface WorkGroupProblemService {
     List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup () throws ResourceNotFoundException;
 
     List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup () throws ResourceNotFoundException;
+
+    Long countWorkGroupProblemsWithProblem () throws ResourceNotFoundException;
 }

@@ -66,7 +66,7 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
             for (WorkGroup workGroup : workGroupList) {
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
-                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName()));
+                workGroupProblemQueryResponse.setPorcentaje(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName()));
                 workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
             }
 
@@ -83,11 +83,23 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
             for (WorkGroup workGroup : workGroupList) {
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
-                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName()));
+                workGroupProblemQueryResponse.setPorcentaje(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName()));
+                workGroupProblemQueryResponse.setNumeroDeProblemasDentroDelGrupoDeTrabajo(workGroupProblemRepository.countWorkGroupProblemsForGroupName(workGroup.getName()));
                 workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
             }
             return workGroupProblemQueryResponseList;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }
+
+    @Override
+    public Long countWorkGroupProblemsWithProblem() throws ResourceNotFoundException {
+        if (workGroupProblemRepository.findAll().size() > 0){
+           return workGroupProblemRepository.countWorkGroupProblemsWithProblem();
+        }
+        throw new ResourceNotFoundException("there are no workGroupProblems");
+    }
+
+
+
 }

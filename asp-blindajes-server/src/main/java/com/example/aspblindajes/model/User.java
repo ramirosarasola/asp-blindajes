@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String name;
     private String lastname;
     private String username;
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;

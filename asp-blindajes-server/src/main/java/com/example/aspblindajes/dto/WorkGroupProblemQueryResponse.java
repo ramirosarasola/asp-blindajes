@@ -11,6 +11,7 @@ public class WorkGroupProblemQueryResponse {
 
     private String name;
 //    private double flatValue;
-    private double percentageValue;
+    private double porcentaje;
+    private Long numeroDeProblemasDentroDelGrupoDeTrabajo;
 
 }
