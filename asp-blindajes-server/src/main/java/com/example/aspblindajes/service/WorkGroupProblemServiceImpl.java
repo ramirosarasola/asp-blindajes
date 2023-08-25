@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,12 +57,18 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public WorkGroupProblemQueryResponse calculatePercentageOfProblemsForWorkGroup(String name) throws ResourceNotFoundException {
-        if(workGroupProblemRepository.findAll().size() > 0){
-            WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
-            workGroupProblemQueryResponse.setName(name);
-            workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(name));
-            return workGroupProblemQueryResponse;
+    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup() throws ResourceNotFoundException {
+        List<WorkGroupProblem> workGroupProblemList = workGroupProblemRepository.findAll();
+        List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
+        if(workGroupProblemList.size() > 0){
+            for (WorkGroupProblem workGroupProblem : workGroupProblemList) {
+                WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
+                workGroupProblemQueryResponse.setName(workGroupProblem.getWorkGroup().getName());
+                workGroupProblemQueryResponse.setPercentageValue(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroupProblem.getWorkGroup().getName()));
+                workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
+            }
+
+            return workGroupProblemQueryResponseList;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }

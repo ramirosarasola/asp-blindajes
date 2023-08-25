@@ -18,7 +18,7 @@ public interface WorkGroupProblemService {
 
     double getPercentageOfProblems () throws ResourceNotFoundException;
 
-    WorkGroupProblemQueryResponse calculatePercentageOfProblemsForWorkGroup (String name) throws ResourceNotFoundException;
+    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup () throws ResourceNotFoundException;
 
     WorkGroupProblemQueryResponse calculatePercentageOfProblemsInsideWorkGroup (String name) throws ResourceNotFoundException;
 }
