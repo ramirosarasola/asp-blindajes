@@ -36,7 +36,4 @@ public class Vehicle {
     private Area area = Area.LOGISTIC;
 
 
-    //    private LocalDate checkInDate = LocalDate.now(); -> todo quit checkInDates from vehicles
-//    private LocalDate checkOutDate;
-
 }

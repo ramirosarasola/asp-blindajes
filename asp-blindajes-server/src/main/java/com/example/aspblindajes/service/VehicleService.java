@@ -1,6 +1,7 @@
 package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.dto.VehicleDTO;
+import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Area;
@@ -21,5 +22,7 @@ public interface VehicleService {
     Vehicle updateVehicleAreaByMovementType (Area area, String chasis) throws ResourceNotFoundException;
 
     Vehicle findVehicleByChasis (String chasis) throws ResourceNotFoundException ;
+
+    List<VehiclesPerAreaQueryResponse> getAmoutOfVehiclesPerArea ();
 
 }

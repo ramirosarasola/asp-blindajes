@@ -2,6 +2,7 @@ package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
 import com.example.aspblindajes.dto.VehicleDTO;
+import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -117,6 +119,26 @@ public class VehicleServiceImpl implements VehicleService{
            return vehicle;
        }
        throw new ResourceNotFoundException("There is no vehicle with the provided chasis");
+    }
+
+    @Override
+    public List<VehiclesPerAreaQueryResponse> getAmoutOfVehiclesPerArea()  {
+        List<VehiclesPerAreaQueryResponse> vehiclesPerAreaQueryResponseList = new ArrayList<>();
+        VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse = new VehiclesPerAreaQueryResponse();
+        VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse1 = new VehiclesPerAreaQueryResponse();
+        VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse2 = new VehiclesPerAreaQueryResponse();
+       vehiclesPerAreaQueryResponse.setName("Logistica sin control de calidad");
+       vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutFalse());
+        vehiclesPerAreaQueryResponse.setName("Produccion");
+        vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionArea());
+        vehiclesPerAreaQueryResponse.setName("Logistica con control de calidad");
+        vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutTrue());
+        vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse);
+        vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse1);
+        vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse2);
+
+        return vehiclesPerAreaQueryResponseList;
+
     }
 
 
