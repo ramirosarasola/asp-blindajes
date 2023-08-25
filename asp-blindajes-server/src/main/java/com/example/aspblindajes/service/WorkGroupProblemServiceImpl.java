@@ -57,6 +57,7 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
         if(workGroupProblemRepository.findAll().size() > 0){
             totalPercentageQueryResponse.setPorcentajeTotalDeProblemasDeGruposDeTrabajoControlados(workGroupProblemRepository.totalQtyOfProblems());
             totalPercentageQueryResponse.setCantidadTotalDeGruposDeTrabajoControlados(workGroupProblemRepository.countTotalWorkGroupProblems());
+            return totalPercentageQueryResponse;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }
