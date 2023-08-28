@@ -1,4 +1,5 @@
 package com.example.aspblindajes.controller;
+import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
@@ -48,6 +49,16 @@ public class VehicleController {
     public ResponseEntity<List<VehiclesPerAreaQueryResponse>> getVehiclesPerArea () {
         return ResponseEntity.ok(vehicleService.getAmoutOfVehiclesPerArea());
     }
+
+    @GetMapping("/monthlyProductivity")
+    public ResponseEntity<MonthlyProductivityResponse> getMonthlyProductivity (){
+        return ResponseEntity.ok(vehicleService.monthlyProductivity());
+    }
+    @GetMapping("/weeklyProductivity")
+    public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
+        return ResponseEntity.ok(vehicleService.monthlyProductivity());
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
+import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
@@ -18,10 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -138,6 +138,44 @@ public class VehicleServiceImpl implements VehicleService{
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse2);
 
         return vehiclesPerAreaQueryResponseList;
+
+    }
+
+    @Override
+    public MonthlyProductivityResponse monthlyProductivity() {
+        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
+
+        LocalDate currentDate = LocalDate.now();
+
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+
+        LocalDate previousMonthDate = currentDate.minusMonths(1);
+        int previousMonth = previousMonthDate.getMonthValue();
+        int previousYear = previousMonthDate.getYear();
+
+        monthlyProductivityResponse.setProductividadActual(vehicleRepository.monthlyProductivity(currentMonth, currentYear));
+        monthlyProductivityResponse.setProductividadPasada(vehicleRepository.monthlyProductivity(previousMonth, previousYear));
+        return monthlyProductivityResponse;
+    }
+
+    @Override
+    public MonthlyProductivityResponse weeklyProductivity() {
+        LocalDate currentDate = LocalDate.now();
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
+        int currentYear = currentDate.getYear();
+        int currentWeekOfYear = currentDate.get(weekFields.weekOfWeekBasedYear());
+
+        LocalDate previousWeekDate = currentDate.minusWeeks(1);
+        int previousYear = previousWeekDate.getYear();
+        int previousWeekOfYear = previousWeekDate.get(weekFields.weekOfWeekBasedYear());
+
+        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
+        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(currentYear, currentWeekOfYear));
+        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(previousYear, previousWeekOfYear));
+
+        return monthlyProductivityResponse;
 
     }
 

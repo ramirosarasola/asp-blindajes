@@ -2,7 +2,10 @@ package com.example.aspblindajes.repository;
 import com.example.aspblindajes.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.lang.annotation.Native;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     Vehicle findVehicleByChasis (String chasis);
@@ -19,6 +22,21 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     @Query(nativeQuery = true, value = "SELECT COUNT(v.id) FROM vehicle v WHERE v.area = 'PRODUCTION'")
     Long countVehiclesInProductionArea();
 
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
+            "JOIN v.vehicleMovementList vm " +
+            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+            "AND EXTRACT(MONTH FROM vm.dateTime) = :mesParametro " +
+            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro")
+    Long monthlyProductivity(@Param("mesParametro") int mesParametro,  @Param("anoParametro") int anoParametro);
+
+
+    @Query("SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
+            "JOIN v.vehicleMovementList vm " +
+            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro " +
+            "AND EXTRACT(WEEK FROM vm.dateTime) = :semanaParametro")
+    Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
 
 
 }
