@@ -25,7 +25,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
 
 
     @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM vehicle v " +
-            "JOIN vehicle_movement vm ON vm.vehicle_id " +
+            "JOIN vehicle_movement vm ON v.id = vm.vehicle_id " +
             "WHERE vm.movement_type = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
             "AND EXTRACT(MONTH FROM vm.date_time) = :mesParametro " +
             "AND EXTRACT(YEAR FROM vm.date_time) = :anoParametro")

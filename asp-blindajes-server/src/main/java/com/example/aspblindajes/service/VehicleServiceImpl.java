@@ -167,7 +167,7 @@ public class VehicleServiceImpl implements VehicleService{
         List<AllMonthlyProductivityResponse> resultados = new ArrayList<>();
 
         for (Object[] fila : resultadosDesdeBaseDeDatos) {
-            int mes = (int) fila[0];
+            int mes = ((Long) fila[0]).intValue();
             long productividad = (long) fila[1];
 
             AllMonthlyProductivityResponse resultado = new AllMonthlyProductivityResponse(mes, productividad);
