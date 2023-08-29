@@ -28,7 +28,7 @@ public interface VehicleService {
     List<VehiclesPerAreaQueryResponse> getAmoutOfVehiclesPerArea ();
 
     MonthlyProductivityResponse monthlyProductivity();
-//    MonthlyProductivityResponse weeklyProductivity();
+    MonthlyProductivityResponse weeklyProductivity();
 
     List<AllMonthlyProductivityResponse> allMonthlyProductivity(int year);
 

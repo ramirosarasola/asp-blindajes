@@ -40,14 +40,13 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
             "GROUP BY mes")
     List<Object[]> allMonthlyProductivity(@Param("anoParametro") int anoParametro);
 
-//
-//
-//    @Query("SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
-//            "JOIN v.vehicleMovementList vm " +
-//            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
-//            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro " +
-//            "AND EXTRACT(WEEK FROM vm.dateTime) = :semanaParametro")
-//    Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM vehicle v " +
+            "JOIN vehicle_movement vm ON vm.vehicle_id = v.id " +
+            "WHERE vm.movement_type = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+            "AND EXTRACT(WEEK FROM vm.date_time) = :semanaParametro " +
+            "AND EXTRACT(YEAR FROM vm.date_time) = :anoParametro")
+    Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
 
 
 }

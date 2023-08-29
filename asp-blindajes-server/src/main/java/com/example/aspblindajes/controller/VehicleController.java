@@ -55,10 +55,10 @@ public class VehicleController {
     public ResponseEntity<MonthlyProductivityResponse> getMonthlyProductivity (){
         return ResponseEntity.ok(vehicleService.monthlyProductivity());
     }
-//    @GetMapping("/weeklyProductivity")
-//    public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
-//        return ResponseEntity.ok(vehicleService.monthlyProductivity());
-//    }
+    @GetMapping("/weeklyProductivity")
+    public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
+        return ResponseEntity.ok(vehicleService.monthlyProductivity());
+    }
 
     @GetMapping("/allMonthlyProductivity")
     public ResponseEntity<List<AllMonthlyProductivityResponse>> getAllMonthlyProductivity (@RequestParam (value = "year") int year){

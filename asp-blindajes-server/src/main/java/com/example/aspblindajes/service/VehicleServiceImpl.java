@@ -175,26 +175,26 @@ public class VehicleServiceImpl implements VehicleService{
         }
         return resultados;
     }
-//
-//    @Override
-//    public MonthlyProductivityResponse weeklyProductivity() {
-//        LocalDate currentDate = LocalDate.now();
-//        WeekFields weekFields = WeekFields.of(Locale.getDefault());
-//
-//        int currentYear = currentDate.getYear();
-//        int currentWeekOfYear = currentDate.get(weekFields.weekOfWeekBasedYear());
-//
-//        LocalDate previousWeekDate = currentDate.minusWeeks(1);
-//        int previousYear = previousWeekDate.getYear();
-//        int previousWeekOfYear = previousWeekDate.get(weekFields.weekOfWeekBasedYear());
-//
-//        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
-//        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(currentYear, currentWeekOfYear));
-//        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(previousYear, previousWeekOfYear));
-//
-//        return monthlyProductivityResponse;
-//
-//    }
+
+    @Override
+    public MonthlyProductivityResponse weeklyProductivity() {
+        LocalDate currentDate = LocalDate.now();
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
+        int currentYear = currentDate.getYear();
+        int currentWeekOfYear = currentDate.get(weekFields.weekOfWeekBasedYear());
+
+        LocalDate previousWeekDate = currentDate.minusWeeks(1);
+        int previousYear = previousWeekDate.getYear();
+        int previousWeekOfYear = previousWeekDate.get(weekFields.weekOfWeekBasedYear());
+
+        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
+        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(currentYear, currentWeekOfYear));
+        monthlyProductivityResponse.setProductividadPasada(vehicleRepository.weeklyProductivity(previousYear, previousWeekOfYear));
+
+        return monthlyProductivityResponse;
+
+    }
 
 
     private String generateId(String chasis) {
