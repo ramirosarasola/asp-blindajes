@@ -1,5 +1,7 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
+import com.example.aspblindajes.dto.ProblemForModelResponse;
 import com.example.aspblindajes.dto.TotalPercentageQueryResponse;
 import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
@@ -66,43 +68,51 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup() throws ResourceNotFoundException {
         List<WorkGroup> workGroupList = workGroupsRepository.findAll();
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
+        Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem();
         if(workGroupList.size() > 0){
             for (WorkGroup workGroup : workGroupList) {
+                Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName());
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
-                workGroupProblemQueryResponse.setPorcentaje(workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName()));
-                workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
-            }
-
-            return workGroupProblemQueryResponseList;
-        }
-        throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
-    }
-
-    @Override
-    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup() throws ResourceNotFoundException {
-        List<WorkGroup> workGroupList = workGroupsRepository.findAll();
-        List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
-        if (workGroupList.size() > 0) {
-            for (WorkGroup workGroup : workGroupList) {
-                Long problemas = workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName());
-                Long cantidad = workGroupProblemRepository.countWorkGroupProblemsForGroupName(workGroup.getName());
-
-                WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
-                workGroupProblemQueryResponse.setName(workGroup.getName());
-                workGroupProblemQueryResponse.setNumeroDeErrores(problemas);
-                workGroupProblemQueryResponse.setCantidadDeControles(cantidad);
-                if (problemas != 0 && cantidad != 0){
-                    workGroupProblemQueryResponse.setPorcentaje((double) problemas /cantidad*100);
+                workGroupProblemQueryResponse.setNumeroDeErrores(erroresWG);
+                workGroupProblemQueryResponse.setNumeroDeErrores(erroresTotales);
+                if(erroresWG != 0 && erroresTotales != 0){
+                    workGroupProblemQueryResponse.setPorcentaje((double) erroresWG / erroresTotales * 100);
                 } else {
                     workGroupProblemQueryResponse.setPorcentaje(0);
                 }
                 workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
             }
+
             return workGroupProblemQueryResponseList;
         }
         throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
     }
+
+//    @Override
+//    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup() throws ResourceNotFoundException {
+//        List<WorkGroup> workGroupList = workGroupsRepository.findAll();
+//        List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
+//        if (workGroupList.size() > 0) {
+//            for (WorkGroup workGroup : workGroupList) {
+//                Long problemas = workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName());
+//                Long cantidad = workGroupProblemRepository.countWorkGroupProblemsForGroupName(workGroup.getName());
+//
+//                WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
+//                workGroupProblemQueryResponse.setName(workGroup.getName());
+//                workGroupProblemQueryResponse.setNumeroDeErrores(problemas);
+//                workGroupProblemQueryResponse.setCantidadDeControles(cantidad);
+//                if (problemas != 0 && cantidad != 0){
+//                    workGroupProblemQueryResponse.setPorcentaje((double) problemas /cantidad*100);
+//                } else {
+//                    workGroupProblemQueryResponse.setPorcentaje(0);
+//                }
+//                workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
+//            }
+//            return workGroupProblemQueryResponseList;
+//        }
+//        throw new ResourceNotFoundException("there are no workGroupProblems to get the percentage of");
+//    }
 
     @Override
     public Long countWorkGroupProblemsWithProblem() throws ResourceNotFoundException {
@@ -111,6 +121,22 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
         }
         throw new ResourceNotFoundException("there are no workGroupProblems");
     }
+
+    @Override
+    public List<ProblemForModelResponse> getProblemForModel() {
+        List<ProblemForModelResponse> resultados = new ArrayList<>();
+        List<Object[]> resultadosDesdeBaseDeDatos  = workGroupProblemRepository.countProblemsByModel();
+
+        for (Object[] fila : resultadosDesdeBaseDeDatos) {
+            String modelo = (String) fila[0];
+            long errores = (long) fila[1];
+
+            ProblemForModelResponse resultado = new ProblemForModelResponse(modelo, errores);
+            resultados.add(resultado);
+        }
+        return resultados;
+    }
+
 
 
 
