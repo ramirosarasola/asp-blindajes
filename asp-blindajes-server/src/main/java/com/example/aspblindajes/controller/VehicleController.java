@@ -57,7 +57,7 @@ public class VehicleController {
     }
     @GetMapping("/weeklyProductivity")
     public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
-        return ResponseEntity.ok(vehicleService.monthlyProductivity());
+        return ResponseEntity.ok(vehicleService.weeklyProductivity());
     }
 
     @GetMapping("/allMonthlyProductivity")
