@@ -85,10 +85,18 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
         if (workGroupList.size() > 0) {
             for (WorkGroup workGroup : workGroupList) {
+                Long problemas = workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName());
+                Long cantidad = workGroupProblemRepository.countWorkGroupProblemsForGroupName(workGroup.getName());
+
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
-                workGroupProblemQueryResponse.setPorcentaje(workGroupProblemRepository.calculatePercentageOfProblemsInsideWorkGroup(workGroup.getName()));
-                workGroupProblemQueryResponse.setNumeroDeProblemasDentroDelGrupoDeTrabajo(workGroupProblemRepository.countWorkGroupProblemsForGroupName(workGroup.getName()));
+                workGroupProblemQueryResponse.setNumeroDeErrores(problemas);
+                workGroupProblemQueryResponse.setCantidadDeControles(cantidad);
+                if (problemas != 0 && cantidad != 0){
+                    workGroupProblemQueryResponse.setPorcentaje((double) problemas /cantidad*100);
+                } else {
+                    workGroupProblemQueryResponse.setPorcentaje(0);
+                }
                 workGroupProblemQueryResponseList.add(workGroupProblemQueryResponse);
             }
             return workGroupProblemQueryResponseList;

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class WorkGroupProblemQueryResponse {
 
     private String name;
-//    private double flatValue;
+    private Long numeroDeErrores;
     private double porcentaje;
-    private Long numeroDeProblemasDentroDelGrupoDeTrabajo;
+    private Long cantidadDeControles;
 
 }

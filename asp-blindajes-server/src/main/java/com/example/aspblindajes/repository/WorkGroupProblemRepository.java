@@ -18,8 +18,8 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
     double calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroupName);
 
 
-    @Query(nativeQuery = true, value = "SELECT (COUNT(CASE WHEN wp.has_problem = true THEN 1 END) * 100.0) / NULLIF((SELECT COUNT(*) FROM work_group_problem wp2 JOIN work_group wg2 ON wp2.work_groups_id = wg2.id WHERE wg2.name = :workGroupName), 0) AS percentage FROM work_group_problem wp JOIN work_group wg ON wp.work_groups_id = wg.id WHERE wg.name = :workGroupName")
-    Double calculatePercentageOfProblemsInsideWorkGroup(@Param("workGroupName") String workGroup);
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) AS count FROM work_group_problem wp JOIN work_group wg ON wp.work_groups_id = wg.id WHERE wp.has_problem = 1 AND wg.name = :workGroupName")
+    Long calculatePercentageOfProblemsInsideWorkGroup(@Param("workGroupName") String workGroup);
 
     @Query(value = "SELECT COUNT(wgp) FROM WorkGroupProblem wgp WHERE wgp.hasProblem = true")
     Long countWorkGroupProblemsWithProblem();
