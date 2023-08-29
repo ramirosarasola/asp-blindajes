@@ -1,5 +1,6 @@
 package com.example.aspblindajes.service;
 
+import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
 import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
@@ -27,6 +28,8 @@ public interface VehicleService {
     List<VehiclesPerAreaQueryResponse> getAmoutOfVehiclesPerArea ();
 
     MonthlyProductivityResponse monthlyProductivity();
-    MonthlyProductivityResponse weeklyProductivity();
+//    MonthlyProductivityResponse weeklyProductivity();
+
+    List<AllMonthlyProductivityResponse> allMonthlyProductivity(int year);
 
 }

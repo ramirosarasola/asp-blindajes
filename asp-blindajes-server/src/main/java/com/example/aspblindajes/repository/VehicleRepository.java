@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.lang.annotation.Native;
+import java.util.List;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     Vehicle findVehicleByChasis (String chasis);
@@ -23,20 +24,30 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     Long countVehiclesInProductionArea();
 
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
-            "JOIN v.vehicleMovementList vm " +
-            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
-            "AND EXTRACT(MONTH FROM vm.dateTime) = :mesParametro " +
-            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro")
+    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM vehicle v " +
+            "JOIN vehicle_movement vm ON vm.vehicle_id " +
+            "WHERE vm.movement_type = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+            "AND EXTRACT(MONTH FROM vm.date_time) = :mesParametro " +
+            "AND EXTRACT(YEAR FROM vm.date_time) = :anoParametro")
     Long monthlyProductivity(@Param("mesParametro") int mesParametro,  @Param("anoParametro") int anoParametro);
 
 
-    @Query("SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
-            "JOIN v.vehicleMovementList vm " +
-            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
-            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro " +
-            "AND EXTRACT(WEEK FROM vm.dateTime) = :semanaParametro")
-    Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
+    @Query(nativeQuery = true, value = "SELECT EXTRACT(MONTH FROM vm.date_time) AS mes, COUNT(DISTINCT v.id) AS productividad " +
+            "FROM vehicle v " +
+            "JOIN vehicle_movement vm ON vm.vehicle_id = v.id " +
+            "WHERE vm.movement_type = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+            "AND EXTRACT(YEAR FROM vm.date_time) = :anoParametro " +
+            "GROUP BY mes")
+    List<Object[]> allMonthlyProductivity(@Param("anoParametro") int anoParametro);
+
+//
+//
+//    @Query("SELECT COUNT(DISTINCT v.id) FROM Vehicle v " +
+//            "JOIN v.vehicleMovementList vm " +
+//            "WHERE vm.movementType = 'PRODUCTION_CHECKOUT_TO_LOGISTIC' " +
+//            "AND EXTRACT(YEAR FROM vm.dateTime) = :anoParametro " +
+//            "AND EXTRACT(WEEK FROM vm.dateTime) = :semanaParametro")
+//    Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
+import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
 import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
@@ -160,24 +161,40 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public MonthlyProductivityResponse weeklyProductivity() {
-        LocalDate currentDate = LocalDate.now();
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+    public List<AllMonthlyProductivityResponse> allMonthlyProductivity(int year) {
+        List<Object[]> resultadosDesdeBaseDeDatos = vehicleRepository.allMonthlyProductivity(year);
 
-        int currentYear = currentDate.getYear();
-        int currentWeekOfYear = currentDate.get(weekFields.weekOfWeekBasedYear());
+        List<AllMonthlyProductivityResponse> resultados = new ArrayList<>();
 
-        LocalDate previousWeekDate = currentDate.minusWeeks(1);
-        int previousYear = previousWeekDate.getYear();
-        int previousWeekOfYear = previousWeekDate.get(weekFields.weekOfWeekBasedYear());
+        for (Object[] fila : resultadosDesdeBaseDeDatos) {
+            int mes = (int) fila[0];
+            long productividad = (long) fila[1];
 
-        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
-        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(currentYear, currentWeekOfYear));
-        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(previousYear, previousWeekOfYear));
-
-        return monthlyProductivityResponse;
-
+            AllMonthlyProductivityResponse resultado = new AllMonthlyProductivityResponse(mes, productividad);
+            resultados.add(resultado);
+        }
+        return resultados;
     }
+//
+//    @Override
+//    public MonthlyProductivityResponse weeklyProductivity() {
+//        LocalDate currentDate = LocalDate.now();
+//        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+//
+//        int currentYear = currentDate.getYear();
+//        int currentWeekOfYear = currentDate.get(weekFields.weekOfWeekBasedYear());
+//
+//        LocalDate previousWeekDate = currentDate.minusWeeks(1);
+//        int previousYear = previousWeekDate.getYear();
+//        int previousWeekOfYear = previousWeekDate.get(weekFields.weekOfWeekBasedYear());
+//
+//        MonthlyProductivityResponse monthlyProductivityResponse = new MonthlyProductivityResponse();
+//        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(currentYear, currentWeekOfYear));
+//        monthlyProductivityResponse.setProductividadActual(vehicleRepository.weeklyProductivity(previousYear, previousWeekOfYear));
+//
+//        return monthlyProductivityResponse;
+//
+//    }
 
 
     private String generateId(String chasis) {

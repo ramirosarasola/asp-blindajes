@@ -1,4 +1,5 @@
 package com.example.aspblindajes.controller;
+import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
 import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
@@ -54,11 +55,15 @@ public class VehicleController {
     public ResponseEntity<MonthlyProductivityResponse> getMonthlyProductivity (){
         return ResponseEntity.ok(vehicleService.monthlyProductivity());
     }
-    @GetMapping("/weeklyProductivity")
-    public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
-        return ResponseEntity.ok(vehicleService.monthlyProductivity());
-    }
+//    @GetMapping("/weeklyProductivity")
+//    public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
+//        return ResponseEntity.ok(vehicleService.monthlyProductivity());
+//    }
 
+    @GetMapping("/allMonthlyProductivity")
+    public ResponseEntity<List<AllMonthlyProductivityResponse>> getAllMonthlyProductivity (@RequestParam (value = "year") int year){
+        return ResponseEntity.ok(vehicleService.allMonthlyProductivity(year));
+    }
 
 
 
