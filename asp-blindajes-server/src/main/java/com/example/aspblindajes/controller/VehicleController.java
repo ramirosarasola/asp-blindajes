@@ -66,7 +66,7 @@ public class VehicleController {
     }
 
     @GetMapping("filters")
-    public ResponseEntity<List<VehicleDTO>> getByPurchaseAndClient (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder, @RequestParam (value = "clientName" , required = false) String clientName,
+    public ResponseEntity<List<VehicleDTO>> getVehiclesByFilter (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder, @RequestParam (value = "clientName" , required = false) String clientName,
     @RequestParam (value = "modelName" , required = false) String modelName, @RequestParam (value = "areaName" , required = false) String areaName){
         return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName));
     }

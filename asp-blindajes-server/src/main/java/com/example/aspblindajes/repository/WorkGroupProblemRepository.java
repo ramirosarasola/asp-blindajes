@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProblem, Long> {
@@ -16,8 +17,13 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
     Long countTotalWorkGroupProblems();
 
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(*) AS count FROM work_group_problem wp JOIN work_group wg ON wp.work_groups_id = wg.id WHERE wp.has_problem = 1 AND wg.name = :workGroupName")
-    Long calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroup);
+    @Query(nativeQuery = true, value = "SELECT COUNT(wp.id) FROM work_group_problem wp " +
+            "JOIN work_group wg ON wp.work_groups_id = wg.id " +
+            "JOIN vehicle_quality_control vqc ON wp.vehicle_quality_control_id = vqc.id " +
+            "WHERE wp.has_problem = 1 " +
+            "AND wg.name = :workGroupName "+
+            "AND MONTH(vqc.quality_control_date) = :mesParametro")
+    Long calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroup, @Param("mesParametro") int mesParametro);
 
     @Query(value = "SELECT COUNT(wgp) FROM WorkGroupProblem wgp WHERE wgp.hasProblem = true")
     Long countWorkGroupProblemsWithProblem();

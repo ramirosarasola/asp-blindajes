@@ -65,17 +65,17 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup() throws ResourceNotFoundException {
+    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup(int mes) throws ResourceNotFoundException {
         List<WorkGroup> workGroupList = workGroupsRepository.findAll();
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
         Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem();
         if(workGroupList.size() > 0){
             for (WorkGroup workGroup : workGroupList) {
-                Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName());
+                Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName(), mes);
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
                 workGroupProblemQueryResponse.setNumeroDeErrores(erroresWG);
-                workGroupProblemQueryResponse.setNumeroDeErrores(erroresTotales);
+                workGroupProblemQueryResponse.setCantidadDeControles(erroresTotales);
                 if(erroresWG != 0 && erroresTotales != 0){
                     workGroupProblemQueryResponse.setPorcentaje((double) erroresWG / erroresTotales * 100);
                 } else {

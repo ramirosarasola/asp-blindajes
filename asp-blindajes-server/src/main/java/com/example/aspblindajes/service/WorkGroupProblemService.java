@@ -20,7 +20,7 @@ public interface WorkGroupProblemService {
 
     TotalPercentageQueryResponse getPercentageOfProblems () throws ResourceNotFoundException;
 
-    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup () throws ResourceNotFoundException;
+    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup (int mes) throws ResourceNotFoundException;
 
 //    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup () throws ResourceNotFoundException;
 
