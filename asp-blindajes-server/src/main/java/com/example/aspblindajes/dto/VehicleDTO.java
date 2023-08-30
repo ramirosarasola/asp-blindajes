@@ -33,5 +33,5 @@ public class VehicleDTO {
     private String client;
     private String fordKey;
     private String area;
-    private boolean canBeCheckecOut;
+    private boolean canBeCheckedOut;
 }

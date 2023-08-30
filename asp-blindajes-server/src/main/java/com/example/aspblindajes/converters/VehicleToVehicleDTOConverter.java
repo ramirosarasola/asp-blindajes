@@ -22,9 +22,9 @@ public class VehicleToVehicleDTOConverter implements Converter<Vehicle, VehicleD
         vehicleDTO.setPurchaseOrder(source.getPurchaseOrder());
         vehicleDTO.setArea(source.getArea().toString());
         if (source.getQualityControlList().size() > 0){
-            vehicleDTO.setCanBeCheckecOut(source.getQualityControlList().get(source.getQualityControlList().size() - 1).getCanBeCheckedOut());
+            vehicleDTO.setCanBeCheckedOut(source.getQualityControlList().get(source.getQualityControlList().size() - 1).getCanBeCheckedOut());
         } else {
-            vehicleDTO.setCanBeCheckecOut(false);
+            vehicleDTO.setCanBeCheckedOut(false);
         }
 
 
