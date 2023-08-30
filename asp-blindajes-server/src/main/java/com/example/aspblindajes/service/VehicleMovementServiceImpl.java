@@ -94,7 +94,7 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
 
     @Override
     public List<VehicleMovementDTO> findVehicleMovementsByChasis(String chasis) throws ResourceNotFoundException {
-        Vehicle vehicle = vehicleService.findVehicleById(chasis);
+        Vehicle vehicle = vehicleService.findVehicleByChasis(chasis);
         if(vehicle == null){
             log.error("Failed to find vehicle movements by chasis: The vehicle with the chasis provided does not exits. ");
             throw new ResourceNotFoundException("The vehicle with the chasis provided does not exits.");

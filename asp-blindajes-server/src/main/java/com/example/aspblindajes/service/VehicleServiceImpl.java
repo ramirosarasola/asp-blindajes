@@ -61,10 +61,10 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public Vehicle findVehicleById(String id) throws ResourceNotFoundException {
+    public VehicleDTO findVehicleById(String id) throws ResourceNotFoundException {
         if(vehicleRepository.findById(id).isPresent()){
             log.info("Vehicle found by ID");
-            return vehicleRepository.findById(id).get();
+            return vehicleToVehicleDTOConverter.convert(vehicleRepository.findById(id).get());
         }
         log.error("Fail to find vehicle by chasis: The vehicle could not be found by the provided chasis");
         throw new ResourceNotFoundException("The vehicle could not be found by the provided chasis");

@@ -31,8 +31,8 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<Vehicle> findVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
-        return ResponseEntity.ok(vehicleService.findVehicleById(chasis));
+    public ResponseEntity<VehicleDTO> findVehicleById (@RequestParam (value = "chasis") String id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(vehicleService.findVehicleById(id));
     }
 
     @DeleteMapping

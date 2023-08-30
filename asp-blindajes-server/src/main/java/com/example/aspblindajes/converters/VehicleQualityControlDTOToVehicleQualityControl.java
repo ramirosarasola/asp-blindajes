@@ -29,7 +29,7 @@ public class VehicleQualityControlDTOToVehicleQualityControl implements Converte
         VehicleQualityControl vehicleQualityControl = new VehicleQualityControl();
 
         try {
-            vehicleQualityControl.setVehicle(vehicleService.findVehicleById(source.getChasis()));
+            vehicleQualityControl.setVehicle(vehicleService.findVehicleByChasis(source.getChasis()));
         } catch (ResourceNotFoundException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface VehicleService {
     Vehicle saveVehicle (VehicleDTO vehicleDTO, String userName) throws ResourceAlreadyExistsException;
-    Vehicle findVehicleById(String id) throws ResourceNotFoundException;
+    VehicleDTO findVehicleById(String id) throws ResourceNotFoundException;
 
     void deleteVehicleByChasis(String id) throws ResourceNotFoundException;
     List<Vehicle> findAllVehicles() throws ResourceNotFoundException;
