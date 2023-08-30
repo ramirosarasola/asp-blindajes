@@ -1,6 +1,7 @@
 package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleMovementeToVehicleMovementDTO;
+import com.example.aspblindajes.dto.VehicleDTO;
 import com.example.aspblindajes.dto.VehicleMovementDTO;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.*;
@@ -10,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -107,6 +111,23 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
         return vehicleMovementDTOList;
     }
 
+    @Override
+    public List<VehicleMovementDTO> getMovementsByFilter(String mtName, String vehicleId, String startDate, String endDate) {
+        List<VehicleMovementDTO> movementDTOS = new ArrayList<>();
+        if (mtName == null && vehicleId == null && startDate == null && endDate == null) {
+            List<VehicleMovement> movementList = vehicleMovementRepository.findAll();
+            for (VehicleMovement movement : movementList) {
+                movementDTOS.add(vehicleMovementeToVehicleMovementDTO.convert(movement));
+            }
+        }else {
+            List<VehicleMovement> movementList = vehicleMovementRepository.getMovementsByFilter(mtName, vehicleId, dateStartConverter(startDate), dateEndConverter(endDate));
+            for (VehicleMovement movement : movementList) {
+                movementDTOS.add(vehicleMovementeToVehicleMovementDTO.convert(movement));
+            }
+        }
+        return movementDTOS;
+    }
+
 
     private MovementType movementTypeHandler (Area area, boolean bool, String chasis) throws ResourceNotFoundException {
         MovementType movementType = null;
@@ -129,5 +150,24 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
        }
        vehicleService.updateVehicleAreaByMovementType(areaToSet, chasis);
        return movementType;
+    }
+
+
+    private LocalDateTime dateStartConverter(String date) {
+        if (date != null && !date.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter).atStartOfDay();
+        } else {
+            return null;
+        }
+    }
+
+    private LocalDateTime dateEndConverter(String date) {
+        if (date != null && !date.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter).atTime(23, 59);
+        } else {
+            return null;
+        }
     }
 }

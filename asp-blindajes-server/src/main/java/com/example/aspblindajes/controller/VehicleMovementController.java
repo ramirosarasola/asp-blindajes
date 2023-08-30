@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -42,5 +43,13 @@ public class VehicleMovementController {
     @GetMapping("/chasis")
     public ResponseEntity<List<VehicleMovementDTO>> findVehicleMovementsByChasis (String chasis) throws ResourceNotFoundException {
         return ResponseEntity.ok(vehicleMovementService.findVehicleMovementsByChasis(chasis));
+    }
+
+    @GetMapping("/filters")
+    public ResponseEntity<List<VehicleMovementDTO>> getMovementsByFilter (@RequestParam (value = "mtName", required = false) String mtName,
+                                                                          @RequestParam (value = "vehicleId", required = false) String vehicleId,
+                                                                          @RequestParam (value = "startDate", required = false) String startDate,
+                                                                          @RequestParam (value = "endDate", required = false) String endDate){
+        return ResponseEntity.ok(vehicleMovementService.getMovementsByFilter(mtName, vehicleId, startDate, endDate));
     }
 }

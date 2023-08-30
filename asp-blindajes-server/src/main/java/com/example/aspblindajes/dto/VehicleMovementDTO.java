@@ -15,4 +15,5 @@ public class VehicleMovementDTO {
     private String movementType;
     private String vehicleChasis;
     private String dateTime;
+    private String userName;
 }

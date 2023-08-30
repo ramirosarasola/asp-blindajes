@@ -3,6 +3,9 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.dto.VehicleMovementDTO;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.VehicleMovement;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface VehicleMovementService {
@@ -17,6 +20,8 @@ public interface VehicleMovementService {
     VehicleMovement updateVehicleMovement (VehicleMovement vehicleMovement) throws ResourceNotFoundException;
 
     List<VehicleMovementDTO> findVehicleMovementsByChasis (String chasis) throws ResourceNotFoundException;
+
+    List<VehicleMovementDTO> getMovementsByFilter (String mtName, String vehicleId, String startDate, String endDate);
 
 
 
