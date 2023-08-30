@@ -48,5 +48,15 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
             "AND EXTRACT(YEAR FROM vm.date_time) = :anoParametro")
     Long weeklyProductivity(@Param("anoParametro") int anoParametro,  @Param("semanaParametro") int semanaParametro);
 
+    @Query(
+            nativeQuery = true,
+            value = "SELECT v.* FROM vehicle v " +
+                    "JOIN client c ON v.client_id = c.id " +
+                    "JOIN brand_model bm ON v.brand_model_id = bm.id " +
+                    "WHERE (:compraParametro IS NULL OR v.purchase_order = :compraParametro) " +
+                    "AND (:clientName IS NULL OR c.name = :clientName) " +
+                    "AND (:areaName IS NULL OR v.area = :areaName) " +
+                    "AND (:modelName IS NULL OR bm.name = :modelName)")
+    List<Vehicle> getVehiclesByFilters(@Param("compraParametro") String compraParametro, @Param("clientName") String clientName, @Param("areaName") String areaName, @Param("modelName") String modelName);
 
 }

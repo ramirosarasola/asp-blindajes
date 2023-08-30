@@ -32,4 +32,6 @@ public class VehicleDTO {
     @Length(min = 1, max = 40)
     private String client;
     private String fordKey;
+    private String area;
+    private boolean canBeCheckecOut;
 }

@@ -1,6 +1,7 @@
 package com.example.aspblindajes.service;
 
 import com.example.aspblindajes.converters.VehicleDTOToVehicleConverter;
+import com.example.aspblindajes.converters.VehicleToVehicleDTOConverter;
 import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
 import com.example.aspblindajes.dto.MonthlyProductivityResponse;
 import com.example.aspblindajes.dto.VehicleDTO;
@@ -33,6 +34,7 @@ public class VehicleServiceImpl implements VehicleService{
     private final VehicleDTOToVehicleConverter vehicleDTOToVehicleConverter;
     private final VehicleMovementRepository vehicleMovementRepository;
     private final UserRepository userRepository;
+    private final VehicleToVehicleDTOConverter vehicleToVehicleDTOConverter;
     @Override
     public Vehicle saveVehicle(VehicleDTO vehicleDTO, String userName) throws ResourceAlreadyExistsException {
        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
@@ -174,6 +176,23 @@ public class VehicleServiceImpl implements VehicleService{
             resultados.add(resultado);
         }
         return resultados;
+    }
+
+    @Override
+    public List<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName, String modelName) {
+        List<VehicleDTO> vehicleDTOS = new ArrayList<>();
+        if (purchaseOrder == null && clientName == null && modelName == null && areaName == null) {
+            List<Vehicle> vehicleList = vehicleRepository.findAll();
+            for (Vehicle vehicle : vehicleList) {
+                vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
+            }
+        }else {
+            List<Vehicle> vehicleList = vehicleRepository.getVehiclesByFilters(purchaseOrder, clientName, areaName, modelName);
+            for (Vehicle vehicle : vehicleList) {
+                vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
+            }
+        }
+        return vehicleDTOS;
     }
 
     @Override
