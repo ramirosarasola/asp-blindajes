@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ProblemForModelResponse {
     private String modelo;
     private Long errores;
+    private Double porcentajeError;
 }

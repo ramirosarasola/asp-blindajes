@@ -71,7 +71,7 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup(int mes) throws ResourceNotFoundException {
         List<WorkGroup> workGroupList = workGroupsRepository.findAll();
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
-        Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem();
+        Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
         if(workGroupList.size() > 0){
             for (WorkGroup workGroup : workGroupList) {
                 Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName(), mes);
@@ -118,23 +118,27 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 //    }
 
     @Override
-    public Long countWorkGroupProblemsWithProblem() throws ResourceNotFoundException {
+    public Long countWorkGroupProblemsWithProblem(int mes) throws ResourceNotFoundException {
         if (workGroupProblemRepository.findAll().size() > 0){
-           return workGroupProblemRepository.countWorkGroupProblemsWithProblem();
+           return workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
         }
         throw new ResourceNotFoundException("there are no workGroupProblems");
     }
 
     @Override
-    public List<ProblemForModelResponse> getProblemForModel() {
+    public List<ProblemForModelResponse> getProblemForModel(int mes) {
         List<ProblemForModelResponse> resultados = new ArrayList<>();
-        List<Object[]> resultadosDesdeBaseDeDatos  = workGroupProblemRepository.countProblemsByModel();
+        List<Object[]> resultadosDesdeBaseDeDatos  = workGroupProblemRepository.countProblemsByModel(mes);
 
         for (Object[] fila : resultadosDesdeBaseDeDatos) {
             String modelo = (String) fila[0];
             long errores = (long) fila[1];
-
-            ProblemForModelResponse resultado = new ProblemForModelResponse(modelo, errores);
+            Long problems = workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
+            double porcentaje = 0.0;
+            if (errores != 0 && problems != 0){
+                porcentaje = ((double) errores / problems * 100);
+            }
+            ProblemForModelResponse resultado = new ProblemForModelResponse(modelo, errores, porcentaje);
             resultados.add(resultado);
         }
         return resultados;

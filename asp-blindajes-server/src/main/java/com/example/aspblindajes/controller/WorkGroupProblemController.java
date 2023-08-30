@@ -52,13 +52,13 @@ public class WorkGroupProblemController {
 //    }
 
     @GetMapping("/countWorkGroupWithProblem")
-    ResponseEntity<Long> countWorkGroupWithProblem () throws ResourceNotFoundException{
-        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem());
+    ResponseEntity<Long> countWorkGroupWithProblem (@RequestParam("mes") int mes) throws ResourceNotFoundException{
+        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem(mes));
     }
 
     @GetMapping("/countProblemsForModel")
-    ResponseEntity<List<ProblemForModelResponse>> countProblemsForModel () {
-        return ResponseEntity.ok(workGroupsService.getProblemForModel());
+    ResponseEntity<List<ProblemForModelResponse>> countProblemsForModel (@RequestParam("mes") int mes) {
+        return ResponseEntity.ok(workGroupsService.getProblemForModel(mes));
     }
 
     @GetMapping("/filters")

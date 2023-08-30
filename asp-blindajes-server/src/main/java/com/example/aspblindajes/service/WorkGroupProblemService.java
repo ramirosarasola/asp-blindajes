@@ -27,9 +27,9 @@ public interface WorkGroupProblemService {
 
 //    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup () throws ResourceNotFoundException;
 
-    Long countWorkGroupProblemsWithProblem () throws ResourceNotFoundException;
+    Long countWorkGroupProblemsWithProblem (int mes) throws ResourceNotFoundException;
 
-    List<ProblemForModelResponse> getProblemForModel ();
+    List<ProblemForModelResponse> getProblemForModel (int mes);
 
     List<ResponseWGPFilter> getWorkGroupProblemsByFilter(String chasis, String workGroup,String startDate, String endDate);
 }

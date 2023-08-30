@@ -26,8 +26,11 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             "AND MONTH(vqc.quality_control_date) = :mesParametro")
     Long calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroup, @Param("mesParametro") int mesParametro);
 
-    @Query(value = "SELECT COUNT(wgp) FROM WorkGroupProblem wgp WHERE wgp.hasProblem = true")
-    Long countWorkGroupProblemsWithProblem();
+    @Query(nativeQuery = true, value = "SELECT COUNT(wgp.id) FROM work_group_problem wgp " +
+            "JOIN vehicle_quality_control vqc ON vqc.id = wgp.vehicle_quality_control_id " +
+            "WHERE wgp.has_problem = true " +
+            "AND MONTH(vqc.quality_control_date) = :mesParametro")
+    Long countWorkGroupProblemsWithProblem(@Param("mesParametro") int mesParametro);
 
 //    @Query(value = "SELECT COUNT(wgp.id) FROM WorkGroup wg INNER JOIN WorkGroupProblem wgp ON wg.id = wgp.workGroup.id WHERE wg.name = :groupName")
 //    Long countWorkGroupProblemsForGroupName(@Param("groupName") String groupName);
@@ -38,8 +41,9 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             + "JOIN vehicle v ON vqc.vehicle_id = v.id "
             + "JOIN brand_model bm ON v.brand_model_id = bm.id "
             + "WHERE wp.has_problem = 1 "
+            + "AND MONTH(vqc.quality_control_date) = :mesParametro "
             + "GROUP BY bm.name")
-    List<Object[]> countProblemsByModel();
+    List<Object[]> countProblemsByModel(@Param("mesParametro") int mesParametro);
 
     @Query(nativeQuery = true, value = "SELECT wgp.* FROM work_group_problem wgp " +
             "JOIN vehicle_quality_control vqc ON wgp.vehicle_quality_control_id = vqc.id " +
@@ -51,6 +55,10 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             "AND (:startDate IS NULL OR vqc.quality_control_date >= :startDate) " +
             "AND (:endDate IS NULL OR vqc.quality_control_date <= :endDate)" )
     List<WorkGroupProblem> getWGPByFilters (@Param ("chasis") String chasis,@Param("workGroupName") String workGroup, @Param(value = "startDate") LocalDateTime startDate, @Param(value = "endDate") LocalDateTime endDate);
+
+
+//    @Query(nativeQuery = true, value ="")
+
 
 
 }
