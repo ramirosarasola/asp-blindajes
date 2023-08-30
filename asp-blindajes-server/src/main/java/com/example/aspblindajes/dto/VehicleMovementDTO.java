@@ -14,5 +14,5 @@ public class VehicleMovementDTO {
     private Long id;
     private String movementType;
     private String vehicleChasis;
-    private LocalDateTime dateTime;
+    private String dateTime;
 }

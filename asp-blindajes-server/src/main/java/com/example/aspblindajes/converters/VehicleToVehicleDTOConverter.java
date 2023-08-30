@@ -21,7 +21,12 @@ public class VehicleToVehicleDTOConverter implements Converter<Vehicle, VehicleD
         vehicleDTO.setFordKey(source.getFordKey());
         vehicleDTO.setPurchaseOrder(source.getPurchaseOrder());
         vehicleDTO.setArea(source.getArea().toString());
-        vehicleDTO.setCanBeCheckecOut(source.getQualityControlList().get(source.getQualityControlList().size() - 1).getCanBeCheckedOut());
+        if (source.getQualityControlList().size() > 0){
+            vehicleDTO.setCanBeCheckecOut(source.getQualityControlList().get(source.getQualityControlList().size() - 1).getCanBeCheckedOut());
+        } else {
+            vehicleDTO.setCanBeCheckecOut(false);
+        }
+
 
         return vehicleDTO;
     }

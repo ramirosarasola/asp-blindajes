@@ -9,6 +9,7 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -28,5 +29,11 @@ public class VehicleMovement {
     @ManyToOne
     @JoinColumn (name = "user_id", referencedColumnName = "id")
     private User user;
+
+
+    public String getFormattedDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return dateTime.format(formatter);
+    }
 
 }
