@@ -66,9 +66,13 @@ public class VehicleController {
     }
 
     @GetMapping("filters")
-    public ResponseEntity<List<VehicleDTO>> getVehiclesByFilter (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder, @RequestParam (value = "clientName" , required = false) String clientName,
-    @RequestParam (value = "modelName" , required = false) String modelName, @RequestParam (value = "areaName" , required = false) String areaName){
-        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName));
+    public ResponseEntity<List<VehicleDTO>> getVehiclesByFilter (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder,
+                                                                 @RequestParam (value = "clientName" , required = false) String clientName,
+                                                                 @RequestParam (value = "modelName" , required = false) String modelName,
+                                                                 @RequestParam (value = "areaName" , required = false) String areaName,
+                                                                 @RequestParam (value = "chasis" , required = false) String chasis,
+                                                                 @RequestParam (value = "terminado" , required = false) String terminado){
+        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis, terminado));
     }
 
 
