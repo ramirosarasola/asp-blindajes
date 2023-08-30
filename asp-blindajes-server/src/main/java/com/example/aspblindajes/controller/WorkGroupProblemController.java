@@ -1,6 +1,7 @@
 package com.example.aspblindajes.controller;
 
 import com.example.aspblindajes.dto.ProblemForModelResponse;
+import com.example.aspblindajes.dto.ResponseWGPFilter;
 import com.example.aspblindajes.dto.TotalPercentageQueryResponse;
 import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
 import com.example.aspblindajes.exception.InvalidArgumentException;
@@ -58,5 +59,13 @@ public class WorkGroupProblemController {
     @GetMapping("/countProblemsForModel")
     ResponseEntity<List<ProblemForModelResponse>> countProblemsForModel () {
         return ResponseEntity.ok(workGroupsService.getProblemForModel());
+    }
+
+    @GetMapping("/filters")
+    ResponseEntity<List<ResponseWGPFilter>> getWGPByFilters (@RequestParam (value = "chasis", required = false) String chasis,
+                                                             @RequestParam (value = "workGroupName", required = false) String workGroupName,
+                                                             @RequestParam (value = "startDate", required = false) String startDate,
+                                                             @RequestParam (value = "endDate", required = false) String endDate){
+        return ResponseEntity.ok(workGroupsService.getWorkGroupProblemsByFilter(chasis, workGroupName, startDate, endDate));
     }
 }

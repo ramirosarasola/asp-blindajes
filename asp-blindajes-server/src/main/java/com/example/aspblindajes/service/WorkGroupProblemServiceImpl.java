@@ -1,11 +1,10 @@
 package com.example.aspblindajes.service;
 
-import com.example.aspblindajes.dto.AllMonthlyProductivityResponse;
-import com.example.aspblindajes.dto.ProblemForModelResponse;
-import com.example.aspblindajes.dto.TotalPercentageQueryResponse;
-import com.example.aspblindajes.dto.WorkGroupProblemQueryResponse;
+import com.example.aspblindajes.converters.WorkGroupProblemToResponseWGPFilterConverter;
+import com.example.aspblindajes.dto.*;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.VehicleMovement;
 import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.model.WorkGroupProblem;
 import com.example.aspblindajes.repository.WorkGroupProblemRepository;
@@ -14,6 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 
     private final WorkGroupProblemRepository workGroupProblemRepository;
     private final WorkGroupsRepository workGroupsRepository;
+    private final WorkGroupProblemToResponseWGPFilterConverter wgpFilterConverter;
 
     @Override
     public WorkGroupProblem getWorkGroupProblemById(Long id) throws ResourceNotFoundException {
@@ -137,7 +140,43 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
         return resultados;
     }
 
+    @Override
+    public List<ResponseWGPFilter> getWorkGroupProblemsByFilter(String chasis, String workGroup, String startDate, String endDate) {
 
+        List<ResponseWGPFilter> responseWGPFilters = new ArrayList<>();
+        if (chasis == null && workGroup == null && startDate == null && endDate == null) {
+            List<WorkGroupProblem> workGroupProblemList = workGroupProblemRepository.findAll();
+            for (WorkGroupProblem workGroupProblem : workGroupProblemList) {
+                responseWGPFilters.add(wgpFilterConverter.convert(workGroupProblem));
+            }
+        }else {
+            List<WorkGroupProblem> workGroupProblemList = workGroupProblemRepository.getWGPByFilters(chasis, workGroup, dateStartConverter(startDate), dateEndConverter(endDate));
+            for (WorkGroupProblem workGroupProblem : workGroupProblemList) {
+                responseWGPFilters.add(wgpFilterConverter.convert(workGroupProblem));
+            }
+        }
+        return responseWGPFilters;
+
+
+    }
+
+    private LocalDateTime dateStartConverter(String date) {
+        if (date != null && !date.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter).atStartOfDay();
+        } else {
+            return null;
+        }
+    }
+
+    private LocalDateTime dateEndConverter(String date) {
+        if (date != null && !date.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter).atTime(23, 59);
+        } else {
+            return null;
+        }
+    }
 
 
 }

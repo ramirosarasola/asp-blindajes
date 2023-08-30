@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProblem, Long> {
@@ -39,5 +40,17 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             + "WHERE wp.has_problem = 1 "
             + "GROUP BY bm.name")
     List<Object[]> countProblemsByModel();
+
+    @Query(nativeQuery = true, value = "SELECT wgp.* FROM work_group_problem wgp " +
+            "JOIN vehicle_quality_control vqc ON wgp.vehicle_quality_control_id = vqc.id " +
+            "JOIN vehicle v ON vqc.vehicle_id = v.id " +
+            "JOIN work_group wg ON wgp.work_groups_id = wg.id " +
+            "WHERE (:chasis IS NULL OR v.chasis = :chasis) " +
+            "AND wgp.has_problem = 1 " +
+            "AND (:workGroupName IS NULL OR wg.name = :workGroupName) " +
+            "AND (:startDate IS NULL OR vqc.quality_control_date >= :startDate) " +
+            "AND (:endDate IS NULL OR vqc.quality_control_date <= :endDate)" )
+    List<WorkGroupProblem> getWGPByFilters (@Param ("chasis") String chasis,@Param("workGroupName") String workGroup, @Param(value = "startDate") LocalDateTime startDate, @Param(value = "endDate") LocalDateTime endDate);
+
 
 }
