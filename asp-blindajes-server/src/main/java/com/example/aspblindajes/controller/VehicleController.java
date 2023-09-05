@@ -70,9 +70,8 @@ public class VehicleController {
                                                                  @RequestParam (value = "clientName" , required = false) String clientName,
                                                                  @RequestParam (value = "modelName" , required = false) String modelName,
                                                                  @RequestParam (value = "areaName" , required = false) String areaName,
-                                                                 @RequestParam (value = "chasis" , required = false) String chasis,
-                                                                 @RequestParam (value = "terminado" , required = false) String terminado){
-        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis, terminado));
+                                                                 @RequestParam (value = "chasis" , required = false) String chasis){
+        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis));
     }
 
 
