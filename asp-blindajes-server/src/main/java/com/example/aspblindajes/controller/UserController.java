@@ -32,4 +32,10 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(user));
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> deleteUserById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
+        userService.deleteUserById(id);
+        return ResponseEntity.ok("The user with id " + id + " has been deleted");
+    }
+
 }

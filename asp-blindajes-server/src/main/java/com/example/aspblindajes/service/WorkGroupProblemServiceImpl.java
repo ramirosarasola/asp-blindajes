@@ -56,6 +56,16 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
         throw new InvalidArgumentException("The provided id does not match with any workGroup registered in the dataBase");
     }
 
+    public void deleteWGPById (Long id) throws ResourceNotFoundException{
+        Optional<WorkGroupProblem> optionalWGP = workGroupProblemRepository.findById(id);
+        if (optionalWGP.isEmpty()){
+            log.error("Fail to delete work group problem: There are no workGroupsProblems with the provided id");
+            throw new ResourceNotFoundException("There are no workGroupsProblem with the provided id");
+        }
+        log.info("Work group problem deleted successfully");
+        workGroupProblemRepository.deleteById(id);
+    };
+
     @Override
     public TotalPercentageQueryResponse getPercentageOfProblems() throws ResourceNotFoundException {
         TotalPercentageQueryResponse totalPercentageQueryResponse = new TotalPercentageQueryResponse();

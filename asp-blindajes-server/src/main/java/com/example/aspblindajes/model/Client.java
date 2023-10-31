@@ -18,6 +18,6 @@ public class Client {
     private Long id;
     private String name;
     @JsonIgnore
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicleList = new ArrayList<>();
 }

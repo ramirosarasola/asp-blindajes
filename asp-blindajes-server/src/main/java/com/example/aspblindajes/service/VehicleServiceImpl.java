@@ -72,12 +72,14 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public void deleteVehicleByChasis(String chasis) throws ResourceNotFoundException {
-        if(vehicleRepository.findVehicleByChasis(chasis) == null){
+        if(vehicleRepository.findVehicleByChasis(chasis) != null){
+            vehicleRepository.deleteVehicleByChasis(chasis);
+            log.info("Vehicle deleted successfully CHASIS: " + chasis);
+
+        } else {
             log.error("Fail to delete vehicle: There is no vehicle with the provided ID (chasis) ");
             throw new ResourceNotFoundException("There is no vehicle with the provided ID (chasis)");
         }
-        log.info("Vehicle deleted successfully CHASIS: " + chasis);
-        vehicleRepository.deleteVehicleByChasis(chasis);
     }
 
     @Override

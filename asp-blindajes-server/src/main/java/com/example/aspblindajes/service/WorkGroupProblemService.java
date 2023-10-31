@@ -21,6 +21,8 @@ public interface WorkGroupProblemService {
 
     WorkGroupProblem updateWorkGroupProblem (WorkGroupProblem workGroupProblem) throws InvalidArgumentException;
 
+    void deleteWGPById (Long id) throws ResourceNotFoundException;
+
     TotalPercentageQueryResponse getPercentageOfProblems () throws ResourceNotFoundException;
 
     List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup (int mes) throws ResourceNotFoundException;

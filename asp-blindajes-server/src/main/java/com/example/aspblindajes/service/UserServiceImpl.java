@@ -3,6 +3,7 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.User;
+import com.example.aspblindajes.model.VehicleMovement;
 import com.example.aspblindajes.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,16 @@ public class UserServiceImpl implements UserService {
         }else {
             log.error("Error finding user by ID: There is no user with the provided ID");
             throw new ResourceNotFoundException("The user cannot be found by the provided ID");
+        }
+    }
+
+    @Override
+    public void deleteUserById(Long id) throws ResourceNotFoundException {
+        Optional<User> userOptional = userRepository.findById(id);
+        userOptional.ifPresent(userRepository::delete);
+        if (userOptional.isEmpty()){
+            log.error("Failed to delete User: The user could not be found by the id provided");
+            throw new ResourceNotFoundException("The user doesn't exists");
         }
     }
 

@@ -37,6 +37,12 @@ public class WorkGroupProblemController {
         return ResponseEntity.ok(workGroupsService.updateWorkGroupProblem(workGroupProblem));
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> deleteWGPById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
+        workGroupsService.deleteWGPById(id);
+        return ResponseEntity.ok("Work Group deleted successfully");
+    }
+
     @GetMapping("/totalPercentage")
     ResponseEntity<TotalPercentageQueryResponse> getPercentage () throws ResourceNotFoundException {
         return ResponseEntity.ok(workGroupsService.getPercentageOfProblems());

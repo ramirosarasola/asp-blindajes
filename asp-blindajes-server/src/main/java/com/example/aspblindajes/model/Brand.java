@@ -27,7 +27,7 @@ public class Brand {
 
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand" , cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicleList = new ArrayList<>();
 
 }

@@ -30,4 +30,10 @@ public class ClientController {
     public ResponseEntity<List<Client>> findAllClients() throws ResourceNotFoundException {
         return ResponseEntity.ok(clientService.findAllClients());
     }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteClientById (@RequestParam(value = "id") Long id)throws ResourceNotFoundException{
+        clientService.deleteClientById(id);
+        return ResponseEntity.ok("The client with id " + id + " has been deleted");
+    }
 }
