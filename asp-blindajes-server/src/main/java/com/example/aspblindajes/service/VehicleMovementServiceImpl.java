@@ -82,7 +82,13 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     @Override
     public void deleteVehicleMovementById(Long id) throws ResourceNotFoundException {
         Optional<VehicleMovement> vehicleMovementOptional = vehicleMovementRepository.findById(id);
-        vehicleMovementOptional.ifPresent(vehicleMovementRepository::delete);
+
+        if (vehicleMovementOptional.isPresent()){
+            vehicleMovementRepository.deleteById(id);
+            movementTypeDeleteHandler(vehicleMovementOptional.get().getMovementType(), vehicleMovementOptional.get().getVehicle().getChasis());
+            log.info("VehicleMovement Deleted, Vehicle area updated succesfully");
+
+        }
         if (vehicleMovementOptional.isEmpty()){
             log.error("Failed to delete vehicle movement: The vehicle movement could not be found by the id provided");
             throw new ResourceNotFoundException("The vehicle movement doesn't exists");
@@ -151,6 +157,20 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
        vehicleService.updateVehicleAreaByMovementType(areaToSet, chasis);
        return movementType;
     }
+
+    private void movementTypeDeleteHandler (MovementType mt, String chasis) throws ResourceNotFoundException{
+        Area area = null;
+        switch (mt) {
+            case LOGISITIC_CHECKOUT_TO_PRODUCTION, LOGISTIC_CHECKOUT_TO_CLIENT -> {
+                area = Area.LOGISTIC;
+            }
+            case PRODUCTION_CHECKOUT_TO_LOGISTIC -> {
+                area = Area.PRODUCTION;
+            }
+        }
+            vehicleService.updateVehicleAreaByMovementType(area, chasis);
+    }
+
 
 
     private LocalDateTime dateStartConverter(String date) {
