@@ -25,6 +25,6 @@ public class BrandModel {
     private Brand brand;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "brandModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brandModel", cascade = CascadeType.ALL)
     private List<Vehicle> vehicleList = new ArrayList<>();
 }

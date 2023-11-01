@@ -22,12 +22,12 @@ public class Brand {
 
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     private List<BrandModel> brandModelList = new ArrayList<>();
 
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "brand" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand" , cascade = CascadeType.ALL)
     private List<Vehicle> vehicleList = new ArrayList<>();
 
 }

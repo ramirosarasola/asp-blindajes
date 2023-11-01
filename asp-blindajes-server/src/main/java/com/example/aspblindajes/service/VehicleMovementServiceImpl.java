@@ -83,15 +83,15 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     public void deleteVehicleMovementById(Long id) throws ResourceNotFoundException {
         Optional<VehicleMovement> vehicleMovementOptional = vehicleMovementRepository.findById(id);
 
-        if (vehicleMovementOptional.isPresent()){
+        if (vehicleMovementOptional.isPresent() && !vehicleMovementOptional.get().getMovementType().equals(MovementType.LOGISTIC_CHECKIN)){
             vehicleMovementRepository.deleteById(id);
             movementTypeDeleteHandler(vehicleMovementOptional.get().getMovementType(), vehicleMovementOptional.get().getVehicle().getChasis());
             log.info("VehicleMovement Deleted, Vehicle area updated succesfully");
 
         }
         if (vehicleMovementOptional.isEmpty()){
-            log.error("Failed to delete vehicle movement: The vehicle movement could not be found by the id provided");
-            throw new ResourceNotFoundException("The vehicle movement doesn't exists");
+            log.error("Failed to delete vehicle movement: The vehicle movement could not be found by the id provided or you are trying to delete a checkin movement");
+            throw new ResourceNotFoundException("The vehicle movement doesn't exists or you are trying to delete a checkin movement");
         }
 
     }
@@ -167,6 +167,7 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
             case PRODUCTION_CHECKOUT_TO_LOGISTIC -> {
                 area = Area.PRODUCTION;
             }
+
         }
             vehicleService.updateVehicleAreaByMovementType(area, chasis);
     }
