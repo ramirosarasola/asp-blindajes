@@ -5,6 +5,7 @@ import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.service.BrandService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,14 @@ public class BrandController {
         return ResponseEntity.ok(brandService.findAllBrands());
     }
 
-    @PutMapping
-    public ResponseEntity<Brand> updateBrand(@RequestBody BrandDTO brandDTO) throws ResourceNotFoundException{
-        return ResponseEntity.ok(brandService.updateBrand(brandDTO));
-    }
-
     @GetMapping
     public ResponseEntity<Brand> findBrandById(@RequestParam(value = "id") Long id ) throws ResourceNotFoundException{
         return ResponseEntity.ok(brandService.findBrandById(id));
+    }
+
+    @GetMapping("/visible")
+    ResponseEntity<List<Brand>> listBrandsHiddenFalse () throws ResourceNotFoundException {
+        return ResponseEntity.ok(brandService.listBrandsHiddenFalse());
     }
 
     @DeleteMapping
@@ -45,5 +46,17 @@ public class BrandController {
         brandService.deleteBrandById(id);
         return ResponseEntity.ok("Brand deleted successfully");
     }
+
+    @PutMapping("/hide")
+    ResponseEntity<Brand> setHiddenBrand(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(brandService.brandSetHidden(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<Brand> updateBrand(@RequestBody BrandDTO brandDTO) throws ResourceNotFoundException{
+        return ResponseEntity.ok(brandService.updateBrand(brandDTO));
+    }
+
+
 
 }

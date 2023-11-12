@@ -34,15 +34,24 @@ public class BrandModelController {
         return ResponseEntity.ok(brandModelService.listBrandModels());
     }
 
-    @PutMapping
-    public ResponseEntity<Map<String, String>> updateBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
-        brandModelService.updateBrandModel(brandModelDTO);
-        return ResponseEntity.ok(Collections.singletonMap("message","Model updated successfully"));
+    @GetMapping("/visible")
+    ResponseEntity<List<BrandModel>> listBrandModelsHiddenFalse () throws ResourceNotFoundException {
+        return ResponseEntity.ok(brandModelService.listBrandModelsHiddenFalse());
     }
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteBrandModel(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
         brandModelService.deleteBrandModelById(id);
         return ResponseEntity.ok(Collections.singletonMap("message", "Model deleted Successfully"));
+    }
+    @PutMapping("/hide")
+    ResponseEntity<BrandModel> setHiddenBrandModel(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(brandModelService.modelSetHidden(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<Map<String, String>> updateBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
+        brandModelService.updateBrandModel(brandModelDTO);
+        return ResponseEntity.ok(Collections.singletonMap("message","Model updated successfully"));
     }
 }

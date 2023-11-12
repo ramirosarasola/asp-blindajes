@@ -32,17 +32,6 @@ public class WorkGroupProblemController {
         return ResponseEntity.ok(workGroupsService.getWorkGroupProblemById(id));
     }
 
-    @PutMapping
-    public ResponseEntity<WorkGroupProblem> updateWorkGroups (@RequestBody WorkGroupProblem workGroupProblem) throws InvalidArgumentException {
-        return ResponseEntity.ok(workGroupsService.updateWorkGroupProblem(workGroupProblem));
-    }
-
-    @DeleteMapping
-    public ResponseEntity<String> deleteWGPById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
-        workGroupsService.deleteWGPById(id);
-        return ResponseEntity.ok("Work Group deleted successfully");
-    }
-
     @GetMapping("/totalPercentage")
     ResponseEntity<TotalPercentageQueryResponse> getPercentage () throws ResourceNotFoundException {
         return ResponseEntity.ok(workGroupsService.getPercentageOfProblems());
@@ -51,15 +40,6 @@ public class WorkGroupProblemController {
     @GetMapping("/percentageForWorkGroup")
     ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageForWorkGroup (@RequestParam("mes") int mes) throws ResourceNotFoundException {
         return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsForWorkGroup(mes));
-    }
-//    @GetMapping("/percentageInsideWorkGroup")
-//    ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageInsideWorkGroup () throws ResourceNotFoundException {
-//        return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsInsideWorkGroup());
-//    }
-
-    @GetMapping("/countWorkGroupWithProblem")
-    ResponseEntity<Long> countWorkGroupWithProblem (@RequestParam("mes") int mes) throws ResourceNotFoundException{
-        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem(mes));
     }
 
     @GetMapping("/countProblemsForModel")
@@ -74,4 +54,24 @@ public class WorkGroupProblemController {
                                                              @RequestParam (value = "endDate", required = false) String endDate){
         return ResponseEntity.ok(workGroupsService.getWorkGroupProblemsByFilter(chasis, workGroupName, startDate, endDate));
     }
+
+    @GetMapping("/countWorkGroupWithProblem")
+    ResponseEntity<Long> countWorkGroupWithProblem (@RequestParam("mes") int mes) throws ResourceNotFoundException{
+        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem(mes));
+    }
+
+    @PutMapping
+    public ResponseEntity<WorkGroupProblem> updateWorkGroups (@RequestBody WorkGroupProblem workGroupProblem) throws InvalidArgumentException {
+        return ResponseEntity.ok(workGroupsService.updateWorkGroupProblem(workGroupProblem));
+    }
+    @DeleteMapping
+    public ResponseEntity<String> deleteWGPById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
+        workGroupsService.deleteWGPById(id);
+        return ResponseEntity.ok("Work Group deleted successfully");
+    }
+    //    @GetMapping("/percentageInsideWorkGroup")
+//    ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageInsideWorkGroup () throws ResourceNotFoundException {
+
+//        return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsInsideWorkGroup());
+//    }
 }

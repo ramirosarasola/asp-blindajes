@@ -16,6 +16,7 @@ public class WorkGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Boolean hidden = false;
     @JsonIgnore
     @OneToMany (mappedBy = "workGroup" , cascade = CascadeType.ALL)
     private List<WorkGroupProblem> workGroupProblemList = new ArrayList<>();

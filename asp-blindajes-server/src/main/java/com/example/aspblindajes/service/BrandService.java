@@ -4,6 +4,7 @@ import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.BrandModel;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface BrandService {
     List<Brand> findAllBrands() throws ResourceNotFoundException;
     Brand updateBrand(BrandDTO brandDTO) throws ResourceNotFoundException;
     Brand findBrandByName (String name) throws ResourceNotFoundException;
+
+    Brand brandSetHidden (Long id) throws ResourceNotFoundException;
+
+    List<Brand> listBrandsHiddenFalse () throws ResourceNotFoundException;
 }

@@ -35,17 +35,6 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.findVehicleById(id));
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
-        vehicleService.deleteVehicleByChasis(chasis);
-        return ResponseEntity.ok("The vehicle with chasis number " + chasis + " has been deleted");
-    }
-
-    @PutMapping
-    public ResponseEntity<Vehicle> updateVehicle (@RequestBody VehicleDTO vehicleDTO) throws ResourceNotFoundException {
-        return ResponseEntity.ok(vehicleService.updateVehicle(vehicleDTO));
-    }
-
     @GetMapping("/getVehiclesPerArea")
     public ResponseEntity<List<VehiclesPerAreaQueryResponse>> getVehiclesPerArea () {
         return ResponseEntity.ok(vehicleService.getAmoutOfVehiclesPerArea());
@@ -55,6 +44,7 @@ public class VehicleController {
     public ResponseEntity<MonthlyProductivityResponse> getMonthlyProductivity (){
         return ResponseEntity.ok(vehicleService.monthlyProductivity());
     }
+
     @GetMapping("/weeklyProductivity")
     public ResponseEntity<MonthlyProductivityResponse> getWeeklyProductivity (){
         return ResponseEntity.ok(vehicleService.weeklyProductivity());
@@ -64,7 +54,6 @@ public class VehicleController {
     public ResponseEntity<List<AllMonthlyProductivityResponse>> getAllMonthlyProductivity (@RequestParam (value = "year") int year){
         return ResponseEntity.ok(vehicleService.allMonthlyProductivity(year));
     }
-
     @GetMapping("filters")
     public ResponseEntity<List<VehicleDTO>> getVehiclesByFilter (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder,
                                                                  @RequestParam (value = "clientName" , required = false) String clientName,
@@ -72,6 +61,17 @@ public class VehicleController {
                                                                  @RequestParam (value = "areaName" , required = false) String areaName,
                                                                  @RequestParam (value = "chasis" , required = false) String chasis){
         return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
+        vehicleService.deleteVehicleByChasis(chasis);
+        return ResponseEntity.ok("The vehicle with chasis number " + chasis + " has been deleted");
+    }
+
+    @PutMapping
+    public ResponseEntity<Vehicle> updateVehicle (@RequestBody VehicleDTO vehicleDTO) throws ResourceNotFoundException {
+        return ResponseEntity.ok(vehicleService.updateVehicle(vehicleDTO));
     }
 
 

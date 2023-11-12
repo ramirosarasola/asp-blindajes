@@ -4,7 +4,9 @@ import com.example.aspblindajes.dto.ClientDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.Client;
+import com.example.aspblindajes.model.WorkGroup;
 
 import java.util.List;
 
@@ -15,4 +17,7 @@ public interface ClientService {
     Client findClientById(Long id) throws ResourceNotFoundException;
     Client findClientByName(String name) throws ResourceNotFoundException;
     List<Client> findAllClients() throws ResourceNotFoundException;
+    Client clientSetHidden (Long id) throws ResourceNotFoundException;
+    List<Client> listClientHiddenFalse () throws ResourceNotFoundException;
+
 }

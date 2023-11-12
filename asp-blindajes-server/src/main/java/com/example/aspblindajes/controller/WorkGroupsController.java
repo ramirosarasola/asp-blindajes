@@ -2,6 +2,8 @@ package com.example.aspblindajes.controller;
 import com.example.aspblindajes.dto.WorkGroupDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.Client;
 import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.service.WorkGroupsService;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,11 @@ public class WorkGroupsController {
          return ResponseEntity.ok(workGroupsService.findWorkGroupsByName(name));
      }
 
+    @GetMapping("/visible")
+    ResponseEntity<List<WorkGroup>> listWGHiddenFalse () throws ResourceNotFoundException {
+        return ResponseEntity.ok(workGroupsService.listWGHiddenFalse());
+    }
+
 
     @DeleteMapping
     public ResponseEntity<String> deleteWorkGroupById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
@@ -41,6 +48,11 @@ public class WorkGroupsController {
     @PutMapping
     public ResponseEntity<WorkGroup> updateWorkGroups (@RequestBody WorkGroup workGroup) throws ResourceNotFoundException {
          return ResponseEntity.ok(workGroupsService.updateWorkGroups(workGroup));
+    }
+
+    @PutMapping("/hide")
+    ResponseEntity<WorkGroup> setHiddenWG(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(workGroupsService.wgSetHidden(id));
     }
 
 

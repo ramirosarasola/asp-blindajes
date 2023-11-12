@@ -5,7 +5,9 @@ import com.example.aspblindajes.dto.ClientDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.Client;
+import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +89,31 @@ public class ClientServiceImpl implements ClientService {
             throw new ResourceNotFoundException("There are no clients");
         }
         log.info("All clients founded successfully");
+        return clientList;
+    }
+
+    @Override
+    public Client clientSetHidden(Long id) throws ResourceNotFoundException {
+        Optional<Client> clientO = clientRepository.findById(id);
+        if(clientO.isPresent()){
+            Client client = clientO.get();
+            client.setHidden(!client.getHidden());
+            clientRepository.save(client);
+            log.info("Hidden field changed");
+            return client;
+        }
+        log.error("Client could not be found by name");
+        throw new ResourceNotFoundException("Client not found");
+    }
+
+    @Override
+    public List<Client> listClientHiddenFalse() throws ResourceNotFoundException {
+        List<Client> clientList = clientRepository.findAllClientHiddenFalse();
+        if(clientList.isEmpty()){
+            log.error("There are no unhidden clients");
+            throw new ResourceNotFoundException("There are no unhidden clients");
+        }
+        log.info("All unhidden clients found successfully");
         return clientList;
     }
 }

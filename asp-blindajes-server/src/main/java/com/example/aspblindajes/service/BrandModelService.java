@@ -3,6 +3,7 @@ package com.example.aspblindajes.service;
 import com.example.aspblindajes.dto.BrandModelDTO;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.BrandModel;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface BrandModelService {
     BrandModel updateBrandModel(BrandModelDTO brandModelDTO) throws ResourceNotFoundException;
     List<BrandModel> listBrandModels() throws ResourceNotFoundException;
     BrandModel findBrandModelByName(String name) throws ResourceNotFoundException;
+
+    BrandModel modelSetHidden (Long id) throws ResourceNotFoundException;
+
+    List<BrandModel> listBrandModelsHiddenFalse () throws ResourceNotFoundException;
 }

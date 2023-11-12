@@ -6,11 +6,13 @@ import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -80,5 +82,30 @@ public class BrandServiceImpl implements BrandService {
                     log.error("Failed to find brand: Brand not found");
                     return new ResourceNotFoundException("The brand doesn't exist.");
                 });
+    }
+
+    @Override
+    public Brand brandSetHidden(Long id) throws ResourceNotFoundException {
+        Optional<Brand> brandO = brandRepository.findById(id);
+        if(brandO.isPresent()){
+            Brand brand = brandO.get();
+            brand.setHidden(!brand.getHidden());
+            brandRepository.save(brand);
+            log.info("Hidden field changed");
+            return brand;
+        }
+        log.error("Brand could not be found by name");
+        throw new ResourceNotFoundException("Brand not found");
+    }
+
+    @Override
+    public List<Brand> listBrandsHiddenFalse() throws ResourceNotFoundException {
+        List<Brand> brandList = brandRepository.findAllBrandHiddenFalse();
+        if(brandList.isEmpty()){
+            log.error("There are no unhidden brands");
+            throw new ResourceNotFoundException("There are no unhidden brands");
+        }
+        log.info("All unhidden brands found successfully");
+        return brandList;
     }
 }

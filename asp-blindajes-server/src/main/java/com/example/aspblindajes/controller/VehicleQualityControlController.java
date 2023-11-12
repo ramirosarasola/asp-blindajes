@@ -35,20 +35,20 @@ public class VehicleQualityControlController {
         return ResponseEntity.ok(vehicleQualityControlService.findVehicleQualityControlById(id));
     }
 
+
+    @GetMapping("/vehicleId")
+    public ResponseEntity<List<VehicleQualityControl>> findVehicleQualityControlByVehicleId(@RequestParam(value = "id") String id) throws ResourceNotFoundException{
+        return ResponseEntity.ok(vehicleQualityControlService.findVehicleQualityControlByVehicleId(id));
+    }
+
     @DeleteMapping
     public ResponseEntity<String> deleteVehicleQualityControlById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
         vehicleQualityControlService.deleteVehicleQualityControlById(id);
         return ResponseEntity.ok("Vehicle quality control deleted successfully");
     }
 
-
     @PutMapping
     public ResponseEntity<VehicleQualityControl> updateVehicleQualityControl (@RequestBody VehicleQualityControlDTO vehicleQualityControlDTO) throws ResourceNotFoundException{
         return ResponseEntity.ok(vehicleQualityControlService.updateVehicleQualityControl(vehicleQualityControlDTO));
-    }
-
-    @GetMapping("/vehicleId")
-    public ResponseEntity<List<VehicleQualityControl>> findVehicleQualityControlByVehicleId(@RequestParam(value = "id") String id) throws ResourceNotFoundException{
-        return ResponseEntity.ok(vehicleQualityControlService.findVehicleQualityControlByVehicleId(id));
     }
 }

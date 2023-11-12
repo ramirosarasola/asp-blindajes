@@ -19,7 +19,7 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
+    private Boolean hidden = false;
     @ToString.Exclude
     @JsonIgnore
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)

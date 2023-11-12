@@ -27,15 +27,15 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<User> updateUserById(@RequestBody User user) throws ResourceNotFoundException{
-        return ResponseEntity.ok(userService.updateUser(user));
-    }
-
     @DeleteMapping
     public ResponseEntity<String> deleteUserById(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
         userService.deleteUserById(id);
         return ResponseEntity.ok("The user with id " + id + " has been deleted");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<User> updateUserById(@RequestBody User user) throws ResourceNotFoundException{
+        return ResponseEntity.ok(userService.updateUser(user));
     }
 
 }

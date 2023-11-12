@@ -34,12 +34,6 @@ public class VehicleMovementController {
         return ResponseEntity.ok(vehicleMovementService.findAllVehicleMovements());
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteVehicleMovementById(Long id) throws ResourceNotFoundException {
-        vehicleMovementService.deleteVehicleMovementById(id);
-        return ResponseEntity.ok("The vehicle movement has been deleted succesfully");
-    }
-
     @GetMapping("/chasis")
     public ResponseEntity<List<VehicleMovementDTO>> findVehicleMovementsByChasis (String chasis) throws ResourceNotFoundException {
         return ResponseEntity.ok(vehicleMovementService.findVehicleMovementsByChasis(chasis));
@@ -49,7 +43,14 @@ public class VehicleMovementController {
     public ResponseEntity<List<VehicleMovementDTO>> getMovementsByFilter (@RequestParam (value = "mtName", required = false) String mtName,
                                                                           @RequestParam (value = "vehicleId", required = false) String vehicleId,
                                                                           @RequestParam (value = "startDate", required = false) String startDate,
+                                                                          @RequestParam (value = "userId", required = false) Long userId,
                                                                           @RequestParam (value = "endDate", required = false) String endDate){
-        return ResponseEntity.ok(vehicleMovementService.getMovementsByFilter(mtName, vehicleId, startDate, endDate));
+        return ResponseEntity.ok(vehicleMovementService.getMovementsByFilter(mtName, vehicleId, startDate, userId, endDate));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteVehicleMovementById(Long id) throws ResourceNotFoundException {
+        vehicleMovementService.deleteVehicleMovementById(id);
+        return ResponseEntity.ok("The vehicle movement has been deleted succesfully");
     }
 }

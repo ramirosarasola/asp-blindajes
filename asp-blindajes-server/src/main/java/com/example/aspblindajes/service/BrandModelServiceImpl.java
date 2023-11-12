@@ -82,4 +82,28 @@ public class BrandModelServiceImpl implements BrandModelService{
         throw new ResourceNotFoundException("Model not found");
     }
 
+    public BrandModel modelSetHidden(Long id) throws ResourceNotFoundException{
+        Optional<BrandModel> brandModelO = brandModelRepository.findById(id);
+        if(brandModelO.isPresent()){
+            BrandModel brandModel = brandModelO.get();
+            brandModel.setHidden(!brandModel.getHidden());
+            brandModelRepository.save(brandModel);
+            log.info("Hidden field changed");
+            return brandModel;
+        }
+        log.error("Model could not be found by name");
+        throw new ResourceNotFoundException("Model not found");
+    }
+
+    @Override
+    public List<BrandModel> listBrandModelsHiddenFalse() throws ResourceNotFoundException {
+        List<BrandModel> brandModelList = brandModelRepository.findAllBrandModelHiddenFalse();
+        if(brandModelList.isEmpty()){
+            log.error("There are no unhidden models");
+            throw new ResourceNotFoundException("There are no unhidden models");
+        }
+        log.info("All unhidden models found successfully");
+        return brandModelList;
+    }
+
 }

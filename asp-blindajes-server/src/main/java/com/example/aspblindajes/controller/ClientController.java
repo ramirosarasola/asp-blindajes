@@ -5,7 +5,9 @@ import com.example.aspblindajes.dto.ClientDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.Client;
+import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +32,19 @@ public class ClientController {
     public ResponseEntity<List<Client>> findAllClients() throws ResourceNotFoundException {
         return ResponseEntity.ok(clientService.findAllClients());
     }
+    @GetMapping("/visible")
+    ResponseEntity<List<Client>> listClientHiddenFalse () throws ResourceNotFoundException {
+        return ResponseEntity.ok(clientService.listClientHiddenFalse());
+    }
 
     @DeleteMapping
     public ResponseEntity<String> deleteClientById (@RequestParam(value = "id") Long id)throws ResourceNotFoundException{
         clientService.deleteClientById(id);
         return ResponseEntity.ok("The client with id " + id + " has been deleted");
+    }
+
+    @PutMapping("/hide")
+    ResponseEntity<Client> setHiddenClient(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(clientService.clientSetHidden(id));
     }
 }

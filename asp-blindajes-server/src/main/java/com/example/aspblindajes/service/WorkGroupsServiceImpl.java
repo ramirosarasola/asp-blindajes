@@ -4,6 +4,8 @@ import com.example.aspblindajes.converters.WorkGroupDTOToWorkGroup;
 import com.example.aspblindajes.dto.WorkGroupDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
+import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.Client;
 import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.repository.WorkGroupsRepository;
 import lombok.AllArgsConstructor;
@@ -52,7 +54,7 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
         Optional<WorkGroup> optionalWorkGroups = workGroupsRepository.findById(workGroup.getId());
         if (optionalWorkGroups.isPresent()){
             log.info("Work Group updated successfully");
-            workGroupsRepository.save(workGroup);
+            return workGroupsRepository.save(workGroup);
         }
         log.error("Fail to update Work Group: The workGroup you are trying to update doesn't exist");
         throw new ResourceNotFoundException("The workGroup you are trying to update doesn't exist");
@@ -79,5 +81,30 @@ public class WorkGroupsServiceImpl implements WorkGroupsService{
 
         log.info("Work Group found by name successfully");
         return workGroup;
+    }
+
+    @Override
+    public WorkGroup wgSetHidden(Long id) throws ResourceNotFoundException {
+        Optional<WorkGroup> wgO = workGroupsRepository.findById(id);
+        if(wgO.isPresent()){
+            WorkGroup wg = wgO.get();
+            wg.setHidden(!wg.getHidden());
+            workGroupsRepository.save(wg);
+            log.info("Hidden field changed");
+            return wg;
+        }
+        log.error("WorkGroup could not be found by name");
+        throw new ResourceNotFoundException("WorkGroup not found");
+    }
+
+    @Override
+    public List<WorkGroup> listWGHiddenFalse() throws ResourceNotFoundException {
+        List<WorkGroup> wgList = workGroupsRepository.findAllWGHiddenFalse();
+        if(wgList.isEmpty()){
+            log.error("There are no unhidden workGroups");
+            throw new ResourceNotFoundException("There are no unhidden WorkGroups");
+        }
+        log.info("All unhidden WorkGroups found successfully");
+        return wgList;
     }
 }
