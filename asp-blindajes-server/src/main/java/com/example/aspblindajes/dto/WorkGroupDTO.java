@@ -14,4 +14,5 @@ public class WorkGroupDTO {
     @NotEmpty
     @Length(min = 1, max = 30)
     private String name;
+    private String examples;
 }

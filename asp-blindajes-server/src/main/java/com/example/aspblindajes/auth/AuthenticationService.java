@@ -24,6 +24,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request){
         User user = User.builder()
                 .name(request.getName())
+                .isEnabled(true)
                 .lastname(request.getLastName())
                 .username(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

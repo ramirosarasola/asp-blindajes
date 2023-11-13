@@ -7,6 +7,7 @@ import com.example.aspblindajes.model.VehicleMovement;
 import com.example.aspblindajes.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,5 +59,19 @@ public class UserServiceImpl implements UserService {
         User userToUpdate = userRepository.save(user);
         log.info("User updates successfully");
         return userToUpdate;
+    }
+
+    @Override
+    public void disableUser(Long id) throws ResourceNotFoundException {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setEnabled(!user.isEnabled());
+            userRepository.save(user);
+            log.info("Enabled for user has been modified correctly");
+        } else {
+            log.error("Fail to update User: User not found");
+            throw new ResourceNotFoundException("there are no users with the provided id");
+        }
     }
 }

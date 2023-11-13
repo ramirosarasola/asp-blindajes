@@ -40,12 +40,7 @@ public class VehicleServiceImpl implements VehicleService{
        Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
        vehicle.setId(generateId(vehicleDTO.getChasis()));
 
-       if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty() && vehicle != null){
-
-           if(Objects.equals(vehicleDTO.getBrandName(), "Ford") && vehicleDTO.getFordKey().isEmpty()){
-               log.error("Fail to save vehicle: Ford's vehicles must have their unique key");
-               throw new ResourceAlreadyExistsException("Ford's vehicles must have their unique key"); //todo -> change exception
-           }
+       if(vehicleRepository.findById(vehicleDTO.getChasis()).isEmpty()){
            VehicleMovement vehicleMovement = new VehicleMovement();
            vehicleMovement.setUser(userRepository.findUserByUsername(userName).get());
            vehicleMovement.setVehicle(vehicle);
@@ -132,15 +127,19 @@ public class VehicleServiceImpl implements VehicleService{
         VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse = new VehiclesPerAreaQueryResponse();
         VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse1 = new VehiclesPerAreaQueryResponse();
         VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse2 = new VehiclesPerAreaQueryResponse();
+        VehiclesPerAreaQueryResponse vehiclesPerAreaQueryResponse3 = new VehiclesPerAreaQueryResponse();
        vehiclesPerAreaQueryResponse.setName("Logistica sin control de calidad");
-       vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutFalse());
-        vehiclesPerAreaQueryResponse1.setName("Produccion");
-        vehiclesPerAreaQueryResponse1.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionArea());
+       vehiclesPerAreaQueryResponse.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithoutQC());
+        vehiclesPerAreaQueryResponse1.setName("Produccion con control de calidad");
+        vehiclesPerAreaQueryResponse1.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionAreaWithCanBeCheckedOutTrue());
         vehiclesPerAreaQueryResponse2.setName("Logistica con control de calidad");
         vehiclesPerAreaQueryResponse2.setVehiculosEnArea(vehicleRepository.countVehiclesInLogisticAreaWithCanBeCheckedOutTrue());
+        vehiclesPerAreaQueryResponse3.setName("Produccion sin control de calidad");
+        vehiclesPerAreaQueryResponse3.setVehiculosEnArea(vehicleRepository.countVehiclesInProductionAreaNotReadyToLeave());
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse);
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse1);
         vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse2);
+        vehiclesPerAreaQueryResponseList.add(vehiclesPerAreaQueryResponse3);
 
         return vehiclesPerAreaQueryResponseList;
 

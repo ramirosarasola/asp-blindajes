@@ -37,5 +37,10 @@ public class UserController {
     public ResponseEntity<User> updateUserById(@RequestBody User user) throws ResourceNotFoundException{
         return ResponseEntity.ok(userService.updateUser(user));
     }
+    @PutMapping("/ability")
+    public ResponseEntity<String> abilityUser(@RequestParam(value = "id") Long id) throws ResourceNotFoundException{
+        userService.disableUser(id);
+        return ResponseEntity.ok("the users ability has been modified");
+    }
 
 }

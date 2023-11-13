@@ -13,6 +13,7 @@ public class WorkGroupToWorkGroupDTO implements Converter<WorkGroup, WorkGroupDT
     public WorkGroupDTO convert(WorkGroup source) {
         WorkGroupDTO workGroupDTO = new WorkGroupDTO();
         workGroupDTO.setName(source.getName());
+        workGroupDTO.setExamples(source.getExamples());
 
         return workGroupDTO;
     }

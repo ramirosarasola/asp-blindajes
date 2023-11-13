@@ -13,15 +13,23 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     Void deleteVehicleByChasis (String chasis);
 
 
-    @Query(nativeQuery = true,  value = "SELECT COUNT(v.id) FROM vehicle v INNER JOIN vehicle_quality_control vqc ON v.id = vqc.vehicle_id WHERE v.area = 'LOGISTIC' AND vqc.can_be_checked_out = false")
-    Long countVehiclesInLogisticAreaWithCanBeCheckedOutFalse();
 
+
+    @Query(nativeQuery = true,  value = "SELECT COUNT(v.id) FROM vehicle v " +
+            "LEFT JOIN vehicle_quality_control vqc on v.id = vqc.vehicle_id " +
+            "WHERE vqc.vehicle_id is NULL AND v.area = 'PRODUCTION' OR vqc.can_be_checked_out = false and v.area = 'PRODUCTION'")
+    Long countVehiclesInProductionAreaNotReadyToLeave();
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(v.id) FROM vehicle v INNER JOIN vehicle_quality_control vqc ON v.id = vqc.vehicle_id WHERE v.area = 'PRODUCTION' AND vqc.can_be_checked_out = true")
+    Long countVehiclesInProductionAreaWithCanBeCheckedOutTrue();
+
+    @Query(nativeQuery = true, value = "select COUNT(v.id) FROM vehicle v " +
+            "LEFT JOIN vehicle_quality_control vqc on v.id = vqc.vehicle_id " +
+            "WHERE vqc.vehicle_id is NULL AND v.area = 'LOGISTIC' ")
+    Long countVehiclesInLogisticAreaWithoutQC();
 
     @Query(nativeQuery = true, value = "SELECT COUNT(v.id) FROM vehicle v INNER JOIN vehicle_quality_control vqc ON v.id = vqc.vehicle_id WHERE v.area = 'LOGISTIC' AND vqc.can_be_checked_out = true")
     Long countVehiclesInLogisticAreaWithCanBeCheckedOutTrue();
-
-    @Query(nativeQuery = true, value = "SELECT COUNT(v.id) FROM vehicle v WHERE v.area = 'PRODUCTION'")
-    Long countVehiclesInProductionArea();
 
 
     @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT v.id) FROM vehicle v " +

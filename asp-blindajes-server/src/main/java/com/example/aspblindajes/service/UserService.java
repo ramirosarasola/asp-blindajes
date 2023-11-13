@@ -10,4 +10,6 @@ public interface UserService {
     User findUserById(Long id) throws ResourceNotFoundException;
     void deleteUserById (Long id) throws ResourceNotFoundException;
     User updateUser(User user) throws ResourceNotFoundException;
+
+    void disableUser(Long id) throws ResourceNotFoundException;
 }
