@@ -91,7 +91,7 @@ public class VehicleServiceImpl implements VehicleService{
     public Vehicle updateVehicle(VehicleDTO vehicleDTO) throws ResourceNotFoundException {
         Vehicle vehicle = vehicleDTOToVehicleConverter.convert(vehicleDTO);
 
-        if(vehicleRepository.findById(vehicleDTO.getChasis()).isPresent() && vehicle != null){
+        if(vehicleRepository.findById(vehicleDTO.getId()).isPresent() && vehicle != null){
             log.info("Vehicle updated successfully");
             return vehicleRepository.save(vehicle);
         }

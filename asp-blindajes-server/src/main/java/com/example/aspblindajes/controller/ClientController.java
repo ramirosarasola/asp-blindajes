@@ -1,11 +1,13 @@
 package com.example.aspblindajes.controller;
 
 import com.example.aspblindajes.converters.ClientDTOToClient;
+import com.example.aspblindajes.dto.BrandModelDTO;
 import com.example.aspblindajes.dto.ClientDTO;
 import com.example.aspblindajes.exception.InvalidArgumentException;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
+import com.example.aspblindajes.model.BrandModel;
 import com.example.aspblindajes.model.Client;
 import com.example.aspblindajes.model.WorkGroup;
 import com.example.aspblindajes.service.ClientService;
@@ -47,4 +49,11 @@ public class ClientController {
     ResponseEntity<Client> setHiddenClient(@RequestParam(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(clientService.clientSetHidden(id));
     }
+
+    @PutMapping
+    public ResponseEntity<Client> updateClient(@RequestBody ClientDTO clientDTO) throws ResourceNotFoundException, InvalidArgumentException {
+        return ResponseEntity.ok( clientService.updateClient(clientDTO));
+    }
+
+
 }

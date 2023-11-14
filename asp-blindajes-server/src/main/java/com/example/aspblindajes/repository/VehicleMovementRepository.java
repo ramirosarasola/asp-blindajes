@@ -16,7 +16,7 @@ public interface VehicleMovementRepository extends JpaRepository<VehicleMovement
             "WHERE (:mtName IS NULL OR vm.movement_type = :mtName) " +
             "AND (:vehicleId IS NULL OR  vm.vehicle_id = :vehicleId) " +
             "AND (:startDate IS NULL OR  vm.date_time >= :startDate) " +
-            "AND (:userId IS NULL ORT vm.user_id = :userID) " +
+            "AND (:userId IS NULL OR vm.user_id = :userId) " +
             "AND (:endDate IS NULL OR  vm.date_time <= :endDate)")
     List<VehicleMovement> getMovementsByFilter (@Param(value = "mtName")String mtName,
                                                 @Param(value = "vehicleId") String vehicleId,

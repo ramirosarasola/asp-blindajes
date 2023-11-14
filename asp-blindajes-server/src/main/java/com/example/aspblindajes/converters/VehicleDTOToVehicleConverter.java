@@ -1,10 +1,7 @@
 package com.example.aspblindajes.converters;
 
 import com.example.aspblindajes.dto.VehicleDTO;
-import com.example.aspblindajes.model.Brand;
-import com.example.aspblindajes.model.BrandModel;
-import com.example.aspblindajes.model.Client;
-import com.example.aspblindajes.model.Vehicle;
+import com.example.aspblindajes.model.*;
 import com.example.aspblindajes.repository.BrandModelRepository;
 import com.example.aspblindajes.repository.BrandRepository;
 import com.example.aspblindajes.repository.ClientRepository;
@@ -35,7 +32,10 @@ public class VehicleDTOToVehicleConverter implements Converter<VehicleDTO, Vehic
             vehicle.setObservations(source.getObservations());
             vehicle.setClient(client.get());
             vehicle.setPurchaseOrder(source.getPurchaseOrder());
-            if(!source.getFordKey().isEmpty()){
+            if(!source.getArea().equals("")){
+                vehicle.setArea(Area.valueOf(source.getArea()));
+            }
+            if(source.getFordKey() != null){
                 vehicle.setFordKey(source.getFordKey());
             }
         }

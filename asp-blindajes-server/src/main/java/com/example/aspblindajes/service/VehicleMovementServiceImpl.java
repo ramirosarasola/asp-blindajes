@@ -120,7 +120,7 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     @Override
     public List<VehicleMovementDTO> getMovementsByFilter(String mtName, String vehicleId, String startDate, Long userId,  String endDate) {
         List<VehicleMovementDTO> movementDTOS = new ArrayList<>();
-        if (mtName == null && vehicleId == null && startDate == null && endDate == null) {
+        if (mtName == null && vehicleId == null && startDate == null && endDate == null && userId == null) {
             List<VehicleMovement> movementList = vehicleMovementRepository.findAll();
             for (VehicleMovement movement : movementList) {
                 movementDTOS.add(vehicleMovementeToVehicleMovementDTO.convert(movement));

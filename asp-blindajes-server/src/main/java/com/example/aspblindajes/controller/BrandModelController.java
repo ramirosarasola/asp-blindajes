@@ -50,8 +50,7 @@ public class BrandModelController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, String>> updateBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
-        brandModelService.updateBrandModel(brandModelDTO);
-        return ResponseEntity.ok(Collections.singletonMap("message","Model updated successfully"));
+    public ResponseEntity<BrandModel> updateBrandModel(@RequestBody BrandModelDTO brandModelDTO) throws ResourceNotFoundException {
+        return ResponseEntity.ok( brandModelService.updateBrandModel(brandModelDTO));
     }
 }
