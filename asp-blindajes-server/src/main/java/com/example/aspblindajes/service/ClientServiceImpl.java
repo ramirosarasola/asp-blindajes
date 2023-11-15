@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,13 +40,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client updateClient(ClientDTO clientDTO) throws InvalidArgumentException, ResourceNotFoundException {
-        Optional<Client> clientOptional = clientRepository.findById(clientDTO.getId());
-        if(clientOptional.isEmpty()){
+        if(!clientRepository.existsById(clientDTO.getId())){
             log.error("Failed to update client: The client does not exists");
             throw new ResourceNotFoundException("The client does not exist");
         }
+        Client savedClient = clientRepository.save(Objects.requireNonNull(clientDTOToClient.convert(clientDTO)));
         log.info("Updated client successfully");
-        return clientRepository.save(clientOptional.get());
+        return savedClient;
     }
 
     @Override

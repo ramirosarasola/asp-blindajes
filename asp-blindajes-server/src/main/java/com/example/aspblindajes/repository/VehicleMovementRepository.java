@@ -23,5 +23,9 @@ public interface VehicleMovementRepository extends JpaRepository<VehicleMovement
                                                 @Param(value = "startDate") LocalDateTime startDate,
                                                 @Param(value = "userId") Long userId,
                                                 @Param(value = "endDate") LocalDateTime endDate);
+
+    @Query(nativeQuery = true, value = "DELETE vm.* FROM vehicle_movement vm "+
+            "WHERE vm.vehicle_id = :vehicleId")
+    void deleteMovementByVehicleId (@Param(value = "vehicleId") String vehicleId);
 }
 

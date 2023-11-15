@@ -64,9 +64,9 @@ public class VehicleController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "chasis") String chasis) throws ResourceNotFoundException {
-        vehicleService.deleteVehicleByChasis(chasis);
-        return ResponseEntity.ok("The vehicle with chasis number " + chasis + " has been deleted");
+    public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "id") String id) throws ResourceNotFoundException {
+        vehicleService.deleteVehicleById(id);
+        return ResponseEntity.ok("The vehicle with id number " + id + " has been deleted");
     }
 
     @PutMapping

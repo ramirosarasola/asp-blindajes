@@ -16,7 +16,7 @@ public interface VehicleService {
     Vehicle saveVehicle (VehicleDTO vehicleDTO, String userName) throws ResourceAlreadyExistsException;
     VehicleDTO findVehicleById(String id) throws ResourceNotFoundException;
 
-    void deleteVehicleByChasis(String id) throws ResourceNotFoundException;
+    void deleteVehicleById(String id) throws ResourceNotFoundException;
     List<Vehicle> findAllVehicles() throws ResourceNotFoundException;
 
     Vehicle updateVehicle (VehicleDTO vehicleDTO) throws ResourceNotFoundException;
