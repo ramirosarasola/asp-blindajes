@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, String> {
     Vehicle findVehicleByChasis (String chasis);
-    Void deleteVehicleById (String id);
+    void deleteVehicleById (String id);
 
 
 

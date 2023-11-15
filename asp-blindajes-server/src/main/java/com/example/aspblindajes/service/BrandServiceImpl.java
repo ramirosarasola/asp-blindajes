@@ -7,6 +7,7 @@ import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Brand;
 import com.example.aspblindajes.model.BrandModel;
+import com.example.aspblindajes.repository.BrandModelRepository;
 import com.example.aspblindajes.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import java.util.Optional;
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandDTOToBrand brandDTOToBrand;
+//    private final BrandModelService brandModelService;
+    private final BrandModelRepository brandModelRepository;
 
     @Override
     public Brand saveBrand(BrandDTO brandDTO) throws ResourceAlreadyExistsException, InvalidArgumentException {
@@ -89,6 +92,13 @@ public class BrandServiceImpl implements BrandService {
         Optional<Brand> brandO = brandRepository.findById(id);
         if(brandO.isPresent()){
             Brand brand = brandO.get();
+            for (BrandModel brandModel:brand.getBrandModelList()) {
+                if (brand.getHidden() == brandModel.getHidden() && !brand.getHidden()){
+//                    brandModelService.modelSetHidden(brandModel.getId());
+                    brandModel.setHidden(!brandModel.getHidden());
+                    brandModelRepository.save(brandModel);
+                }
+            }
             brand.setHidden(!brand.getHidden());
             brandRepository.save(brand);
             log.info("Hidden field changed");

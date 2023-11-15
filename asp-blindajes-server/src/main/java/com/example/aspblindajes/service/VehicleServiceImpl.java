@@ -17,6 +17,7 @@ import com.example.aspblindajes.repository.UserRepository;
 import com.example.aspblindajes.repository.VehicleMovementRepository;
 import com.example.aspblindajes.repository.VehicleRepository;
 import jakarta.persistence.EntityExistsException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,7 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
+    @Transactional
     public void deleteVehicleById(String id) throws ResourceNotFoundException {
         Optional<Vehicle> vehicleO = vehicleRepository.findById(id);
         if(vehicleO.isPresent()){

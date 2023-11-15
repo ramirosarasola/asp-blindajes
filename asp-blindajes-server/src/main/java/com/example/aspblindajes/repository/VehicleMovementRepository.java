@@ -3,6 +3,7 @@ package com.example.aspblindajes.repository;
 import com.example.aspblindajes.dto.VehicleMovementDTO;
 import com.example.aspblindajes.model.VehicleMovement;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,8 +25,9 @@ public interface VehicleMovementRepository extends JpaRepository<VehicleMovement
                                                 @Param(value = "userId") Long userId,
                                                 @Param(value = "endDate") LocalDateTime endDate);
 
-    @Query(nativeQuery = true, value = "DELETE vm.* FROM vehicle_movement vm "+
-            "WHERE vm.vehicle_id = :vehicleId")
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM vehicle_movement "+
+            "WHERE vehicle_id = :vehicleId")
     void deleteMovementByVehicleId (@Param(value = "vehicleId") String vehicleId);
 }
 
