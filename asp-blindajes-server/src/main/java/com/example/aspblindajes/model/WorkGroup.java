@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class WorkGroup {
     @JsonIgnore
     @OneToMany (mappedBy = "workGroup" , cascade = CascadeType.ALL)
     private List<WorkGroupProblem> workGroupProblemList = new ArrayList<>();
+    @ToString.Exclude
     @JsonIgnore
     @ManyToMany(mappedBy = "workGroupsList")
     private List<BrandModel> brandModelList = new ArrayList<>();

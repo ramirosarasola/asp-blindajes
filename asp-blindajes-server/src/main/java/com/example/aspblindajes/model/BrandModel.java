@@ -28,7 +28,7 @@ public class BrandModel {
     @JsonIgnore
     @OneToMany(mappedBy = "brandModel", cascade = CascadeType.ALL)
     private List<Vehicle> vehicleList = new ArrayList<>();
-
+    @ToString.Exclude
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "model_workgroup",
