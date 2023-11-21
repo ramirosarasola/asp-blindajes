@@ -23,5 +23,5 @@ public class BrandModelDTO {
     @NotEmpty
     @Length(min = 1, max = 30)
     private String brandName;
-    private List<WorkGroup> workGroupList;
+    private List<String> workGroupList;
 }
