@@ -14,6 +14,7 @@ public class VehicleToVehicleDTOConverter implements Converter<Vehicle, VehicleD
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setId(source.getId());
         vehicleDTO.setClient(source.getClient().getName());
+        vehicleDTO.setDestination(source.getDestination().getName());
         vehicleDTO.setChasis(source.getChasis());
         vehicleDTO.setObservations(source.getObservations());
         vehicleDTO.setBrandName(source.getBrand().getName());

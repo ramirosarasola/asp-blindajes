@@ -28,4 +28,13 @@ public class BrandModel {
     @JsonIgnore
     @OneToMany(mappedBy = "brandModel", cascade = CascadeType.ALL)
     private List<Vehicle> vehicleList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "model_workgroup",
+            joinColumns = @JoinColumn(name = "brandModel_id"),
+            inverseJoinColumns = @JoinColumn(name = "workGroup_id"))
+    private List<WorkGroup> workGroupsList = new ArrayList<>();
+
+
 }

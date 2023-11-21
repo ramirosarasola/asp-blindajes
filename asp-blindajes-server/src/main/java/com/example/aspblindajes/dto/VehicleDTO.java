@@ -31,6 +31,9 @@ public class VehicleDTO {
     @NotEmpty
     @Length(min = 1, max = 40)
     private String client;
+    @NotEmpty
+    @Length(min = 1, max = 40)
+    private String destination;
     private String fordKey;
     private String area;
     private boolean canBeCheckedOut;

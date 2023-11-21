@@ -23,6 +23,7 @@ public class BrandModelDTOToBrandModel implements Converter<BrandModelDTO, Brand
         }
         brandModel.setName(source.getName());
         brandModel.setId(source.getId());
+        brandModel.setWorkGroupsList(source.getWorkGroupList());
         return brandModel;
     }
 }

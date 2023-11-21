@@ -21,6 +21,9 @@ public class WorkGroup {
     @JsonIgnore
     @OneToMany (mappedBy = "workGroup" , cascade = CascadeType.ALL)
     private List<WorkGroupProblem> workGroupProblemList = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "workGroupsList")
+    private List<BrandModel> brandModelList = new ArrayList<>();
 }
 
 
