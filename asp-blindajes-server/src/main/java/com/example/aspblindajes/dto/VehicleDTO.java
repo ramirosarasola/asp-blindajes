@@ -31,7 +31,7 @@ public class VehicleDTO {
     @NotEmpty
     @Length(min = 1, max = 40)
     private String client;
-    @NotEmpty
+//    @NotEmpty
     @Length(min = 1, max = 40)
     private String destination;
     private String fordKey;

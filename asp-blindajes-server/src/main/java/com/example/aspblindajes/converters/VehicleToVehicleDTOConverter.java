@@ -14,7 +14,10 @@ public class VehicleToVehicleDTOConverter implements Converter<Vehicle, VehicleD
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setId(source.getId());
         vehicleDTO.setClient(source.getClient().getName());
-        vehicleDTO.setDestination(source.getDestination().getName());
+
+        // Asignar destination directamente si source.getDestination() no es null
+        vehicleDTO.setDestination(source.getDestination() != null ? source.getDestination().getName() : null);
+
         vehicleDTO.setChasis(source.getChasis());
         vehicleDTO.setObservations(source.getObservations());
         vehicleDTO.setBrandName(source.getBrand().getName());
@@ -22,13 +25,14 @@ public class VehicleToVehicleDTOConverter implements Converter<Vehicle, VehicleD
         vehicleDTO.setFordKey(source.getFordKey());
         vehicleDTO.setPurchaseOrder(source.getPurchaseOrder());
         vehicleDTO.setArea(source.getArea().toString());
-        if (source.getQualityControlList().size() > 0){
+
+        if (source.getQualityControlList().size() > 0) {
             vehicleDTO.setCanBeCheckedOut(source.getQualityControlList().get(source.getQualityControlList().size() - 1).getCanBeCheckedOut());
         } else {
             vehicleDTO.setCanBeCheckedOut(false);
         }
 
-
         return vehicleDTO;
     }
+
 }

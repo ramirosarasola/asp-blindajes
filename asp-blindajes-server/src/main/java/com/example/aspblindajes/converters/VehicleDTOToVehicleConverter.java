@@ -27,19 +27,20 @@ public class VehicleDTOToVehicleConverter implements Converter<VehicleDTO, Vehic
         Optional<Client> client = clientRepository.findClientByName(source.getClient());
         Optional<Destination> destination = destinationRepository.findDestinationByName(source.getDestination());
         Vehicle vehicle = new Vehicle();
-        if (brand.isPresent() && brandModel.isPresent() && client.isPresent() && destination.isPresent()) {
+        if (brand.isPresent() && brandModel.isPresent() && client.isPresent()) {
             vehicle.setId(source.getId());
             vehicle.setChasis(source.getChasis());
             vehicle.setBrand(brand.get());
             vehicle.setBrandModel(brandModel.get());
             vehicle.setObservations(source.getObservations());
             vehicle.setClient(client.get());
-            vehicle.setDestination(destination.get());
+            // Asignar destination directamente si source.getDestination() es null
+            vehicle.setDestination(source.getDestination() != null ? destination.orElse(null) : null);
             vehicle.setPurchaseOrder(source.getPurchaseOrder());
-            if(!source.getArea().equals("")){
+            if (!source.getArea().equals("")) {
                 vehicle.setArea(Area.valueOf(source.getArea()));
             }
-            if(source.getFordKey() != null){
+            if (source.getFordKey() != null) {
                 vehicle.setFordKey(source.getFordKey());
             }
         }
