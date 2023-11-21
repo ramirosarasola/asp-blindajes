@@ -59,8 +59,9 @@ public class VehicleController {
                                                                  @RequestParam (value = "clientName" , required = false) String clientName,
                                                                  @RequestParam (value = "modelName" , required = false) String modelName,
                                                                  @RequestParam (value = "areaName" , required = false) String areaName,
-                                                                 @RequestParam (value = "chasis" , required = false) String chasis){
-        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis));
+                                                                 @RequestParam (value = "chasis" , required = false) String chasis,
+                                                                 @RequestParam (value = "finished" , required = false) Boolean finished ){
+        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis, finished));
     }
 
     @DeleteMapping

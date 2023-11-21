@@ -184,15 +184,15 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public List<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName, String modelName, String chasis) {
+    public List<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName, String modelName, String chasis, Boolean finished) {
         List<VehicleDTO> vehicleDTOS = new ArrayList<>();
-        if (purchaseOrder == null && clientName == null && modelName == null && areaName == null && chasis == null) {
+        if (purchaseOrder == null && clientName == null && modelName == null && areaName == null && chasis == null && finished == null) {
             List<Vehicle> vehicleList = vehicleRepository.findAll();
             for (Vehicle vehicle : vehicleList) {
                 vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
             }
         }else {
-            List<Vehicle> vehicleList = vehicleRepository.getVehiclesByFilters(purchaseOrder, clientName, areaName, modelName, chasis);
+            List<Vehicle> vehicleList = vehicleRepository.getVehiclesByFilters(purchaseOrder, clientName, areaName, modelName, chasis, finished);
             for (Vehicle vehicle : vehicleList) {
                 vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
             }

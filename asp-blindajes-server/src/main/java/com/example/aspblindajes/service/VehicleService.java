@@ -32,6 +32,6 @@ public interface VehicleService {
 
     List<AllMonthlyProductivityResponse> allMonthlyProductivity(int year);
 
-    List<VehicleDTO> getVehiclesByFilter (String clientName, String purchaseOrder, String areaName, String modelName, String chasis);
+    List<VehicleDTO> getVehiclesByFilter (String clientName, String purchaseOrder, String areaName, String modelName, String chasis, Boolean finished);
 
 }
