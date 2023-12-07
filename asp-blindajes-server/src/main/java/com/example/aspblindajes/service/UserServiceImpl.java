@@ -74,4 +74,12 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("there are no users with the provided id");
         }
     }
+
+    public Optional<User> findUserByUsername(String username) throws ResourceNotFoundException{
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+        if(userOptional.isEmpty()){
+            log.error("Fail to find User: User not found");
+        }
+        return userOptional;
+    }
 }
