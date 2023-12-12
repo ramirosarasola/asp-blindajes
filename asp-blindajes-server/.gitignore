@@ -34,3 +34,5 @@ build/
 
 ### Logger ###
 cambios.log
+
+/src/main/resources/application.properties
