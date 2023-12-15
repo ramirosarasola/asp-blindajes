@@ -21,7 +21,7 @@ public interface VehicleMovementService {
 
     List<VehicleMovementDTO> findVehicleMovementsByChasis (String chasis) throws ResourceNotFoundException;
 
-    List<VehicleMovementDTO> getMovementsByFilter (String mtName, String vehicleId, String startDate, Long userId, String endDate);
+    List<VehicleMovementDTO> getMovementsByFilter (String mtName, String vehicleChasis, String startDate, Long userId, String endDate);
 
 
 
