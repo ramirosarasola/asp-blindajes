@@ -15,4 +15,11 @@ public interface WorkGroupsRepository extends JpaRepository<WorkGroup, Long> {
             value = "SELECT wg.* FROM work_group wg " +
                     "WHERE wg.hidden = 0")
     List<WorkGroup> findAllWGHiddenFalse();
+
+    @Query(nativeQuery = true,
+        value = "select * " +
+                "from work_group wg " +
+                "join model_workgroup m_wg on wg.id = m_wg.work_group_id " +
+                "where hidden = 0 AND brand_model_id = 4")
+    List<WorkGroup> findFilteredWGByVisibilityAndBrandModel(Long brand);
 }

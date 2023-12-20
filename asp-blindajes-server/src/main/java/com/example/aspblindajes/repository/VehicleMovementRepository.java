@@ -14,9 +14,9 @@ public interface VehicleMovementRepository extends JpaRepository<VehicleMovement
 //    List<VehicleMovementDTO> findVehicleMovementsByChasis(String chasis);
 
     @Query(nativeQuery = true, value = "SELECT vm.* FROM vehicle_movement vm "+
-            "INNER JOIN vehicle v ON vm.vehicle_id = v.vehicle_id " +
+            "INNER JOIN vehicle v ON vm.vehicle_id = v.id " +
             "WHERE (:mtName IS NULL OR vm.movement_type = :mtName) " +
-            "AND (:vehicleChasis IS NULL OR  v.chasis LIKE CONCAT('%', :vehicleId, '%'))  " +
+            "AND (:vehicleChasis IS NULL OR  v.chasis LIKE CONCAT('%', :vehicleChasis, '%'))  " +
             "AND (:startDate IS NULL OR  vm.date_time >= :startDate) " +
             "AND (:userId IS NULL OR vm.user_id = :userId) " +
             "AND (:endDate IS NULL OR  vm.date_time <= :endDate)")
