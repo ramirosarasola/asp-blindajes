@@ -22,6 +22,7 @@ public class CorsConfig {
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("OPTIONS");
 
         // Allow specific headers
         config.addAllowedHeader("Content-Type");
