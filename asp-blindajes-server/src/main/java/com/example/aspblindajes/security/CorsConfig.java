@@ -14,8 +14,9 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow requests from the specified origin
+        // Allow requests from the specified origins
         config.addAllowedOrigin("https://controlcalidad.aspblindajes.com.ar");
+//        config.addAllowedOrigin("http://localhost:5173");
 
         // Allow common HTTP methods
         config.addAllowedMethod("GET");

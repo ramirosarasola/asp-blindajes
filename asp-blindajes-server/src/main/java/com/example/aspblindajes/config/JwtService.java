@@ -31,13 +31,21 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
-        return Jwts
-                .builder()
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        final long MILLIS_PER_SECOND = 1000L;
+        final long SECONDS_PER_MINUTE = 60L;
+        final long MINUTES_PER_HOUR = 60L;
+        final long HOURS_PER_DAY = 24L;
+        final long DAYS_PER_YEAR = 365L;
+
+        long expirationMillis = System.currentTimeMillis() +
+                MILLIS_PER_SECOND * SECONDS_PER_MINUTE * MINUTES_PER_HOUR * HOURS_PER_DAY * DAYS_PER_YEAR;
+
+        return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+(1000*60)*60*24))
+                .setExpiration(new Date(expirationMillis))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
