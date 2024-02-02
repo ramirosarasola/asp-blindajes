@@ -17,8 +17,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Allow requests from the specified origins
-        config.addAllowedOrigin("https://controlcalidad.aspblindajes.com.ar");
+//        config.addAllowedOrigin("https://controlcalidad.aspblindajes.com.ar");
 //        config.addAllowedOrigin("http://localhost:5173");
+        // Allow requests from any origin
+        config.addAllowedOrigin("*");
 
         // Allow common HTTP methods
         config.addAllowedMethod("GET");
