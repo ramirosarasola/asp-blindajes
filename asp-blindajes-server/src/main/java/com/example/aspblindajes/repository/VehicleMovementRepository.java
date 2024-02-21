@@ -2,6 +2,8 @@ package com.example.aspblindajes.repository;
 
 import com.example.aspblindajes.dto.VehicleMovementDTO;
 import com.example.aspblindajes.model.VehicleMovement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,11 +22,12 @@ public interface VehicleMovementRepository extends JpaRepository<VehicleMovement
             "AND (:startDate IS NULL OR  vm.date_time >= :startDate) " +
             "AND (:userId IS NULL OR vm.user_id = :userId) " +
             "AND (:endDate IS NULL OR  vm.date_time <= :endDate)")
-    List<VehicleMovement> getMovementsByFilter (@Param(value = "mtName")String mtName,
+    Page<VehicleMovement> getMovementsByFilter (@Param(value = "mtName")String mtName,
                                                 @Param(value = "vehicleChasis") String vehicleChasis,
                                                 @Param(value = "startDate") LocalDateTime startDate,
                                                 @Param(value = "userId") Long userId,
-                                                @Param(value = "endDate") LocalDateTime endDate);
+                                                @Param(value = "endDate") LocalDateTime endDate,
+                                                Pageable pageable);
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM vehicle_movement "+

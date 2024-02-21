@@ -20,6 +20,8 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -184,21 +186,17 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public List<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName, String modelName, String chasis, Boolean finished) {
-        List<VehicleDTO> vehicleDTOS = new ArrayList<>();
+    public Page<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName, String modelName, String chasis, Boolean finished, Pageable pageable) {
+        Page<Vehicle> vehiclePage;
         if (purchaseOrder == null && clientName == null && modelName == null && areaName == null && chasis == null && finished == null) {
-            List<Vehicle> vehicleList = vehicleRepository.findAll();
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
-            }
-        }else {
-            List<Vehicle> vehicleList = vehicleRepository.getVehiclesByFilters(purchaseOrder, clientName, areaName, modelName, chasis, finished);
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOS.add(vehicleToVehicleDTOConverter.convert(vehicle));
-            }
+            vehiclePage = vehicleRepository.findAll(pageable);
+        } else {
+            vehiclePage = vehicleRepository.getVehiclesByFilters(purchaseOrder, clientName, areaName, modelName, chasis, finished, pageable);
         }
-        return vehicleDTOS;
+
+        return vehiclePage.map(vehicleToVehicleDTOConverter::convert);
     }
+
 
     @Override
     public MonthlyProductivityResponse weeklyProductivity() {

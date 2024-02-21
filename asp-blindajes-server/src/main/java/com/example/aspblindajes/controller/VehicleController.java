@@ -8,9 +8,12 @@ import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Vehicle;
 import com.example.aspblindajes.service.VehicleService;
 import lombok.AllArgsConstructor;
-import org.hibernate.annotations.ConverterRegistration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -55,14 +58,22 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.allMonthlyProductivity(year));
     }
     @GetMapping("filters")
-    public ResponseEntity<List<VehicleDTO>> getVehiclesByFilter (@RequestParam (value = "purchaseOrder", required = false) String purchaseOrder,
-                                                                 @RequestParam (value = "clientName" , required = false) String clientName,
-                                                                 @RequestParam (value = "modelName" , required = false) String modelName,
-                                                                 @RequestParam (value = "areaName" , required = false) String areaName,
-                                                                 @RequestParam (value = "chasis" , required = false) String chasis,
-                                                                 @RequestParam (value = "finished" , required = false) Boolean finished ){
-        return ResponseEntity.ok(vehicleService.getVehiclesByFilter(clientName, purchaseOrder, areaName, modelName, chasis, finished));
+    public ResponseEntity<Page<VehicleDTO>> getVehiclesByFilter (
+            @RequestParam(value = "purchaseOrder", required = false) String purchaseOrder,
+            @RequestParam(value = "clientName", required = false) String clientName,
+            @RequestParam(value = "modelName", required = false) String modelName,
+            @RequestParam(value = "areaName", required = false) String areaName,
+            @RequestParam(value = "chasis", required = false) String chasis,
+            @RequestParam(value = "finished", required = false) Boolean finished,
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "30", required = false) int size) {
+        // Lógica para obtener la lista paginada
+        Page<VehicleDTO> vehiclePage = vehicleService.getVehiclesByFilter(
+                clientName, purchaseOrder, areaName, modelName, chasis, finished, PageRequest.of(page, size));
+        return ResponseEntity.ok(vehiclePage);
     }
+
+
 
     @DeleteMapping
     public ResponseEntity<String> deleteVehicleByChasis (@RequestParam (value = "id") String id) throws ResourceNotFoundException {

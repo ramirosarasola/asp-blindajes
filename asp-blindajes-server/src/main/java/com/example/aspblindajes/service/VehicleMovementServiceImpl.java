@@ -9,6 +9,9 @@ import com.example.aspblindajes.repository.UserRepository;
 import com.example.aspblindajes.repository.VehicleMovementRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -118,20 +122,21 @@ public class VehicleMovementServiceImpl implements VehicleMovementService{
     }
 
     @Override
-    public List<VehicleMovementDTO> getMovementsByFilter(String mtName, String vehicleChasis, String startDate, Long userId,  String endDate) {
-        List<VehicleMovementDTO> movementDTOS = new ArrayList<>();
+    public Page<VehicleMovementDTO> getMovementsByFilter(String mtName, String vehicleChasis, String startDate, Long userId, String endDate, Pageable pageable) {
+        Page<VehicleMovement> movementPage;
+
         if (mtName == null && vehicleChasis == null && startDate == null && endDate == null && userId == null) {
-            List<VehicleMovement> movementList = vehicleMovementRepository.findAll();
-            for (VehicleMovement movement : movementList) {
-                movementDTOS.add(vehicleMovementeToVehicleMovementDTO.convert(movement));
-            }
-        }else {
-            List<VehicleMovement> movementList = vehicleMovementRepository.getMovementsByFilter(mtName, vehicleChasis, dateStartConverter(startDate),userId, dateEndConverter(endDate));
-            for (VehicleMovement movement : movementList) {
-                movementDTOS.add(vehicleMovementeToVehicleMovementDTO.convert(movement));
-            }
+            movementPage = vehicleMovementRepository.findAll(pageable);
+        } else {
+            movementPage = vehicleMovementRepository.getMovementsByFilter(mtName, vehicleChasis, dateStartConverter(startDate), userId, dateEndConverter(endDate), pageable);
         }
-        return movementDTOS;
+
+        List<VehicleMovementDTO> movementDTOS = movementPage.getContent()
+                .stream()
+                .map(vehicleMovementeToVehicleMovementDTO::convert)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(movementDTOS, pageable, movementPage.getTotalElements());
     }
 
 

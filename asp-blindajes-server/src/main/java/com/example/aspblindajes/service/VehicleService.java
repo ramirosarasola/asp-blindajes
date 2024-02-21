@@ -7,8 +7,9 @@ import com.example.aspblindajes.dto.VehiclesPerAreaQueryResponse;
 import com.example.aspblindajes.exception.ResourceAlreadyExistsException;
 import com.example.aspblindajes.exception.ResourceNotFoundException;
 import com.example.aspblindajes.model.Area;
-import com.example.aspblindajes.model.MovementType;
 import com.example.aspblindajes.model.Vehicle;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public interface VehicleService {
 
     List<AllMonthlyProductivityResponse> allMonthlyProductivity(int year);
 
-    List<VehicleDTO> getVehiclesByFilter (String clientName, String purchaseOrder, String areaName, String modelName, String chasis, Boolean finished);
+    Page<VehicleDTO> getVehiclesByFilter(String clientName, String purchaseOrder, String areaName,
+                                         String modelName, String chasis, Boolean finished, Pageable pageable);
 
 }
