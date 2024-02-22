@@ -15,19 +15,33 @@ import java.util.List;
 public interface VehicleMovementRepository extends JpaRepository<VehicleMovement, Long> {
 //    List<VehicleMovementDTO> findVehicleMovementsByChasis(String chasis);
 
-    @Query(nativeQuery = true, value = "SELECT vm.* FROM vehicle_movement vm "+
-            "INNER JOIN vehicle v ON vm.vehicle_id = v.id " +
-            "WHERE (:mtName IS NULL OR vm.movement_type = :mtName) " +
-            "AND (:vehicleChasis IS NULL OR  v.chasis LIKE CONCAT('%', :vehicleChasis, '%'))  " +
-            "AND (:startDate IS NULL OR  vm.date_time >= :startDate) " +
-            "AND (:userId IS NULL OR vm.user_id = :userId) " +
-            "AND (:endDate IS NULL OR  vm.date_time <= :endDate)")
-    Page<VehicleMovement> getMovementsByFilter (@Param(value = "mtName")String mtName,
-                                                @Param(value = "vehicleChasis") String vehicleChasis,
-                                                @Param(value = "startDate") LocalDateTime startDate,
-                                                @Param(value = "userId") Long userId,
-                                                @Param(value = "endDate") LocalDateTime endDate,
-                                                Pageable pageable);
+    @Query(nativeQuery = true, value =
+            "SELECT vm.* FROM vehicle_movement vm " +
+                    "INNER JOIN vehicle v ON vm.vehicle_id = v.id " +
+                    "WHERE (:mtName IS NULL OR vm.movement_type = :mtName) " +
+                    "AND (:vehicleChasis IS NULL OR v.chasis LIKE CONCAT('%', :vehicleChasis, '%')) " +
+                    "AND (:startDate IS NULL OR vm.date_time >= :startDate) " +
+                    "AND (:userId IS NULL OR vm.user_id = :userId) " +
+                    "AND (:endDate IS NULL OR vm.date_time <= :endDate) " +
+                    "ORDER BY vm.date_time DESC",
+            countQuery =
+                    "SELECT COUNT(vm.id) FROM vehicle_movement vm " +
+                            "INNER JOIN vehicle v ON vm.vehicle_id = v.id " +
+                            "WHERE (:mtName IS NULL OR vm.movement_type = :mtName) " +
+                            "AND (:vehicleChasis IS NULL OR v.chasis LIKE CONCAT('%', :vehicleChasis, '%')) " +
+                            "AND (:startDate IS NULL OR vm.date_time >= :startDate) " +
+                            "AND (:userId IS NULL OR vm.user_id = :userId) " +
+                            "AND (:endDate IS NULL OR vm.date_time <= :endDate)"
+    )
+    Page<VehicleMovement> getMovementsByFilter(
+            @Param(value = "mtName") String mtName,
+            @Param(value = "vehicleChasis") String vehicleChasis,
+            @Param(value = "startDate") LocalDateTime startDate,
+            @Param(value = "userId") Long userId,
+            @Param(value = "endDate") LocalDateTime endDate,
+            Pageable pageable
+    );
+
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM vehicle_movement "+

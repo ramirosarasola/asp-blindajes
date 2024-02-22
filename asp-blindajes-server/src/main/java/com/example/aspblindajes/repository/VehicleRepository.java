@@ -75,15 +75,32 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String> {
                     "AND (:chasis IS NULL OR v.chasis = :chasis) " +
                     "AND ((:finished IS NULL) OR " +
                     "(:finished = true AND latest_vqc.can_be_checked_out = true) OR " +
-                    "(:finished = false AND (latest_vqc.can_be_checked_out = false OR latest_vqc.can_be_checked_out IS NULL)))")
+                    "(:finished = false AND (latest_vqc.can_be_checked_out = false OR latest_vqc.can_be_checked_out IS NULL)))",
+            countQuery = "SELECT count(v.id) FROM vehicle v " +
+                    "JOIN client c ON v.client_id = c.id " +
+                    "JOIN brand_model bm ON v.brand_model_id = bm.id " +
+                    "LEFT JOIN ( " +
+                    "   SELECT vqc.*, ROW_NUMBER() OVER (PARTITION BY vqc.vehicle_id ORDER BY vqc.quality_control_date DESC, vqc.id DESC) as row_num " +
+                    "   FROM vehicle_quality_control vqc " +
+                    ") AS latest_vqc ON v.id = latest_vqc.vehicle_id AND latest_vqc.row_num = 1 " +
+                    "WHERE (:compraParametro IS NULL OR v.purchase_order = :compraParametro) " +
+                    "AND (:clientName IS NULL OR c.name = :clientName) " +
+                    "AND (:areaName IS NULL OR v.area = :areaName) " +
+                    "AND (:modelName IS NULL OR bm.name = :modelName) " +
+                    "AND (:chasis IS NULL OR v.chasis = :chasis) " +
+                    "AND ((:finished IS NULL) OR " +
+                    "(:finished = true AND latest_vqc.can_be_checked_out = true) OR " +
+                    "(:finished = false AND (latest_vqc.can_be_checked_out = false OR latest_vqc.can_be_checked_out IS NULL)))"
+    )
     Page<Vehicle> getVehiclesByFilters(@Param("compraParametro") String compraParametro,
                                        @Param("clientName") String clientName,
                                        @Param("areaName") String areaName,
                                        @Param("modelName") String modelName,
                                        @Param("chasis") String chasis,
                                        @Param("finished") Boolean finished,
-                                       Pageable pageable
-    );
+                                       Pageable pageable);
+
+
 
 
 

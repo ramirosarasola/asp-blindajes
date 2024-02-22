@@ -23,14 +23,19 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             "JOIN vehicle_quality_control vqc ON wp.vehicle_quality_control_id = vqc.id " +
             "WHERE wp.has_problem = 1 " +
             "AND wg.name = :workGroupName "+
-            "AND MONTH(vqc.quality_control_date) = :mesParametro")
-    Long calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroup, @Param("mesParametro") int mesParametro);
+            "AND MONTH(vqc.quality_control_date) = :monthParametro "+
+            "AND YEAR(vqc.quality_control_date) = :yearParametro"
+
+    )
+    Long calculatePercentageOfProblemsForWorkGroup(@Param("workGroupName") String workGroup, @Param("monthParametro") int monthParametro, @Param("yearParametro") int yearParametro);
 
     @Query(nativeQuery = true, value = "SELECT COUNT(wgp.id) FROM work_group_problem wgp " +
             "JOIN vehicle_quality_control vqc ON vqc.id = wgp.vehicle_quality_control_id " +
             "WHERE wgp.has_problem = true " +
-            "AND MONTH(vqc.quality_control_date) = :mesParametro")
-    Long countWorkGroupProblemsWithProblem(@Param("mesParametro") int mesParametro);
+            "AND MONTH(vqc.quality_control_date) = :monthParametro " +
+            "AND YEAR(vqc.quality_control_date) = :yearParametro"
+    )
+    Long countWorkGroupProblemsWithProblem(@Param("monthParametro") int monthParametro, @Param("yearParametro") int yearParametro);
 
 //    @Query(value = "SELECT COUNT(wgp.id) FROM WorkGroup wg INNER JOIN WorkGroupProblem wgp ON wg.id = wgp.workGroup.id WHERE wg.name = :groupName")
 //    Long countWorkGroupProblemsForGroupName(@Param("groupName") String groupName);
@@ -41,9 +46,10 @@ public interface WorkGroupProblemRepository extends JpaRepository <WorkGroupProb
             + "JOIN vehicle v ON vqc.vehicle_id = v.id "
             + "JOIN brand_model bm ON v.brand_model_id = bm.id "
             + "WHERE wp.has_problem = 1 "
-            + "AND MONTH(vqc.quality_control_date) = :mesParametro "
+            + "AND MONTH(vqc.quality_control_date) = :monthParametro "
+            + "AND YEAR(vqc.quality_control_date) = :yearParametro "
             + "GROUP BY bm.name")
-    List<Object[]> countProblemsByModel(@Param("mesParametro") int mesParametro);
+    List<Object[]> countProblemsByModel(@Param("monthParametro") int monthParametro, @Param("yearParametro") int yearParametro);
 
     @Query(nativeQuery = true, value = "SELECT wgp.* FROM work_group_problem wgp " +
             "JOIN vehicle_quality_control vqc ON wgp.vehicle_quality_control_id = vqc.id " +

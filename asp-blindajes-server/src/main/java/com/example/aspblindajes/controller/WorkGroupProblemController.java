@@ -38,13 +38,13 @@ public class WorkGroupProblemController {
     }
 
     @GetMapping("/percentageForWorkGroup")
-    ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageForWorkGroup (@RequestParam("mes") int mes) throws ResourceNotFoundException {
-        return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsForWorkGroup(mes));
+    ResponseEntity<List<WorkGroupProblemQueryResponse>> getPercentageForWorkGroup (@RequestParam("month") int month, @RequestParam("year") int year) throws ResourceNotFoundException {
+        return ResponseEntity.ok(workGroupsService.calculatePercentageOfProblemsForWorkGroup(month, year));
     }
 
     @GetMapping("/countProblemsForModel")
-    ResponseEntity<List<ProblemForModelResponse>> countProblemsForModel (@RequestParam("mes") int mes) {
-        return ResponseEntity.ok(workGroupsService.getProblemForModel(mes));
+    ResponseEntity<List<ProblemForModelResponse>> countProblemsForModel (@RequestParam("month") int month,@RequestParam("year") int year) {
+        return ResponseEntity.ok(workGroupsService.getProblemForModel(month, year));
     }
 
     @GetMapping("/filters")
@@ -56,8 +56,8 @@ public class WorkGroupProblemController {
     }
 
     @GetMapping("/countWorkGroupWithProblem")
-    ResponseEntity<Long> countWorkGroupWithProblem (@RequestParam("mes") int mes) throws ResourceNotFoundException{
-        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem(mes));
+    ResponseEntity<Long> countWorkGroupWithProblem (@RequestParam("month") int month, @RequestParam("year") int year) throws ResourceNotFoundException{
+        return ResponseEntity.ok(workGroupsService.countWorkGroupProblemsWithProblem(month, year));
     }
 
     @PutMapping

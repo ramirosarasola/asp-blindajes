@@ -78,13 +78,13 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
     }
 
     @Override
-    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup(int mes) throws ResourceNotFoundException {
+    public List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup(int month, int year) throws ResourceNotFoundException {
         List<WorkGroup> workGroupList = workGroupsRepository.findAll();
         List<WorkGroupProblemQueryResponse> workGroupProblemQueryResponseList = new ArrayList<>();
-        Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
+        Long erroresTotales = workGroupProblemRepository.countWorkGroupProblemsWithProblem(month, year);
         if(workGroupList.size() > 0){
             for (WorkGroup workGroup : workGroupList) {
-                Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName(), mes);
+                Long erroresWG = workGroupProblemRepository.calculatePercentageOfProblemsForWorkGroup(workGroup.getName(), month, year);
                 WorkGroupProblemQueryResponse workGroupProblemQueryResponse = new WorkGroupProblemQueryResponse();
                 workGroupProblemQueryResponse.setName(workGroup.getName());
                 workGroupProblemQueryResponse.setNumeroDeErrores(erroresWG);
@@ -128,22 +128,22 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 //    }
 
     @Override
-    public Long countWorkGroupProblemsWithProblem(int mes) throws ResourceNotFoundException {
+    public Long countWorkGroupProblemsWithProblem(int mes, int year) throws ResourceNotFoundException {
         if (workGroupProblemRepository.findAll().size() > 0){
-           return workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
+           return workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes, year);
         }
         throw new ResourceNotFoundException("there are no workGroupProblems");
     }
 
     @Override
-    public List<ProblemForModelResponse> getProblemForModel(int mes) {
+    public List<ProblemForModelResponse> getProblemForModel(int month, int year) {
         List<ProblemForModelResponse> resultados = new ArrayList<>();
-        List<Object[]> resultadosDesdeBaseDeDatos  = workGroupProblemRepository.countProblemsByModel(mes);
+        List<Object[]> resultadosDesdeBaseDeDatos  = workGroupProblemRepository.countProblemsByModel(month, year);
 
         for (Object[] fila : resultadosDesdeBaseDeDatos) {
             String modelo = (String) fila[0];
             long errores = (long) fila[1];
-            Long problems = workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes);
+            Long problems = workGroupProblemRepository.countWorkGroupProblemsWithProblem(month, year);
             double porcentaje = 0.0;
             if (errores != 0 && problems != 0){
                 porcentaje = ((double) errores / problems * 100);

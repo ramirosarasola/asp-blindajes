@@ -25,13 +25,13 @@ public interface WorkGroupProblemService {
 
     TotalPercentageQueryResponse getPercentageOfProblems () throws ResourceNotFoundException;
 
-    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup (int mes) throws ResourceNotFoundException;
+    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsForWorkGroup (int month, int year) throws ResourceNotFoundException;
 
 //    List<WorkGroupProblemQueryResponse> calculatePercentageOfProblemsInsideWorkGroup () throws ResourceNotFoundException;
 
-    Long countWorkGroupProblemsWithProblem (int mes) throws ResourceNotFoundException;
+    Long countWorkGroupProblemsWithProblem (int month, int year) throws ResourceNotFoundException;
 
-    List<ProblemForModelResponse> getProblemForModel (int mes);
+    List<ProblemForModelResponse> getProblemForModel (int month, int year);
 
     List<ResponseWGPFilter> getWorkGroupProblemsByFilter(String chasis, String workGroup,String startDate, String endDate);
 }
