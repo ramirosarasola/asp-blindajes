@@ -128,9 +128,9 @@ public class WorkGroupProblemServiceImpl implements WorkGroupProblemService{
 //    }
 
     @Override
-    public Long countWorkGroupProblemsWithProblem(int mes, int year) throws ResourceNotFoundException {
+    public Long countWorkGroupProblemsWithProblem(int month, int year) throws ResourceNotFoundException {
         if (workGroupProblemRepository.findAll().size() > 0){
-           return workGroupProblemRepository.countWorkGroupProblemsWithProblem(mes, year);
+           return workGroupProblemRepository.countWorkGroupProblemsWithProblem(month, year);
         }
         throw new ResourceNotFoundException("there are no workGroupProblems");
     }
