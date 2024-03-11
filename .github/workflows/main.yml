@@ -26,6 +26,7 @@ jobs:
           cd /var/www/asp-blindajes/
           git pull origin main
           git status
+          source /root/.profile
           cd ./asp-blindajes-server/
           docker build -t my-application .
           docker restart asp
